@@ -97,10 +97,10 @@ export default function NewListingPage() {
     };
   }, []);
 
-  const geocodeAddress = async () => {
+  const geocodeAddress = async (showToast = true): Promise<{ lat: number; lng: number } | null> => {
     if (!formData.address || !formData.city) {
-      toast.error('Please enter an address and city');
-      return;
+      if (showToast) toast.error('Please enter an address and city');
+      return null;
     }
 
     setGeocoding(true);
@@ -120,14 +120,17 @@ export default function NewListingPage() {
         }));
         marker.current?.setLngLat([lng, lat]);
         map.current?.flyTo({ center: [lng, lat], zoom: 15 });
-        toast.success('Location found and updated');
+        if (showToast) toast.success('Location found and updated');
+        setGeocoding(false);
+        return { lat, lng };
       } else {
-        toast.error('Could not find address. Please adjust the pin manually.');
+        if (showToast) toast.error('Could not find address. Please adjust the pin manually.');
       }
     } catch (error) {
-      toast.error('Failed to geocode address');
+      if (showToast) toast.error('Failed to geocode address');
     }
     setGeocoding(false);
+    return null;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -140,6 +143,22 @@ export default function NewListingPage() {
       toast.error('You must be logged in');
       setLoading(false);
       return;
+    }
+
+    // Auto-geocode if coordinates are still at default Vancouver center
+    let finalLat = formData.latitude;
+    let finalLng = formData.longitude;
+
+    const isDefaultLocation =
+      formData.latitude === VANCOUVER_CENTER[1] &&
+      formData.longitude === VANCOUVER_CENTER[0];
+
+    if (isDefaultLocation && formData.address && formData.city) {
+      const coords = await geocodeAddress(false);
+      if (coords) {
+        finalLat = coords.lat;
+        finalLng = coords.lng;
+      }
     }
 
     const { error } = await supabase.from('listings').insert({
@@ -160,8 +179,8 @@ export default function NewListingPage() {
       owner_phone: formData.owner_phone || null,
       owner_email: formData.owner_email || null,
       notes: formData.notes || null,
-      latitude: formData.latitude,
-      longitude: formData.longitude,
+      latitude: finalLat,
+      longitude: finalLng,
     });
 
     if (error) {

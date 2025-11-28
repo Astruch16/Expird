@@ -119,7 +119,51 @@ export default function MapPage() {
         clusterRadius: 50,
       });
 
-      // Cluster circles
+      // Cluster outer glow (largest, most transparent)
+      map.current?.addLayer({
+        id: 'clusters-glow-3',
+        type: 'circle',
+        source: 'listings',
+        filter: ['has', 'point_count'],
+        paint: {
+          'circle-color': '#8b5cf6',
+          'circle-radius': [
+            'step',
+            ['get', 'point_count'],
+            35,
+            10,
+            50,
+            30,
+            65,
+          ],
+          'circle-opacity': 0.15,
+          'circle-blur': 1,
+        },
+      });
+
+      // Cluster middle glow
+      map.current?.addLayer({
+        id: 'clusters-glow-2',
+        type: 'circle',
+        source: 'listings',
+        filter: ['has', 'point_count'],
+        paint: {
+          'circle-color': '#a855f7',
+          'circle-radius': [
+            'step',
+            ['get', 'point_count'],
+            25,
+            10,
+            38,
+            30,
+            50,
+          ],
+          'circle-opacity': 0.3,
+          'circle-blur': 0.5,
+        },
+      });
+
+      // Cluster core
       map.current?.addLayer({
         id: 'clusters',
         type: 'circle',
@@ -129,24 +173,22 @@ export default function MapPage() {
           'circle-color': [
             'step',
             ['get', 'point_count'],
-            '#6366f1', // primary color for small clusters
+            '#8b5cf6', // purple for small clusters
             10,
-            '#8b5cf6', // purple for medium clusters
+            '#a855f7', // lighter purple for medium clusters
             30,
-            '#ec4899', // pink for large clusters
+            '#c084fc', // even lighter for large clusters
           ],
           'circle-radius': [
             'step',
             ['get', 'point_count'],
-            20,
+            18,
             10,
+            26,
             30,
-            30,
-            40,
+            34,
           ],
-          'circle-stroke-width': 2,
-          'circle-stroke-color': '#ffffff',
-          'circle-opacity': 0.8,
+          'circle-opacity': 0.9,
         },
       });
 
@@ -159,14 +201,86 @@ export default function MapPage() {
         layout: {
           'text-field': '{point_count_abbreviated}',
           'text-font': ['DIN Pro Medium', 'Arial Unicode MS Bold'],
-          'text-size': 14,
+          'text-size': 13,
         },
         paint: {
           'text-color': '#ffffff',
         },
       });
 
-      // Individual points
+      // Individual point outer glow (hotspot effect)
+      map.current?.addLayer({
+        id: 'unclustered-point-glow-3',
+        type: 'circle',
+        source: 'listings',
+        filter: ['!', ['has', 'point_count']],
+        paint: {
+          'circle-color': [
+            'match',
+            ['get', 'status'],
+            'active',
+            '#22c55e',
+            'expired',
+            '#f97316',
+            'terminated',
+            '#eab308',
+            '#6366f1',
+          ],
+          'circle-radius': 28,
+          'circle-opacity': 0.15,
+          'circle-blur': 1,
+        },
+      });
+
+      // Individual point middle glow
+      map.current?.addLayer({
+        id: 'unclustered-point-glow-2',
+        type: 'circle',
+        source: 'listings',
+        filter: ['!', ['has', 'point_count']],
+        paint: {
+          'circle-color': [
+            'match',
+            ['get', 'status'],
+            'active',
+            '#4ade80',
+            'expired',
+            '#fb923c',
+            'terminated',
+            '#facc15',
+            '#818cf8',
+          ],
+          'circle-radius': 18,
+          'circle-opacity': 0.3,
+          'circle-blur': 0.5,
+        },
+      });
+
+      // Individual point inner glow
+      map.current?.addLayer({
+        id: 'unclustered-point-glow-1',
+        type: 'circle',
+        source: 'listings',
+        filter: ['!', ['has', 'point_count']],
+        paint: {
+          'circle-color': [
+            'match',
+            ['get', 'status'],
+            'active',
+            '#86efac',
+            'expired',
+            '#fdba74',
+            'terminated',
+            '#fde047',
+            '#a5b4fc',
+          ],
+          'circle-radius': 12,
+          'circle-opacity': 0.5,
+          'circle-blur': 0.3,
+        },
+      });
+
+      // Individual point core (bright center)
       map.current?.addLayer({
         id: 'unclustered-point',
         type: 'circle',
@@ -177,16 +291,15 @@ export default function MapPage() {
             'match',
             ['get', 'status'],
             'active',
-            '#22c55e', // green for active
+            '#bbf7d0',
             'expired',
-            '#f97316', // orange for expired
+            '#fed7aa',
             'terminated',
-            '#eab308', // amber for terminated
-            '#6366f1', // default primary
+            '#fef08a',
+            '#c7d2fe',
           ],
-          'circle-radius': 10,
-          'circle-stroke-width': 2,
-          'circle-stroke-color': '#ffffff',
+          'circle-radius': 6,
+          'circle-opacity': 1,
         },
       });
 
@@ -381,8 +494,8 @@ export default function MapPage() {
       </Card>
 
       {/* Map Container */}
-      <div className="flex-1 relative rounded-lg overflow-hidden border border-border/50">
-        <div ref={mapContainer} className="absolute inset-0" />
+      <div className="flex-1 min-h-[500px] relative rounded-lg overflow-hidden border border-border/50">
+        <div ref={mapContainer} className="absolute inset-0 w-full h-full" />
 
         {/* Map Controls */}
         <div className="absolute top-4 left-4 flex flex-col gap-2">
