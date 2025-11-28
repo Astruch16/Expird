@@ -39,7 +39,17 @@ import {
   Send,
   RefreshCw,
   MapPin,
+  CheckSquare,
+  Square,
+  TrendingUp,
+  Clock,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
+  MailX,
+  CheckCircle,
 } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 import type { Listing, ListingStatus, Board, ListingType } from '@/types';
@@ -51,8 +61,92 @@ export default function ListingsPage() {
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [typeFilter, setTypeFilter] = useState<string>('all');
   const [boardFilter, setBoardFilter] = useState<string>('all');
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [sortField, setSortField] = useState<'expiry_date' | 'created_at' | 'city'>('created_at');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
+  const [quickFilter, setQuickFilter] = useState<'all' | 'not_sent' | 'needs_followup' | 'hot'>('all');
 
   const supabase = createClient();
+
+  // Bulk action handlers
+  const handleSelectAll = () => {
+    if (selectedIds.size === filteredListings.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(filteredListings.map(l => l.id)));
+    }
+  };
+
+  const handleSelectOne = (id: string) => {
+    const newSelected = new Set(selectedIds);
+    if (newSelected.has(id)) {
+      newSelected.delete(id);
+    } else {
+      newSelected.add(id);
+    }
+    setSelectedIds(newSelected);
+  };
+
+  const handleBulkMarkAsSent = async () => {
+    if (selectedIds.size === 0) return;
+
+    const { error } = await supabase
+      .from('listings')
+      .update({ sent_at: new Date().toISOString() })
+      .in('id', Array.from(selectedIds));
+
+    if (error) {
+      toast.error('Failed to update listings');
+    } else {
+      toast.success(`${selectedIds.size} listings marked as sent`);
+      setSelectedIds(new Set());
+      fetchListings();
+    }
+  };
+
+  const handleBulkMarkActive = async () => {
+    if (selectedIds.size === 0) return;
+
+    const { error } = await supabase
+      .from('listings')
+      .update({ status: 'active' })
+      .in('id', Array.from(selectedIds));
+
+    if (error) {
+      toast.error('Failed to update listings');
+    } else {
+      toast.success(`${selectedIds.size} listings marked as active`);
+      setSelectedIds(new Set());
+      fetchListings();
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    if (selectedIds.size === 0) return;
+    if (!confirm(`Are you sure you want to delete ${selectedIds.size} listings?`)) return;
+
+    const { error } = await supabase
+      .from('listings')
+      .delete()
+      .in('id', Array.from(selectedIds));
+
+    if (error) {
+      toast.error('Failed to delete listings');
+    } else {
+      toast.success(`${selectedIds.size} listings deleted`);
+      setSelectedIds(new Set());
+      fetchListings();
+    }
+  };
+
+  const toggleSort = (field: typeof sortField) => {
+    if (sortField === field) {
+      setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDirection('desc');
+    }
+  };
 
   const fetchListings = async () => {
     setLoading(true);
@@ -89,11 +183,48 @@ export default function ListingsPage() {
     fetchListings();
   }, [statusFilter, typeFilter, boardFilter]);
 
-  const filteredListings = listings.filter((listing) =>
-    listing.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    listing.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    listing.neighborhood?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Calculate days since expiry for "hot" leads (expired in last 7 days)
+  const getDaysSinceExpiry = (expiryDate: string) => {
+    return Math.floor((Date.now() - new Date(expiryDate).getTime()) / (1000 * 60 * 60 * 24));
+  };
+
+  // Apply filters and sorting
+  const filteredListings = listings
+    .filter((listing) => {
+      // Text search
+      const matchesSearch =
+        listing.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        listing.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        listing.neighborhood?.toLowerCase().includes(searchQuery.toLowerCase());
+
+      // Quick filter
+      let matchesQuickFilter = true;
+      if (quickFilter === 'not_sent') {
+        matchesQuickFilter = !listing.sent_at;
+      } else if (quickFilter === 'needs_followup') {
+        matchesQuickFilter = listing.sent_at !== null && listing.status !== 'active';
+      } else if (quickFilter === 'hot') {
+        matchesQuickFilter = getDaysSinceExpiry(listing.expiry_date) <= 7 && !listing.sent_at;
+      }
+
+      return matchesSearch && matchesQuickFilter;
+    })
+    .sort((a, b) => {
+      let comparison = 0;
+      if (sortField === 'expiry_date') {
+        comparison = new Date(a.expiry_date).getTime() - new Date(b.expiry_date).getTime();
+      } else if (sortField === 'created_at') {
+        comparison = new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+      } else if (sortField === 'city') {
+        comparison = a.city.localeCompare(b.city);
+      }
+      return sortDirection === 'asc' ? comparison : -comparison;
+    });
+
+  // Count for quick filter badges
+  const notSentCount = listings.filter(l => !l.sent_at).length;
+  const needsFollowupCount = listings.filter(l => l.sent_at && l.status !== 'active').length;
+  const hotCount = listings.filter(l => getDaysSinceExpiry(l.expiry_date) <= 7 && !l.sent_at).length;
 
   const handleStatusToggle = async (listing: Listing) => {
     const newStatus: ListingStatus = listing.status === 'active'
@@ -178,6 +309,88 @@ export default function ListingsPage() {
         </Link>
       </div>
 
+      {/* Quick Filter Tabs */}
+      <div className="flex gap-2 flex-wrap">
+        <Button
+          variant={quickFilter === 'all' ? 'default' : 'outline'}
+          size="sm"
+          onClick={() => setQuickFilter('all')}
+          className={quickFilter === 'all' ? 'bg-primary' : 'border-border'}
+        >
+          All Listings
+          <Badge variant="secondary" className="ml-2 bg-secondary/50">
+            {listings.length}
+          </Badge>
+        </Button>
+        <Button
+          variant={quickFilter === 'hot' ? 'default' : 'outline'}
+          size="sm"
+          onClick={() => setQuickFilter('hot')}
+          className={quickFilter === 'hot' ? 'bg-orange-500 hover:bg-orange-600' : 'border-orange-500/50 text-orange-500 hover:bg-orange-500/10'}
+        >
+          <Clock className="w-3 h-3 mr-1" />
+          Hot Leads
+          <Badge variant="secondary" className="ml-2 bg-orange-500/20 text-orange-500">
+            {hotCount}
+          </Badge>
+        </Button>
+        <Button
+          variant={quickFilter === 'not_sent' ? 'default' : 'outline'}
+          size="sm"
+          onClick={() => setQuickFilter('not_sent')}
+          className={quickFilter === 'not_sent' ? 'bg-primary' : 'border-border'}
+        >
+          <MailX className="w-3 h-3 mr-1" />
+          Not Sent
+          <Badge variant="secondary" className="ml-2 bg-secondary/50">
+            {notSentCount}
+          </Badge>
+        </Button>
+        <Button
+          variant={quickFilter === 'needs_followup' ? 'default' : 'outline'}
+          size="sm"
+          onClick={() => setQuickFilter('needs_followup')}
+          className={quickFilter === 'needs_followup' ? 'bg-accent' : 'border-accent/50 text-accent hover:bg-accent/10'}
+        >
+          <Clock className="w-3 h-3 mr-1" />
+          Needs Follow-up
+          <Badge variant="secondary" className="ml-2 bg-accent/20 text-accent">
+            {needsFollowupCount}
+          </Badge>
+        </Button>
+      </div>
+
+      {/* Bulk Actions Bar */}
+      {selectedIds.size > 0 && (
+        <Card className="border-primary/50 bg-primary/5 backdrop-blur-sm">
+          <CardContent className="py-3 px-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <CheckSquare className="w-4 h-4 text-primary" />
+                <span className="font-medium">{selectedIds.size} selected</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button size="sm" variant="outline" onClick={handleBulkMarkAsSent} className="border-border">
+                  <Send className="w-3 h-3 mr-1" />
+                  Mark Sent
+                </Button>
+                <Button size="sm" variant="outline" onClick={handleBulkMarkActive} className="border-green-500/50 text-green-500 hover:bg-green-500/10">
+                  <TrendingUp className="w-3 h-3 mr-1" />
+                  Mark Active
+                </Button>
+                <Button size="sm" variant="outline" onClick={handleBulkDelete} className="border-destructive/50 text-destructive hover:bg-destructive/10">
+                  <Trash2 className="w-3 h-3 mr-1" />
+                  Delete
+                </Button>
+                <Button size="sm" variant="ghost" onClick={() => setSelectedIds(new Set())}>
+                  Clear
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Filters */}
       <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
         <CardContent className="p-4">
@@ -261,31 +474,73 @@ export default function ListingsPage() {
             <Table>
               <TableHeader>
                 <TableRow className="border-border/50 hover:bg-transparent">
+                  <TableHead className="w-[40px]">
+                    <Checkbox
+                      checked={selectedIds.size === filteredListings.length && filteredListings.length > 0}
+                      onCheckedChange={handleSelectAll}
+                    />
+                  </TableHead>
                   <TableHead className="text-muted-foreground">Address</TableHead>
-                  <TableHead className="text-muted-foreground">City</TableHead>
+                  <TableHead
+                    className="text-muted-foreground cursor-pointer hover:text-foreground"
+                    onClick={() => toggleSort('city')}
+                  >
+                    <div className="flex items-center gap-1">
+                      City
+                      {sortField === 'city' && (
+                        sortDirection === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
+                      )}
+                    </div>
+                  </TableHead>
                   <TableHead className="text-muted-foreground">Board</TableHead>
                   <TableHead className="text-muted-foreground">Status</TableHead>
-                  <TableHead className="text-muted-foreground">Expiry Date</TableHead>
+                  <TableHead
+                    className="text-muted-foreground cursor-pointer hover:text-foreground"
+                    onClick={() => toggleSort('expiry_date')}
+                  >
+                    <div className="flex items-center gap-1">
+                      Expiry Date
+                      {sortField === 'expiry_date' && (
+                        sortDirection === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
+                      )}
+                    </div>
+                  </TableHead>
                   <TableHead className="text-muted-foreground">Sent</TableHead>
                   <TableHead className="text-muted-foreground text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredListings.map((listing) => (
-                  <TableRow key={listing.id} className="border-border/50">
+                  <TableRow
+                    key={listing.id}
+                    className={`border-border/50 ${selectedIds.has(listing.id) ? 'bg-primary/5' : ''}`}
+                  >
+                    <TableCell>
+                      <Checkbox
+                        checked={selectedIds.has(listing.id)}
+                        onCheckedChange={() => handleSelectOne(listing.id)}
+                      />
+                    </TableCell>
                     <TableCell className="font-medium">
-                      <div className="flex items-center gap-2">
-                        <div
-                          className={`w-2 h-2 rounded-full ${
-                            listing.status === 'active'
-                              ? 'bg-green-500'
-                              : listing.listing_type === 'expired'
-                                ? 'bg-orange-500'
-                                : 'bg-amber-500'
-                          }`}
-                        />
-                        {listing.address}
-                      </div>
+                      <Link href={`/listings/${listing.id}`} className="hover:text-primary transition-colors">
+                        <div className="flex items-center gap-2">
+                          <div
+                            className={`w-2 h-2 rounded-full ${
+                              listing.status === 'active'
+                                ? 'bg-green-500'
+                                : listing.listing_type === 'expired'
+                                  ? 'bg-orange-500'
+                                  : 'bg-amber-500'
+                            }`}
+                          />
+                          {listing.address}
+                          {getDaysSinceExpiry(listing.expiry_date) <= 7 && !listing.sent_at && (
+                            <Badge className="bg-orange-500/20 text-orange-500 text-[10px] px-1 py-0">
+                              HOT
+                            </Badge>
+                          )}
+                        </div>
+                      </Link>
                     </TableCell>
                     <TableCell>{listing.city}</TableCell>
                     <TableCell>
@@ -311,50 +566,75 @@ export default function ListingsPage() {
                       )}
                     </TableCell>
                     <TableCell className="text-right">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon" className="h-8 w-8">
-                            <MoreHorizontal className="w-4 h-4" />
+                      <div className="flex items-center justify-end gap-1">
+                        {/* Quick inline actions */}
+                        {!listing.sent_at && (
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-7 w-7 text-muted-foreground hover:text-primary"
+                            onClick={() => handleMarkAsSent(listing)}
+                            title="Mark as Sent"
+                          >
+                            <Send className="w-3.5 h-3.5" />
                           </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-48">
-                          <DropdownMenuItem asChild>
-                            <Link href={`/listings/${listing.id}`} className="flex items-center gap-2">
-                              <Eye className="w-4 h-4" />
-                              View Details
-                            </Link>
-                          </DropdownMenuItem>
-                          <DropdownMenuItem asChild>
-                            <Link href={`/listings/${listing.id}/edit`} className="flex items-center gap-2">
-                              <Pencil className="w-4 h-4" />
-                              Edit
-                            </Link>
-                          </DropdownMenuItem>
-                          {!listing.sent_at && (
+                        )}
+                        {listing.status !== 'active' && (
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-7 w-7 text-muted-foreground hover:text-green-500"
+                            onClick={() => handleStatusToggle(listing)}
+                            title="Mark as Active"
+                          >
+                            <TrendingUp className="w-3.5 h-3.5" />
+                          </Button>
+                        )}
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-7 w-7">
+                              <MoreHorizontal className="w-4 h-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="w-48">
+                            <DropdownMenuItem asChild>
+                              <Link href={`/listings/${listing.id}`} className="flex items-center gap-2">
+                                <Eye className="w-4 h-4" />
+                                View Details
+                              </Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                              <Link href={`/listings/${listing.id}/edit`} className="flex items-center gap-2">
+                                <Pencil className="w-4 h-4" />
+                                Edit
+                              </Link>
+                            </DropdownMenuItem>
+                            {!listing.sent_at && (
+                              <DropdownMenuItem
+                                onClick={() => handleMarkAsSent(listing)}
+                                className="flex items-center gap-2"
+                              >
+                                <Send className="w-4 h-4" />
+                                Mark as Sent
+                              </DropdownMenuItem>
+                            )}
                             <DropdownMenuItem
-                              onClick={() => handleMarkAsSent(listing)}
+                              onClick={() => handleStatusToggle(listing)}
                               className="flex items-center gap-2"
                             >
-                              <Send className="w-4 h-4" />
-                              Mark as Sent
+                              <RefreshCw className="w-4 h-4" />
+                              {listing.status === 'active' ? 'Mark as Inactive' : 'Mark as Active'}
                             </DropdownMenuItem>
-                          )}
-                          <DropdownMenuItem
-                            onClick={() => handleStatusToggle(listing)}
-                            className="flex items-center gap-2"
-                          >
-                            <RefreshCw className="w-4 h-4" />
-                            {listing.status === 'active' ? 'Mark as Inactive' : 'Mark as Active'}
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={() => handleDelete(listing.id)}
-                            className="flex items-center gap-2 text-destructive"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                            Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                            <DropdownMenuItem
+                              onClick={() => handleDelete(listing.id)}
+                              className="flex items-center gap-2 text-destructive"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                              Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}

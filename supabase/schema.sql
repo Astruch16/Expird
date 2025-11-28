@@ -54,6 +54,19 @@ CREATE TABLE follow_ups (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Create activity_logs table for tracking interactions
+CREATE TYPE activity_type AS ENUM ('note', 'email_sent', 'status_change', 'follow_up_scheduled', 'created', 'edited');
+
+CREATE TABLE activity_logs (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  listing_id UUID REFERENCES listings(id) ON DELETE CASCADE NOT NULL,
+  user_id UUID REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  activity_type activity_type NOT NULL,
+  description TEXT NOT NULL,
+  metadata JSONB,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- Create indexes for performance
 CREATE INDEX idx_listings_user_id ON listings(user_id);
 CREATE INDEX idx_listings_status ON listings(status);
@@ -64,11 +77,15 @@ CREATE INDEX idx_listings_expiry_date ON listings(expiry_date);
 CREATE INDEX idx_follow_ups_listing_id ON follow_ups(listing_id);
 CREATE INDEX idx_follow_ups_user_id ON follow_ups(user_id);
 CREATE INDEX idx_follow_ups_scheduled_date ON follow_ups(scheduled_date);
+CREATE INDEX idx_activity_logs_listing_id ON activity_logs(listing_id);
+CREATE INDEX idx_activity_logs_user_id ON activity_logs(user_id);
+CREATE INDEX idx_activity_logs_created_at ON activity_logs(created_at);
 
 -- Enable Row Level Security
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE listings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE follow_ups ENABLE ROW LEVEL SECURITY;
+ALTER TABLE activity_logs ENABLE ROW LEVEL SECURITY;
 
 -- Profiles policies
 CREATE POLICY "Users can view own profile" ON profiles
@@ -104,6 +121,16 @@ CREATE POLICY "Users can update own follow-ups" ON follow_ups
   FOR UPDATE USING (auth.uid() = user_id);
 
 CREATE POLICY "Users can delete own follow-ups" ON follow_ups
+  FOR DELETE USING (auth.uid() = user_id);
+
+-- Activity logs policies
+CREATE POLICY "Users can view own activity logs" ON activity_logs
+  FOR SELECT USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can insert own activity logs" ON activity_logs
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can delete own activity logs" ON activity_logs
   FOR DELETE USING (auth.uid() = user_id);
 
 -- Function to automatically create profile on signup
