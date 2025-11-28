@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -42,6 +43,7 @@ const BOARD_CENTERS = {
 };
 
 export default function MapPage() {
+  const router = useRouter();
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const popup = useRef<mapboxgl.Popup | null>(null);
@@ -303,18 +305,81 @@ export default function MapPage() {
         },
       });
 
-      // Cursor change on hover
+      // Create popup for hover
+      popup.current = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false,
+        className: 'listing-popup',
+        offset: 15,
+      });
+
+      // Cursor change on hover for clusters
       map.current?.on('mouseenter', 'clusters', () => {
         if (map.current) map.current.getCanvas().style.cursor = 'pointer';
       });
       map.current?.on('mouseleave', 'clusters', () => {
         if (map.current) map.current.getCanvas().style.cursor = '';
       });
-      map.current?.on('mouseenter', 'unclustered-point', () => {
+
+      // Hover popup for individual points
+      map.current?.on('mouseenter', 'unclustered-point', (e) => {
         if (map.current) map.current.getCanvas().style.cursor = 'pointer';
+
+        if (!e.features?.length || !popup.current) return;
+        const feature = e.features[0];
+        if (feature.geometry.type !== 'Point') return;
+
+        const coordinates = feature.geometry.coordinates.slice() as [number, number];
+        const props = feature.properties;
+
+        // Get status color
+        const statusColor = props?.status === 'active'
+          ? '#22c55e'
+          : props?.listing_type === 'expired'
+            ? '#f97316'
+            : '#eab308';
+
+        const statusText = props?.status === 'active'
+          ? 'Active'
+          : props?.listing_type === 'expired'
+            ? 'Expired'
+            : 'Terminated';
+
+        // Create popup HTML
+        const html = `
+          <div style="
+            background: rgba(23, 23, 23, 0.95);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 12px;
+            min-width: 180px;
+            font-family: system-ui, -apple-system, sans-serif;
+          ">
+            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+              <div style="width: 8px; height: 8px; border-radius: 50%; background: ${statusColor};"></div>
+              <span style="font-size: 11px; color: ${statusColor}; font-weight: 500; text-transform: uppercase;">${statusText}</span>
+            </div>
+            <div style="font-weight: 600; color: #fff; font-size: 13px; margin-bottom: 4px;">
+              ${props?.address || 'Unknown Address'}
+            </div>
+            <div style="color: #a1a1aa; font-size: 12px;">
+              ${props?.city || ''}
+            </div>
+            <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 11px; color: #71717a;">
+              Click to view details
+            </div>
+          </div>
+        `;
+
+        popup.current
+          .setLngLat(coordinates)
+          .setHTML(html)
+          .addTo(map.current!);
       });
+
       map.current?.on('mouseleave', 'unclustered-point', () => {
         if (map.current) map.current.getCanvas().style.cursor = '';
+        popup.current?.remove();
       });
 
       // Click on cluster to zoom
@@ -334,7 +399,7 @@ export default function MapPage() {
         });
       });
 
-      // Click on individual point
+      // Click on individual point - navigate to listing page
       map.current?.on('click', 'unclustered-point', (e) => {
         const features = map.current?.queryRenderedFeatures(e.point, {
           layers: ['unclustered-point'],
@@ -342,10 +407,10 @@ export default function MapPage() {
         if (!features?.length) return;
         const props = features[0].properties;
         if (props?.id) {
-          const listing = listings.find((l) => l.id === props.id);
-          if (listing) {
-            setSelectedListing(listing);
-          }
+          // Remove popup before navigating
+          popup.current?.remove();
+          // Navigate to the listing detail page
+          router.push(`/listings/${props.id}`);
         }
       });
     });

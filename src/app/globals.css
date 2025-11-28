@@ -206,6 +206,19 @@
   border-top-color: oklch(0.16 0.02 260) !important;
 }
 
+/* Custom listing popup - override Mapbox defaults */
+.listing-popup .mapboxgl-popup-content {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+  border-radius: 8px !important;
+}
+
+.listing-popup .mapboxgl-popup-tip {
+  display: none !important;
+}
+
 .mapboxgl-ctrl-group {
   background: oklch(0.16 0.02 260) !important;
   border: 1px solid oklch(0.28 0.03 260) !important;

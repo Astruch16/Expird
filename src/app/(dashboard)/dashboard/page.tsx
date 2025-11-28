@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { DashboardCharts } from '@/components/dashboard/DashboardCharts';
 import {
   FileX,
   FileCheck,
@@ -13,6 +14,7 @@ import {
   Bell,
   CalendarClock,
 } from 'lucide-react';
+import { MarketMovement } from '@/components/dashboard/MarketMovement';
 import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -30,6 +32,7 @@ export default async function DashboardPage() {
     { data: recentListings },
     { data: upcomingFollowUps },
     { data: recentActivity },
+    { data: allListings },
   ] = await Promise.all([
     supabase.from('listings').select('*', { count: 'exact', head: true }).eq('user_id', user?.id).eq('listing_type', 'expired'),
     supabase.from('listings').select('*', { count: 'exact', head: true }).eq('user_id', user?.id).eq('listing_type', 'terminated'),
@@ -39,6 +42,7 @@ export default async function DashboardPage() {
     supabase.from('listings').select('*').eq('user_id', user?.id).order('created_at', { ascending: false }).limit(5),
     supabase.from('follow_ups').select('*, listings(address, city)').eq('user_id', user?.id).eq('sent', false).order('follow_up_date', { ascending: true }).limit(5),
     supabase.from('listings').select('*').eq('user_id', user?.id).order('updated_at', { ascending: false }).limit(8),
+    supabase.from('listings').select('*').eq('user_id', user?.id),
   ]);
 
   const stats = [
@@ -122,50 +126,13 @@ export default async function DashboardPage() {
         ))}
       </div>
 
-      {/* Quick Actions & Recent Listings */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Quick Actions */}
-        <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <Activity className="w-5 h-5 text-primary" />
-              Quick Actions
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <Link
-              href="/listings/new"
-              className="flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors group"
-            >
-              <span className="text-sm font-medium">Add New Listing</span>
-              <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-            </Link>
-            <Link
-              href="/map"
-              className="flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors group"
-            >
-              <span className="text-sm font-medium">View Map</span>
-              <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-            </Link>
-            <Link
-              href="/sent"
-              className="flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors group"
-            >
-              <span className="text-sm font-medium">View Sent Listings</span>
-              <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-            </Link>
-            <Link
-              href="/follow-ups"
-              className="flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors group"
-            >
-              <span className="text-sm font-medium">Manage Follow-ups</span>
-              <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-            </Link>
-          </CardContent>
-        </Card>
+      {/* Quick Actions & Map Preview */}
+      <DashboardCharts listings={allListings || []} />
 
+      {/* Recent Listings & Market Movement */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Listings */}
-        <Card className="lg:col-span-2 border-border/50 bg-card/50 backdrop-blur-sm">
+        <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-lg flex items-center gap-2">
               <MapPin className="w-5 h-5 text-primary" />
@@ -229,6 +196,9 @@ export default async function DashboardPage() {
             )}
           </CardContent>
         </Card>
+
+        {/* Market Movement */}
+        <MarketMovement listings={allListings || []} />
       </div>
 
       {/* Upcoming Follow-ups & Recent Activity */}
