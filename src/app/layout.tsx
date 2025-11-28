@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ExpiredLeads Pro - Real Estate Expired Listings Portal",
+  title: "EXPIRD - Real Estate Expired Listings Portal",
   description: "Track and manage expired & terminated MLS listings across Greater Vancouver, Fraser Valley, and Chilliwack. Interactive maps, follow-up scheduling, and complete listing management.",
   keywords: ["real estate", "expired listings", "MLS", "Vancouver", "Fraser Valley", "Chilliwack", "terminated listings"],
 };

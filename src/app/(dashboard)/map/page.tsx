@@ -413,9 +413,29 @@ export default function MapPage() {
           router.push(`/listings/${props.id}`);
         }
       });
+
+      // Subtle pulsing animation for individual point outer glow
+      let pulsePhase = 0;
+      const pulseInterval = setInterval(() => {
+        if (!map.current?.getLayer('unclustered-point-glow-2')) return;
+
+        pulsePhase += 0.08; // Faster increment for more visible effect
+        const pulseValue = Math.sin(pulsePhase) * 0.15 + 0.35; // Oscillate between 0.20 and 0.50
+        const radiusValue = Math.sin(pulsePhase) * 4 + 18; // Oscillate between 14 and 22
+
+        map.current?.setPaintProperty('unclustered-point-glow-2', 'circle-opacity', pulseValue);
+        map.current?.setPaintProperty('unclustered-point-glow-2', 'circle-radius', radiusValue);
+      }, 50);
+
+      // Store interval ID for cleanup
+      (map.current as mapboxgl.Map & { pulseInterval?: NodeJS.Timeout }).pulseInterval = pulseInterval;
     });
 
     return () => {
+      const mapInstance = map.current as mapboxgl.Map & { pulseInterval?: NodeJS.Timeout } | null;
+      if (mapInstance?.pulseInterval) {
+        clearInterval(mapInstance.pulseInterval);
+      }
       map.current?.remove();
       map.current = null;
     };

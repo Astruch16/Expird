@@ -71,8 +71,12 @@ export function Sidebar({ user }: SidebarProps) {
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
                 <MapPin className="w-4 h-4 text-white" />
               </div>
-              <span className="font-bold text-lg bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                ExpiredLeads
+              <span className="font-bold text-lg bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-widest">
+                EXPIRD
+              </span>
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
               </span>
             </Link>
           )}

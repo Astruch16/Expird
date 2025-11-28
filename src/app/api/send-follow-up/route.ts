@@ -51,13 +51,13 @@ export async function POST(request: NextRequest) {
 
       try {
         await resend.emails.send({
-          from: 'ExpiredLeads Pro <notifications@expiredleads.pro>', // Update with your verified domain
+          from: 'Expird <notifications@expird.com>', // Update with your verified domain
           to: profile.email,
           subject: `Follow-up Reminder: ${listing.address}`,
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #0f172a; color: #e2e8f0; padding: 24px; border-radius: 8px;">
               <div style="text-align: center; margin-bottom: 24px;">
-                <h1 style="color: #818cf8; margin: 0;">ExpiredLeads Pro</h1>
+                <h1 style="color: #818cf8; margin: 0;">EXPIRD</h1>
                 <p style="color: #94a3b8; margin-top: 8px;">Follow-up Reminder</p>
               </div>
 
@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
               </div>
 
               <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid #334155; text-align: center; color: #64748b; font-size: 12px;">
-                <p>You're receiving this because you scheduled a follow-up in ExpiredLeads Pro.</p>
+                <p>You're receiving this because you scheduled a follow-up in Expird.</p>
               </div>
             </div>
           `,
