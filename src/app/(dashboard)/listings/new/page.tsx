@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { ArrowLeft, Loader2, MapPin, Search } from 'lucide-react';
+import { ArrowLeft, Loader2, MapPin, Search, Plus, X } from 'lucide-react';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import mapboxgl from 'mapbox-gl';
@@ -47,7 +47,8 @@ export default function NewListingPage() {
     bathrooms: '',
     square_feet: '',
     mls_number: '',
-    owner_name: '',
+    property_type: '',
+    owner_names: [''],
     owner_phone: '',
     owner_email: '',
     notes: '',
@@ -170,12 +171,13 @@ export default function NewListingPage() {
       listing_type: formData.listing_type,
       status: formData.listing_type,
       expiry_date: formData.expiry_date,
-      price: formData.price ? parseFloat(formData.price) : null,
+      price: formData.price ? parseFloat(formData.price.replace(/,/g, '')) : null,
       bedrooms: formData.bedrooms ? parseInt(formData.bedrooms) : null,
       bathrooms: formData.bathrooms ? parseFloat(formData.bathrooms) : null,
       square_feet: formData.square_feet ? parseInt(formData.square_feet) : null,
       mls_number: formData.mls_number || null,
-      owner_name: formData.owner_name || null,
+      property_type: formData.property_type && formData.property_type !== '' ? formData.property_type : null,
+      owner_name: formData.owner_names.filter(name => name.trim()).join(', ') || null,
       owner_phone: formData.owner_phone || null,
       owner_email: formData.owner_email || null,
       notes: formData.notes || null,
@@ -184,8 +186,9 @@ export default function NewListingPage() {
     });
 
     if (error) {
-      toast.error('Failed to create listing');
-      console.error(error);
+      toast.error(`Failed to create listing: ${error.message}`);
+      console.error('Supabase error:', error);
+      console.error('Error details:', error.details, error.hint, error.code);
     } else {
       toast.success('Listing created successfully');
       router.push('/listings');
@@ -340,17 +343,43 @@ export default function NewListingPage() {
                 <CardDescription>Optional property specifications</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="property_type">Property Type</Label>
+                  <Select
+                    value={formData.property_type}
+                    onValueChange={(value) => setFormData({ ...formData, property_type: value })}
+                  >
+                    <SelectTrigger className="bg-input border-border">
+                      <SelectValue placeholder="Select property type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="house">House</SelectItem>
+                      <SelectItem value="townhouse">Townhouse</SelectItem>
+                      <SelectItem value="row_home">Row Home</SelectItem>
+                      <SelectItem value="condo">Condo</SelectItem>
+                      <SelectItem value="mobile">Mobile</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="price">Price</Label>
-                    <Input
-                      id="price"
-                      type="number"
-                      value={formData.price}
-                      onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                      placeholder="599000"
-                      className="bg-input border-border"
-                    />
+                    <div className="relative">
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
+                      <Input
+                        id="price"
+                        type="text"
+                        value={formData.price}
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/[^0-9]/g, '');
+                          const formatted = value ? parseInt(value).toLocaleString() : '';
+                          setFormData({ ...formData, price: formatted });
+                        }}
+                        placeholder="599,000"
+                        className="bg-input border-border pl-7"
+                      />
+                    </div>
                   </div>
 
                   <div className="space-y-2">
@@ -397,21 +426,56 @@ export default function NewListingPage() {
             <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="text-lg">Owner Information</CardTitle>
-                <CardDescription>Contact details for the property owner</CardDescription>
+                <CardDescription>Contact details for the property owner(s)</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="space-y-2">
+                  <Label>Owner Name(s)</Label>
                   <div className="space-y-2">
-                    <Label htmlFor="owner_name">Name</Label>
-                    <Input
-                      id="owner_name"
-                      value={formData.owner_name}
-                      onChange={(e) => setFormData({ ...formData, owner_name: e.target.value })}
-                      placeholder="John Doe"
-                      className="bg-input border-border"
-                    />
+                    {formData.owner_names.map((name, index) => (
+                      <div key={index} className="flex gap-2">
+                        <Input
+                          value={name}
+                          onChange={(e) => {
+                            const newNames = [...formData.owner_names];
+                            newNames[index] = e.target.value;
+                            setFormData({ ...formData, owner_names: newNames });
+                          }}
+                          placeholder={index === 0 ? "John Doe" : "Jane Doe"}
+                          className="bg-input border-border"
+                        />
+                        {formData.owner_names.length > 1 && (
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            onClick={() => {
+                              const newNames = formData.owner_names.filter((_, i) => i !== index);
+                              setFormData({ ...formData, owner_names: newNames });
+                            }}
+                            className="shrink-0"
+                          >
+                            <X className="w-4 h-4" />
+                          </Button>
+                        )}
+                      </div>
+                    ))}
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setFormData({ ...formData, owner_names: [...formData.owner_names, ''] });
+                      }}
+                      className="mt-2"
+                    >
+                      <Plus className="w-4 h-4 mr-2" />
+                      Add Owner
+                    </Button>
                   </div>
+                </div>
 
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="owner_phone">Phone</Label>
                     <Input

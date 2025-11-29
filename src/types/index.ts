@@ -1,6 +1,7 @@
 export type ListingStatus = 'expired' | 'terminated' | 'active';
 export type ListingType = 'expired' | 'terminated';
 export type Board = 'greater_vancouver' | 'fraser_valley' | 'chilliwack';
+export type PropertyType = 'house' | 'townhouse' | 'row_home' | 'condo' | 'mobile';
 
 export interface Listing {
   id: string;
@@ -15,6 +16,7 @@ export interface Listing {
   bedrooms: number | null;
   bathrooms: number | null;
   square_feet: number | null;
+  property_type: PropertyType | null;
   latitude: number;
   longitude: number;
   notes: string | null;

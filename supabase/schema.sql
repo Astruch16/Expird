@@ -5,6 +5,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE TYPE listing_status AS ENUM ('expired', 'terminated', 'active');
 CREATE TYPE listing_type AS ENUM ('expired', 'terminated');
 CREATE TYPE board_type AS ENUM ('greater_vancouver', 'fraser_valley', 'chilliwack');
+CREATE TYPE property_type AS ENUM ('house', 'townhouse', 'row_home', 'condo', 'mobile');
 
 -- Create profiles table (extends Supabase auth.users)
 CREATE TABLE profiles (
@@ -31,6 +32,7 @@ CREATE TABLE listings (
   bedrooms INTEGER,
   bathrooms DECIMAL(3, 1),
   square_feet INTEGER,
+  property_type property_type,
   latitude DECIMAL(10, 8) NOT NULL,
   longitude DECIMAL(11, 8) NOT NULL,
   notes TEXT,

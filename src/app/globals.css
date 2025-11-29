@@ -275,3 +275,46 @@
   background-size: 200% 200%;
   animation: gradient-shift 5s ease infinite;
 }
+
+/* Date input styling for dark theme */
+input[type="date"] {
+  color-scheme: dark;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.7) sepia(1) saturate(5) hue-rotate(200deg);
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+/* Style the date input text */
+input[type="date"]::-webkit-datetime-edit {
+  color: oklch(0.95 0.01 260);
+}
+
+input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+  color: oklch(0.95 0.01 260);
+}
+
+input[type="date"]::-webkit-datetime-edit-text {
+  color: oklch(0.65 0.02 260);
+}
+
+input[type="date"]::-webkit-datetime-edit-month-field,
+input[type="date"]::-webkit-datetime-edit-day-field,
+input[type="date"]::-webkit-datetime-edit-year-field {
+  color: oklch(0.95 0.01 260);
+}
+
+input[type="date"]::-webkit-datetime-edit-month-field:focus,
+input[type="date"]::-webkit-datetime-edit-day-field:focus,
+input[type="date"]::-webkit-datetime-edit-year-field:focus {
+  background: oklch(0.7 0.18 250 / 0.2);
+  color: oklch(0.95 0.01 260);
+  outline: none;
+}
