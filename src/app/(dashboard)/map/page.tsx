@@ -128,7 +128,7 @@ export default function MapPage() {
         source: 'listings',
         filter: ['has', 'point_count'],
         paint: {
-          'circle-color': '#8b5cf6',
+          'circle-color': '#93c5fd',
           'circle-radius': [
             'step',
             ['get', 'point_count'],
@@ -150,7 +150,7 @@ export default function MapPage() {
         source: 'listings',
         filter: ['has', 'point_count'],
         paint: {
-          'circle-color': '#a855f7',
+          'circle-color': '#bfdbfe',
           'circle-radius': [
             'step',
             ['get', 'point_count'],
@@ -175,11 +175,11 @@ export default function MapPage() {
           'circle-color': [
             'step',
             ['get', 'point_count'],
-            '#8b5cf6', // purple for small clusters
+            '#93c5fd', // blue-300 powder blue for small clusters
             10,
-            '#a855f7', // lighter purple for medium clusters
+            '#bfdbfe', // blue-200 for medium clusters
             30,
-            '#c084fc', // even lighter for large clusters
+            '#dbeafe', // blue-100 for large clusters
           ],
           'circle-radius': [
             'step',
@@ -218,15 +218,12 @@ export default function MapPage() {
         filter: ['!', ['has', 'point_count']],
         paint: {
           'circle-color': [
-            'match',
-            ['get', 'status'],
-            'active',
+            'case',
+            ['==', ['get', 'status'], 'active'],
             '#22c55e',
-            'expired',
-            '#f97316',
-            'terminated',
-            '#eab308',
-            '#6366f1',
+            ['==', ['get', 'listing_type'], 'expired'],
+            '#f43f5e',
+            '#8b5cf6',
           ],
           'circle-radius': 28,
           'circle-opacity': 0.15,
@@ -242,15 +239,12 @@ export default function MapPage() {
         filter: ['!', ['has', 'point_count']],
         paint: {
           'circle-color': [
-            'match',
-            ['get', 'status'],
-            'active',
+            'case',
+            ['==', ['get', 'status'], 'active'],
             '#4ade80',
-            'expired',
-            '#fb923c',
-            'terminated',
-            '#facc15',
-            '#818cf8',
+            ['==', ['get', 'listing_type'], 'expired'],
+            '#fb7185',
+            '#a78bfa',
           ],
           'circle-radius': 18,
           'circle-opacity': 0.3,
@@ -266,15 +260,12 @@ export default function MapPage() {
         filter: ['!', ['has', 'point_count']],
         paint: {
           'circle-color': [
-            'match',
-            ['get', 'status'],
-            'active',
+            'case',
+            ['==', ['get', 'status'], 'active'],
             '#86efac',
-            'expired',
-            '#fdba74',
-            'terminated',
-            '#fde047',
-            '#a5b4fc',
+            ['==', ['get', 'listing_type'], 'expired'],
+            '#fda4af',
+            '#c4b5fd',
           ],
           'circle-radius': 12,
           'circle-opacity': 0.5,
@@ -290,15 +281,12 @@ export default function MapPage() {
         filter: ['!', ['has', 'point_count']],
         paint: {
           'circle-color': [
-            'match',
-            ['get', 'status'],
-            'active',
+            'case',
+            ['==', ['get', 'status'], 'active'],
             '#bbf7d0',
-            'expired',
-            '#fed7aa',
-            'terminated',
-            '#fef08a',
-            '#c7d2fe',
+            ['==', ['get', 'listing_type'], 'expired'],
+            '#fecdd3',
+            '#ddd6fe',
           ],
           'circle-radius': 6,
           'circle-opacity': 1,
@@ -336,8 +324,8 @@ export default function MapPage() {
         const statusColor = props?.status === 'active'
           ? '#22c55e'
           : props?.listing_type === 'expired'
-            ? '#f97316'
-            : '#eab308';
+            ? '#f43f5e'
+            : '#8b5cf6';
 
         const statusText = props?.status === 'active'
           ? 'Active'
@@ -495,8 +483,8 @@ export default function MapPage() {
 
   const getStatusColor = (listing: Listing) => {
     if (listing.status === 'active') return 'bg-green-500/10 text-green-500 border-green-500/20';
-    if (listing.listing_type === 'expired') return 'bg-orange-500/10 text-orange-500 border-orange-500/20';
-    return 'bg-amber-500/10 text-amber-500 border-amber-500/20';
+    if (listing.listing_type === 'expired') return 'bg-rose-500/10 text-rose-500 border-rose-500/20';
+    return 'bg-violet-500/10 text-violet-500 border-violet-500/20';
   };
 
   return (
@@ -562,11 +550,11 @@ export default function MapPage() {
             {/* Legend */}
             <div className="flex items-center gap-4 text-sm">
               <div className="flex items-center gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-orange-500" />
+                <div className="w-3 h-3 rounded-full bg-rose-500" />
                 <span className="text-muted-foreground">Expired</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-amber-500" />
+                <div className="w-3 h-3 rounded-full bg-violet-500" />
                 <span className="text-muted-foreground">Terminated</span>
               </div>
               <div className="flex items-center gap-1.5">
@@ -629,8 +617,8 @@ export default function MapPage() {
                       selectedListing.status === 'active'
                         ? 'bg-green-500'
                         : selectedListing.listing_type === 'expired'
-                          ? 'bg-orange-500'
-                          : 'bg-amber-500'
+                          ? 'bg-rose-500'
+                          : 'bg-violet-500'
                     }`}
                   />
                   <Badge className={getStatusColor(selectedListing)}>

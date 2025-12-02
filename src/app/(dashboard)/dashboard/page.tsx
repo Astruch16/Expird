@@ -50,17 +50,19 @@ export default async function DashboardPage() {
       title: 'Expired Listings',
       value: expiredCount || 0,
       icon: FileX,
-      color: 'text-orange-500',
-      bgColor: 'bg-orange-500/10',
-      borderColor: 'border-orange-500/20',
+      color: 'text-rose-500',
+      bgColor: 'bg-rose-500/10',
+      borderColor: 'border-rose-500/20',
+      href: '/listings?type=expired',
     },
     {
       title: 'Terminated Listings',
       value: terminatedCount || 0,
       icon: FileCheck,
-      color: 'text-amber-500',
-      bgColor: 'bg-amber-500/10',
-      borderColor: 'border-amber-500/20',
+      color: 'text-violet-500',
+      bgColor: 'bg-violet-500/10',
+      borderColor: 'border-violet-500/20',
+      href: '/listings?type=terminated',
     },
     {
       title: 'Sent Out',
@@ -69,6 +71,7 @@ export default async function DashboardPage() {
       color: 'text-primary',
       bgColor: 'bg-primary/10',
       borderColor: 'border-primary/20',
+      href: '/sent',
     },
     {
       title: 'Back to Active',
@@ -77,6 +80,7 @@ export default async function DashboardPage() {
       color: 'text-green-500',
       bgColor: 'bg-green-500/10',
       borderColor: 'border-green-500/20',
+      href: null,
     },
     {
       title: 'Pending Follow-ups',
@@ -85,6 +89,7 @@ export default async function DashboardPage() {
       color: 'text-accent',
       bgColor: 'bg-accent/10',
       borderColor: 'border-accent/20',
+      href: '/follow-ups',
     },
   ];
 
@@ -102,7 +107,7 @@ export default async function DashboardPage() {
         </div>
         <Link
           href="/listings/new"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-primary to-accent text-white font-medium hover:opacity-90 transition-opacity"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-primary to-accent text-white font-medium hover:opacity-90 transition-opacity cursor-pointer"
         >
           <MapPin className="w-4 h-4" />
           Add Listing
@@ -111,8 +116,8 @@ export default async function DashboardPage() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-        {stats.map((stat) => (
-          <Card key={stat.title} className={`border ${stat.borderColor} bg-card/50 backdrop-blur-sm hover:bg-card/80 transition-colors`}>
+        {stats.map((stat) => {
+          const cardContent = (
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div className={`p-2 rounded-lg ${stat.bgColor}`}>
@@ -120,10 +125,31 @@ export default async function DashboardPage() {
                 </div>
                 <span className="text-3xl font-bold">{stat.value}</span>
               </div>
-              <p className="text-sm text-muted-foreground mt-2">{stat.title}</p>
+              <div className="flex items-center justify-between mt-2">
+                <p className="text-sm text-muted-foreground">{stat.title}</p>
+                {stat.href && (
+                  <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                )}
+              </div>
             </CardContent>
-          </Card>
-        ))}
+          );
+
+          if (stat.href) {
+            return (
+              <Link key={stat.title} href={stat.href}>
+                <Card className={`border ${stat.borderColor} glass-card cursor-pointer group h-full`}>
+                  {cardContent}
+                </Card>
+              </Link>
+            );
+          }
+
+          return (
+            <Card key={stat.title} className={`border ${stat.borderColor} glass-card`}>
+              {cardContent}
+            </Card>
+          );
+        })}
       </div>
 
       {/* Quick Actions & Map Preview */}
@@ -132,13 +158,13 @@ export default async function DashboardPage() {
       {/* Recent Listings & Market Movement */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Listings */}
-        <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
+        <Card className="border-border/50 glass-card">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-lg flex items-center gap-2">
               <MapPin className="w-5 h-5 text-primary" />
               Recent Listings
             </CardTitle>
-            <Link href="/listings" className="text-sm text-primary hover:underline">
+            <Link href="/listings" className="text-sm text-primary hover:underline cursor-pointer">
               View all
             </Link>
           </CardHeader>
@@ -149,15 +175,15 @@ export default async function DashboardPage() {
                   <Link
                     key={listing.id}
                     href={`/listings/${listing.id}`}
-                    className="flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors group"
+                    className="flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors group cursor-pointer"
                   >
                     <div className="flex items-center gap-3">
                       <div className={`w-2 h-2 rounded-full ${
                         listing.status === 'active'
                           ? 'bg-green-500'
                           : listing.listing_type === 'expired'
-                            ? 'bg-orange-500'
-                            : 'bg-amber-500'
+                            ? 'bg-rose-500'
+                            : 'bg-violet-500'
                       }`} />
                       <div>
                         <p className="text-sm font-medium">{listing.address}</p>
@@ -171,8 +197,8 @@ export default async function DashboardPage() {
                           listing.status === 'active'
                             ? 'bg-green-500/10 text-green-500'
                             : listing.listing_type === 'expired'
-                              ? 'bg-orange-500/10 text-orange-500'
-                              : 'bg-amber-500/10 text-amber-500'
+                              ? 'bg-rose-500/10 text-rose-500'
+                              : 'bg-violet-500/10 text-violet-500'
                         }`}
                       >
                         {listing.status === 'active' ? 'Active' : listing.listing_type}
@@ -188,7 +214,7 @@ export default async function DashboardPage() {
                 <p className="text-muted-foreground mt-2">No listings yet</p>
                 <Link
                   href="/listings/new"
-                  className="text-sm text-primary hover:underline mt-1 inline-block"
+                  className="text-sm text-primary hover:underline mt-1 inline-block cursor-pointer"
                 >
                   Add your first listing
                 </Link>
@@ -204,13 +230,13 @@ export default async function DashboardPage() {
       {/* Upcoming Follow-ups & Recent Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Upcoming Follow-ups */}
-        <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
+        <Card className="border-border/50 glass-card">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-lg flex items-center gap-2">
               <CalendarClock className="w-5 h-5 text-accent" />
               Upcoming Follow-ups
             </CardTitle>
-            <Link href="/follow-ups" className="text-sm text-primary hover:underline">
+            <Link href="/follow-ups" className="text-sm text-primary hover:underline cursor-pointer">
               View all
             </Link>
           </CardHeader>
@@ -224,7 +250,7 @@ export default async function DashboardPage() {
                     <Link
                       key={followUp.id}
                       href={`/listings/${followUp.listing_id}`}
-                      className="flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors group"
+                      className="flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors group cursor-pointer"
                     >
                       <div className="flex items-center gap-3">
                         <div className={`p-2 rounded-lg ${
@@ -283,7 +309,7 @@ export default async function DashboardPage() {
         </Card>
 
         {/* Recent Activity */}
-        <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
+        <Card className="border-border/50 glass-card">
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
               <Activity className="w-5 h-5 text-primary" />
@@ -303,8 +329,8 @@ export default async function DashboardPage() {
                   const getActivityColor = () => {
                     if (listing.status === 'active') return 'text-green-500 bg-green-500/10';
                     if (listing.sent_at) return 'text-primary bg-primary/10';
-                    if (listing.listing_type === 'expired') return 'text-orange-500 bg-orange-500/10';
-                    return 'text-amber-500 bg-amber-500/10';
+                    if (listing.listing_type === 'expired') return 'text-rose-500 bg-rose-500/10';
+                    return 'text-violet-500 bg-violet-500/10';
                   };
                   const getActivityText = () => {
                     if (listing.status === 'active') return 'Back to active';
@@ -319,7 +345,7 @@ export default async function DashboardPage() {
                     <Link
                       key={listing.id}
                       href={`/listings/${listing.id}`}
-                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-secondary/50 transition-colors group"
+                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-secondary/50 transition-colors group cursor-pointer"
                     >
                       <div className={`p-2 rounded-lg ${colorClass.split(' ')[1]}`}>
                         <ActivityIcon className={`w-4 h-4 ${colorClass.split(' ')[0]}`} />
@@ -341,7 +367,7 @@ export default async function DashboardPage() {
                 <p className="text-muted-foreground mt-2">No recent activity</p>
                 <Link
                   href="/listings/new"
-                  className="text-sm text-primary hover:underline mt-1 inline-block"
+                  className="text-sm text-primary hover:underline mt-1 inline-block cursor-pointer"
                 >
                   Add your first listing
                 </Link>

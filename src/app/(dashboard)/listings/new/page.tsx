@@ -303,7 +303,7 @@ export default function NewListingPage() {
                         variant="outline"
                         onClick={geocodeAddress}
                         disabled={geocoding}
-                        className="shrink-0"
+                        className="shrink-0 cursor-pointer"
                       >
                         {geocoding ? (
                           <Loader2 className="w-4 h-4 animate-spin" />
@@ -616,7 +616,7 @@ export default function NewListingPage() {
           <Button
             type="submit"
             disabled={loading}
-            className="bg-gradient-to-r from-primary to-accent hover:opacity-90"
+            className="bg-gradient-to-r from-primary to-accent hover:opacity-90 cursor-pointer"
           >
             {loading ? (
               <>

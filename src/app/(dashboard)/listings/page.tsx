@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -55,11 +56,15 @@ import { toast } from 'sonner';
 import type { Listing, ListingStatus, Board, ListingType } from '@/types';
 
 export default function ListingsPage() {
+  const searchParams = useSearchParams();
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [typeFilter, setTypeFilter] = useState<string>('all');
+  const [typeFilter, setTypeFilter] = useState<string>(() => {
+    const typeParam = searchParams.get('type');
+    return typeParam === 'expired' || typeParam === 'terminated' ? typeParam : 'all';
+  });
   const [boardFilter, setBoardFilter] = useState<string>('all');
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [sortField, setSortField] = useState<'expiry_date' | 'created_at' | 'city'>('created_at');
@@ -276,8 +281,8 @@ export default function ListingsPage() {
 
   const getStatusColor = (status: ListingStatus, type: ListingType) => {
     if (status === 'active') return 'bg-green-500/10 text-green-500 border-green-500/20';
-    if (type === 'expired') return 'bg-orange-500/10 text-orange-500 border-orange-500/20';
-    return 'bg-amber-500/10 text-amber-500 border-amber-500/20';
+    if (type === 'expired') return 'bg-rose-500/10 text-rose-500 border-rose-500/20';
+    return 'bg-violet-500/10 text-violet-500 border-violet-500/20';
   };
 
   const getBoardLabel = (board: Board) => {
@@ -326,11 +331,11 @@ export default function ListingsPage() {
           variant={quickFilter === 'hot' ? 'default' : 'outline'}
           size="sm"
           onClick={() => setQuickFilter('hot')}
-          className={quickFilter === 'hot' ? 'bg-orange-500 hover:bg-orange-600' : 'border-orange-500/50 text-orange-500 hover:bg-orange-500/10'}
+          className={quickFilter === 'hot' ? 'bg-rose-500 hover:bg-rose-600' : 'border-rose-500/50 text-rose-500 hover:bg-rose-500/10'}
         >
           <Clock className="w-3 h-3 mr-1" />
           Hot Leads
-          <Badge variant="secondary" className="ml-2 bg-orange-500/20 text-orange-500">
+          <Badge variant="secondary" className="ml-2 bg-rose-500/20 text-rose-500">
             {hotCount}
           </Badge>
         </Button>
@@ -522,20 +527,20 @@ export default function ListingsPage() {
                       />
                     </TableCell>
                     <TableCell className="font-medium">
-                      <Link href={`/listings/${listing.id}`} className="hover:text-primary transition-colors">
+                      <Link href={`/listings/${listing.id}`} className="hover:text-primary transition-colors cursor-pointer">
                         <div className="flex items-center gap-2">
                           <div
                             className={`w-2 h-2 rounded-full ${
                               listing.status === 'active'
                                 ? 'bg-green-500'
                                 : listing.listing_type === 'expired'
-                                  ? 'bg-orange-500'
-                                  : 'bg-amber-500'
+                                  ? 'bg-rose-500'
+                                  : 'bg-violet-500'
                             }`}
                           />
                           {listing.address}
                           {getDaysSinceExpiry(listing.expiry_date) <= 7 && !listing.sent_at && (
-                            <Badge className="bg-orange-500/20 text-orange-500 text-[10px] px-1 py-0">
+                            <Badge className="bg-rose-500/20 text-rose-500 text-[10px] px-1 py-0">
                               HOT
                             </Badge>
                           )}

@@ -133,7 +133,7 @@ export default function StatsPage() {
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
+        <Card className="border-border/50 glass-card">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -150,7 +150,7 @@ export default function StatsPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
+        <Card className="border-border/50 glass-card">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -167,7 +167,7 @@ export default function StatsPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
+        <Card className="border-border/50 glass-card">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -184,7 +184,7 @@ export default function StatsPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
+        <Card className="border-border/50 glass-card">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -207,7 +207,7 @@ export default function StatsPage() {
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Activity Chart */}
-        <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
+        <Card className="border-border/50 glass-card">
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
               <BarChart3 className="w-5 h-5 text-primary" />
@@ -216,23 +216,33 @@ export default function StatsPage() {
             <CardDescription>New listings added over time</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-[200px] flex items-end gap-1">
-              {dailyData.map((day, i) => (
-                <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                  <div
-                    className="w-full bg-gradient-to-t from-primary to-accent rounded-t transition-all hover:opacity-80"
-                    style={{
-                      height: `${(day.count / maxDaily) * 100}%`,
-                      minHeight: day.count > 0 ? '4px' : '0px'
-                    }}
-                  />
-                  {dailyData.length <= 14 && (
-                    <span className="text-[10px] text-muted-foreground rotate-[-45deg] origin-top-left whitespace-nowrap">
-                      {day.date}
-                    </span>
-                  )}
-                </div>
-              ))}
+            <div className="flex items-end gap-1" style={{ height: '160px' }}>
+              {dailyData.map((day, i) => {
+                // Calculate bar height in pixels (max 160px for the chart area)
+                const barHeight = maxDaily > 0
+                  ? Math.max((day.count / maxDaily) * 160, day.count > 0 ? 8 : 2)
+                  : 2;
+
+                return (
+                  <div key={i} className="flex-1 flex flex-col items-center group relative">
+                    {/* Tooltip */}
+                    {day.count > 0 && (
+                      <div className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-popover border border-border rounded text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10 shadow-lg">
+                        {day.count} {day.count === 1 ? 'listing' : 'listings'}
+                      </div>
+                    )}
+                    <div
+                      className={`w-full bg-gradient-to-t from-primary to-accent rounded-t transition-all ${day.count > 0 ? 'cursor-pointer hover:opacity-80' : ''}`}
+                      style={{ height: `${barHeight}px` }}
+                    />
+                    {dailyData.length <= 14 && (
+                      <span className="text-[10px] text-muted-foreground mt-1 rotate-[-45deg] origin-top-left whitespace-nowrap">
+                        {day.date}
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
             </div>
             {dailyData.length > 14 && (
               <div className="flex justify-between mt-2 text-xs text-muted-foreground">
@@ -244,7 +254,7 @@ export default function StatsPage() {
         </Card>
 
         {/* Type Breakdown */}
-        <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
+        <Card className="border-border/50 glass-card">
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
               <PieChart className="w-5 h-5 text-accent" />
@@ -262,7 +272,7 @@ export default function StatsPage() {
                 </div>
                 <div className="h-3 bg-secondary rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-orange-500 rounded-full transition-all"
+                    className="h-full bg-rose-500 rounded-full transition-all"
                     style={{ width: `${totalListings > 0 ? (expiredListings / totalListings) * 100 : 0}%` }}
                   />
                 </div>
@@ -276,7 +286,7 @@ export default function StatsPage() {
                 </div>
                 <div className="h-3 bg-secondary rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-amber-500 rounded-full transition-all"
+                    className="h-full bg-violet-500 rounded-full transition-all"
                     style={{ width: `${totalListings > 0 ? (terminatedListings / totalListings) * 100 : 0}%` }}
                   />
                 </div>
@@ -317,7 +327,7 @@ export default function StatsPage() {
       {/* Bottom Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* By Board */}
-        <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
+        <Card className="border-border/50 glass-card">
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
               <MapPin className="w-5 h-5 text-primary" />
@@ -354,7 +364,7 @@ export default function StatsPage() {
         </Card>
 
         {/* Top Cities */}
-        <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
+        <Card className="border-border/50 glass-card">
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
               <MapPin className="w-5 h-5 text-accent" />

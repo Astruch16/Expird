@@ -217,7 +217,7 @@ export default function ListingDetailPage({ params }: { params: Promise<{ id: st
     });
 
     new mapboxgl.Marker({
-      color: listing.status === 'active' ? '#22c55e' : listing.listing_type === 'expired' ? '#f97316' : '#eab308',
+      color: listing.status === 'active' ? '#22c55e' : listing.listing_type === 'expired' ? '#f43f5e' : '#8b5cf6',
     })
       .setLngLat([listing.longitude, listing.latitude])
       .addTo(map.current);
@@ -308,8 +308,8 @@ export default function ListingDetailPage({ params }: { params: Promise<{ id: st
 
   const getStatusColor = () => {
     if (listing.status === 'active') return 'bg-green-500/10 text-green-500 border-green-500/20';
-    if (listing.listing_type === 'expired') return 'bg-orange-500/10 text-orange-500 border-orange-500/20';
-    return 'bg-amber-500/10 text-amber-500 border-amber-500/20';
+    if (listing.listing_type === 'expired') return 'bg-rose-500/10 text-rose-500 border-rose-500/20';
+    return 'bg-violet-500/10 text-violet-500 border-violet-500/20';
   };
 
   const getBoardLabel = () => {
@@ -543,7 +543,7 @@ export default function ListingDetailPage({ params }: { params: Promise<{ id: st
 
             <div className="flex items-center justify-between p-3 rounded-lg bg-secondary/50">
               <span className="text-sm text-muted-foreground">Days since expiry</span>
-              <span className="text-xl font-bold text-orange-500">
+              <span className="text-xl font-bold text-rose-500">
                 {differenceInDays(new Date(), new Date(listing.expiry_date))}
               </span>
             </div>
@@ -607,7 +607,7 @@ export default function ListingDetailPage({ params }: { params: Promise<{ id: st
                       <Phone className="w-5 h-5 text-muted-foreground" />
                       <div>
                         <p className="text-xs text-muted-foreground">Phone</p>
-                        <a href={`tel:${listing.owner_phone}`} className="font-medium text-primary hover:underline">
+                        <a href={`tel:${listing.owner_phone}`} className="font-medium text-primary hover:underline cursor-pointer">
                           {listing.owner_phone}
                         </a>
                       </div>
@@ -632,7 +632,7 @@ export default function ListingDetailPage({ params }: { params: Promise<{ id: st
                       <Mail className="w-5 h-5 text-muted-foreground" />
                       <div>
                         <p className="text-xs text-muted-foreground">Email</p>
-                        <a href={`mailto:${listing.owner_email}`} className="font-medium text-primary hover:underline">
+                        <a href={`mailto:${listing.owner_email}`} className="font-medium text-primary hover:underline cursor-pointer">
                           {listing.owner_email}
                         </a>
                       </div>
@@ -901,13 +901,13 @@ export default function ListingDetailPage({ params }: { params: Promise<{ id: st
                         case 'email_sent':
                           return 'bg-green-500/10 text-green-500 border-green-500/20';
                         case 'status_change':
-                          return 'bg-amber-500/10 text-amber-500 border-amber-500/20';
+                          return 'bg-violet-500/10 text-violet-500 border-violet-500/20';
                         case 'follow_up_scheduled':
                           return 'bg-purple-500/10 text-purple-500 border-purple-500/20';
                         case 'created':
                           return 'bg-primary/10 text-primary border-primary/20';
                         case 'edited':
-                          return 'bg-orange-500/10 text-orange-500 border-orange-500/20';
+                          return 'bg-rose-500/10 text-rose-500 border-rose-500/20';
                         default:
                           return 'bg-secondary text-secondary-foreground border-border';
                       }

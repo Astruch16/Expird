@@ -79,8 +79,8 @@
   --cyber-pink: oklch(0.7 0.2 350);
 
   /* Status colors */
-  --expired: oklch(0.65 0.2 25);
-  --terminated: oklch(0.65 0.18 50);
+  --expired: oklch(0.65 0.22 0);
+  --terminated: oklch(0.6 0.2 290);
   --active: oklch(0.7 0.2 145);
 
   /* Chart colors */
@@ -317,4 +317,25 @@ input[type="date"]::-webkit-datetime-edit-year-field:focus {
   background: oklch(0.7 0.18 250 / 0.2);
   color: oklch(0.95 0.01 260);
   outline: none;
+}
+
+/* Glassmorphism hover animation for cards */
+.glass-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: oklch(0.16 0.02 260 / 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-card:hover {
+  background: oklch(0.20 0.04 260 / 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-color: oklch(0.7 0.18 250 / 0.5) !important;
+  box-shadow:
+    0 8px 32px oklch(0.7 0.18 250 / 0.25),
+    0 0 20px oklch(0.7 0.18 250 / 0.15),
+    0 0 0 1px oklch(0.7 0.18 250 / 0.2),
+    inset 0 1px 0 oklch(1 0 0 / 0.1);
+  transform: translateY(-3px) scale(1.01);
 }

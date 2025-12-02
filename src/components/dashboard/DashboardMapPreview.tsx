@@ -58,7 +58,7 @@ export function DashboardMapPreview({ listings }: DashboardMapPreviewProps) {
         source: 'listings',
         filter: ['has', 'point_count'],
         paint: {
-          'circle-color': '#8b5cf6',
+          'circle-color': '#93c5fd',
           'circle-radius': ['step', ['get', 'point_count'], 30, 10, 40, 30, 50],
           'circle-opacity': 0.15,
           'circle-blur': 1,
@@ -72,7 +72,7 @@ export function DashboardMapPreview({ listings }: DashboardMapPreviewProps) {
         source: 'listings',
         filter: ['has', 'point_count'],
         paint: {
-          'circle-color': '#a855f7',
+          'circle-color': '#bfdbfe',
           'circle-radius': ['step', ['get', 'point_count'], 22, 10, 30, 30, 40],
           'circle-opacity': 0.3,
           'circle-blur': 0.5,
@@ -89,11 +89,11 @@ export function DashboardMapPreview({ listings }: DashboardMapPreviewProps) {
           'circle-color': [
             'step',
             ['get', 'point_count'],
-            '#8b5cf6',
+            '#93c5fd',
             10,
-            '#a855f7',
+            '#bfdbfe',
             30,
-            '#c084fc',
+            '#dbeafe',
           ],
           'circle-radius': ['step', ['get', 'point_count'], 15, 10, 22, 30, 28],
           'circle-opacity': 0.9,
@@ -124,15 +124,12 @@ export function DashboardMapPreview({ listings }: DashboardMapPreviewProps) {
         filter: ['!', ['has', 'point_count']],
         paint: {
           'circle-color': [
-            'match',
-            ['get', 'status'],
-            'active',
+            'case',
+            ['==', ['get', 'status'], 'active'],
             '#22c55e',
-            'expired',
-            '#f97316',
-            'terminated',
-            '#eab308',
-            '#6366f1',
+            ['==', ['get', 'listing_type'], 'expired'],
+            '#f43f5e',
+            '#8b5cf6',
           ],
           'circle-radius': 16,
           'circle-opacity': 0.2,
@@ -148,15 +145,12 @@ export function DashboardMapPreview({ listings }: DashboardMapPreviewProps) {
         filter: ['!', ['has', 'point_count']],
         paint: {
           'circle-color': [
-            'match',
-            ['get', 'status'],
-            'active',
+            'case',
+            ['==', ['get', 'status'], 'active'],
             '#4ade80',
-            'expired',
-            '#fb923c',
-            'terminated',
-            '#facc15',
-            '#818cf8',
+            ['==', ['get', 'listing_type'], 'expired'],
+            '#fb7185',
+            '#a78bfa',
           ],
           'circle-radius': 10,
           'circle-opacity': 0.4,
@@ -172,15 +166,12 @@ export function DashboardMapPreview({ listings }: DashboardMapPreviewProps) {
         filter: ['!', ['has', 'point_count']],
         paint: {
           'circle-color': [
-            'match',
-            ['get', 'status'],
-            'active',
+            'case',
+            ['==', ['get', 'status'], 'active'],
             '#bbf7d0',
-            'expired',
-            '#fed7aa',
-            'terminated',
-            '#fef08a',
-            '#c7d2fe',
+            ['==', ['get', 'listing_type'], 'expired'],
+            '#fecdd3',
+            '#ddd6fe',
           ],
           'circle-radius': 5,
           'circle-opacity': 1,
@@ -210,8 +201,8 @@ export function DashboardMapPreview({ listings }: DashboardMapPreviewProps) {
         const statusColor = props?.status === 'active'
           ? '#22c55e'
           : props?.listing_type === 'expired'
-            ? '#f97316'
-            : '#eab308';
+            ? '#f43f5e'
+            : '#8b5cf6';
 
         const statusText = props?.status === 'active'
           ? 'Active'
@@ -346,7 +337,7 @@ export function DashboardMapPreview({ listings }: DashboardMapPreviewProps) {
   const activeCount = listings.filter((l) => l.status === 'active').length;
 
   return (
-    <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
+    <Card className="border-border/50 glass-card">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-lg flex items-center gap-2">
           <Map className="w-5 h-5 text-primary" />
@@ -354,7 +345,7 @@ export function DashboardMapPreview({ listings }: DashboardMapPreviewProps) {
         </CardTitle>
         <Link
           href="/map"
-          className="text-sm text-primary hover:underline flex items-center gap-1"
+          className="text-sm text-primary hover:underline flex items-center gap-1 cursor-pointer"
         >
           Open full map
           <ExternalLink className="w-3.5 h-3.5" />
@@ -367,11 +358,11 @@ export function DashboardMapPreview({ listings }: DashboardMapPreviewProps) {
           {/* Legend overlay */}
           <div className="absolute bottom-3 left-3 flex items-center gap-3 bg-card/90 backdrop-blur-sm rounded-lg border border-border px-3 py-2">
             <div className="flex items-center gap-1.5 text-xs">
-              <div className="w-2.5 h-2.5 rounded-full bg-orange-500" />
+              <div className="w-2.5 h-2.5 rounded-full bg-rose-500" />
               <span className="text-muted-foreground">{expiredCount}</span>
             </div>
             <div className="flex items-center gap-1.5 text-xs">
-              <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+              <div className="w-2.5 h-2.5 rounded-full bg-violet-500" />
               <span className="text-muted-foreground">{terminatedCount}</span>
             </div>
             <div className="flex items-center gap-1.5 text-xs">

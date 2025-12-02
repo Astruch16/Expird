@@ -180,8 +180,8 @@ export default function SentListingsPage() {
                         variant="secondary"
                         className={`text-xs ${
                           listing.listing_type === 'expired'
-                            ? 'bg-orange-500/10 text-orange-500'
-                            : 'bg-amber-500/10 text-amber-500'
+                            ? 'bg-rose-500/10 text-rose-500'
+                            : 'bg-violet-500/10 text-violet-500'
                         }`}
                       >
                         {listing.listing_type}

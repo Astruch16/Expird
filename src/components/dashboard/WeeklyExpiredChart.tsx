@@ -109,7 +109,7 @@ export function WeeklyExpiredChart({ listings }: WeeklyExpiredChartProps) {
   const areaPath = `${linePath} L 100 ${chartHeight} L 0 ${chartHeight} Z`;
 
   return (
-    <Card className="border-border/50 bg-card/50 backdrop-blur-sm h-full">
+    <Card className="border-border/50 glass-card h-full">
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg flex items-center gap-2">
@@ -119,8 +119,8 @@ export function WeeklyExpiredChart({ listings }: WeeklyExpiredChartProps) {
           <div className="flex items-center gap-1.5">
             {change > 0 ? (
               <>
-                <TrendingUp className="w-4 h-4 text-orange-500" />
-                <span className="text-sm font-medium text-orange-500">
+                <TrendingUp className="w-4 h-4 text-rose-500" />
+                <span className="text-sm font-medium text-rose-500">
                   +{percentChange}%
                 </span>
               </>

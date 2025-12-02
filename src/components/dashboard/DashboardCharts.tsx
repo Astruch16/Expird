@@ -17,7 +17,7 @@ export function DashboardCharts({ listings }: DashboardChartsProps) {
       {/* Top Row: Quick Actions (left) & Map Preview (right) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Quick Actions */}
-        <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
+        <Card className="border-border/50 glass-card">
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
               <Activity className="w-5 h-5 text-primary" />
@@ -27,28 +27,28 @@ export function DashboardCharts({ listings }: DashboardChartsProps) {
           <CardContent className="space-y-3">
             <Link
               href="/listings/new"
-              className="flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors group"
+              className="flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors group cursor-pointer"
             >
               <span className="text-sm font-medium">Add New Listing</span>
               <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
             </Link>
             <Link
               href="/map"
-              className="flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors group"
+              className="flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors group cursor-pointer"
             >
               <span className="text-sm font-medium">View Map</span>
               <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
             </Link>
             <Link
               href="/sent"
-              className="flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors group"
+              className="flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors group cursor-pointer"
             >
               <span className="text-sm font-medium">View Sent Listings</span>
               <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
             </Link>
             <Link
               href="/follow-ups"
-              className="flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors group"
+              className="flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors group cursor-pointer"
             >
               <span className="text-sm font-medium">Manage Follow-ups</span>
               <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
