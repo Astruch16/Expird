@@ -15,12 +15,12 @@ import {
   Clock,
   Settings,
   LogOut,
-  MapPin,
   ChevronLeft,
   ChevronRight,
   BarChart3,
 } from 'lucide-react';
 import { useState } from 'react';
+import { Logo } from '@/components/ui/logo';
 
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -68,9 +68,7 @@ export function Sidebar({ user }: SidebarProps) {
         <div className="h-16 flex items-center justify-between px-4 border-b border-sidebar-border">
           {!collapsed && (
             <Link href="/dashboard" className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                <MapPin className="w-4 h-4 text-white" />
-              </div>
+              <Logo size="md" />
               <span className="font-bold text-lg bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-widest">
                 EXPIRD
               </span>
@@ -81,9 +79,7 @@ export function Sidebar({ user }: SidebarProps) {
             </Link>
           )}
           {collapsed && (
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto">
-              <MapPin className="w-4 h-4 text-white" />
-            </div>
+            <Logo size="md" className="mx-auto" />
           )}
           <Button
             variant="ghost"

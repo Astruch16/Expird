@@ -51,6 +51,7 @@ import {
   CheckCircle,
 } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
+import { DateRangePicker } from '@/components/ui/date-picker';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 import type { Listing, ListingStatus, Board, ListingType } from '@/types';
@@ -70,6 +71,8 @@ export default function ListingsPage() {
   const [sortField, setSortField] = useState<'expiry_date' | 'created_at' | 'city'>('created_at');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
   const [quickFilter, setQuickFilter] = useState<'all' | 'not_sent' | 'needs_followup' | 'hot'>('all');
+  const [startDate, setStartDate] = useState<string>('');
+  const [endDate, setEndDate] = useState<string>('');
 
   const supabase = createClient();
 
@@ -172,6 +175,12 @@ export default function ListingsPage() {
     if (boardFilter !== 'all') {
       query = query.eq('board', boardFilter);
     }
+    if (startDate) {
+      query = query.gte('expiry_date', startDate);
+    }
+    if (endDate) {
+      query = query.lte('expiry_date', endDate);
+    }
 
     const { data, error } = await query;
 
@@ -186,7 +195,7 @@ export default function ListingsPage() {
 
   useEffect(() => {
     fetchListings();
-  }, [statusFilter, typeFilter, boardFilter]);
+  }, [statusFilter, typeFilter, boardFilter, startDate, endDate]);
 
   // Calculate days since expiry for "hot" leads (expired in last 7 days)
   const getDaysSinceExpiry = (expiryDate: string) => {
@@ -292,6 +301,11 @@ export default function ListingsPage() {
       case 'chilliwack': return 'Chilliwack';
       default: return board;
     }
+  };
+
+  const clearDateFilters = () => {
+    setStartDate('');
+    setEndDate('');
   };
 
   return (
@@ -444,6 +458,14 @@ export default function ListingsPage() {
                   <SelectItem value="chilliwack">Chilliwack</SelectItem>
                 </SelectContent>
               </Select>
+
+              <DateRangePicker
+                startDate={startDate}
+                endDate={endDate}
+                onStartDateChange={setStartDate}
+                onEndDateChange={setEndDate}
+                onClear={clearDateFilters}
+              />
 
               <Button
                 variant="outline"

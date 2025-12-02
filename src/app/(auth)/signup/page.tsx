@@ -8,7 +8,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { MapPin, Lock, Mail, User, Loader2 } from 'lucide-react';
+import { Lock, Mail, User, Loader2 } from 'lucide-react';
+import { LogoAnimated } from '@/components/ui/logo';
 
 export default function SignUpPage() {
   const [email, setEmail] = useState('');
@@ -85,8 +86,8 @@ export default function SignUpPage() {
 
       <Card className="w-full max-w-md relative z-10 border-border/50 bg-card/80 backdrop-blur-xl">
         <CardHeader className="text-center space-y-4">
-          <div className="mx-auto w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center animate-pulse-glow">
-            <MapPin className="w-8 h-8 text-white" />
+          <div className="mx-auto animate-pulse-glow">
+            <LogoAnimated size="xl" />
           </div>
           <CardTitle className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
             Create Account

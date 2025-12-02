@@ -25,6 +25,7 @@ import {
   Send,
   Clock,
 } from 'lucide-react';
+import { DateRangePicker } from '@/components/ui/date-picker';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 import mapboxgl from 'mapbox-gl';
@@ -52,6 +53,8 @@ export default function MapPage() {
   const [loading, setLoading] = useState(true);
   const [selectedBoard, setSelectedBoard] = useState<string>('all');
   const [selectedType, setSelectedType] = useState<string>('all');
+  const [startDate, setStartDate] = useState<string>('');
+  const [endDate, setEndDate] = useState<string>('');
   const [selectedListing, setSelectedListing] = useState<Listing | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
 
@@ -76,6 +79,12 @@ export default function MapPage() {
         query = query.eq('listing_type', selectedType).neq('status', 'active');
       }
     }
+    if (startDate) {
+      query = query.gte('expiry_date', startDate);
+    }
+    if (endDate) {
+      query = query.lte('expiry_date', endDate);
+    }
 
     const { data, error } = await query;
 
@@ -85,7 +94,7 @@ export default function MapPage() {
       setListings(data || []);
     }
     setLoading(false);
-  }, [selectedBoard, selectedType]);
+  }, [selectedBoard, selectedType, startDate, endDate]);
 
   useEffect(() => {
     fetchListings();
@@ -487,6 +496,11 @@ export default function MapPage() {
     return 'bg-violet-500/10 text-violet-500 border-violet-500/20';
   };
 
+  const clearDateFilters = () => {
+    setStartDate('');
+    setEndDate('');
+  };
+
   return (
     <div className="h-[calc(100vh-6rem)] flex flex-col space-y-4">
       {/* Header */}
@@ -533,6 +547,14 @@ export default function MapPage() {
                 <SelectItem value="active">Active</SelectItem>
               </SelectContent>
             </Select>
+
+            <DateRangePicker
+              startDate={startDate}
+              endDate={endDate}
+              onStartDateChange={setStartDate}
+              onEndDateChange={setEndDate}
+              onClear={clearDateFilters}
+            />
 
             <Button
               variant="outline"

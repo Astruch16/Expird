@@ -232,6 +232,21 @@
   background-color: oklch(0.22 0.03 260) !important;
 }
 
+/* Calendar/Date Picker Styles */
+[data-slot="calendar"] {
+  --cell-size: 2rem;
+}
+
+[data-slot="popover-content"] {
+  background: oklch(0.16 0.02 260) !important;
+  border-color: oklch(0.28 0.03 260) !important;
+}
+
+.rdp-root {
+  --rdp-accent-color: oklch(0.7 0.18 250);
+  --rdp-accent-background-color: oklch(0.7 0.18 250 / 0.2);
+}
+
 /* Animation utilities */
 @keyframes pulse-glow {
   0%, 100% {
