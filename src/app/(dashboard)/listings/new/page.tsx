@@ -15,7 +15,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { ArrowLeft, Loader2, MapPin, Search, Plus, X } from 'lucide-react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import { ArrowLeft, Loader2, MapPin, Search, Plus, X, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import mapboxgl from 'mapbox-gl';
@@ -35,6 +45,8 @@ export default function NewListingPage() {
 
   const [loading, setLoading] = useState(false);
   const [geocoding, setGeocoding] = useState(false);
+  const [showDuplicateDialog, setShowDuplicateDialog] = useState(false);
+  const [duplicateListing, setDuplicateListing] = useState<{ id: string; address: string; city: string; expiry_date: string } | null>(null);
   const [formData, setFormData] = useState({
     address: '',
     city: '',
@@ -134,8 +146,31 @@ export default function NewListingPage() {
     return null;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // Check for duplicate addresses
+  const checkForDuplicate = async (): Promise<{ id: string; address: string; city: string; expiry_date: string } | null> => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return null;
+
+    // Normalize the address for comparison (lowercase, trim whitespace)
+    const normalizedAddress = formData.address.toLowerCase().trim();
+    const normalizedCity = formData.city.toLowerCase().trim();
+
+    const { data: existingListings } = await supabase
+      .from('listings')
+      .select('id, address, city, expiry_date')
+      .eq('user_id', user.id)
+      .ilike('address', normalizedAddress)
+      .ilike('city', normalizedCity);
+
+    if (existingListings && existingListings.length > 0) {
+      return existingListings[0];
+    }
+
+    return null;
+  };
+
+  // Actually create the listing
+  const createListing = async () => {
     setLoading(true);
 
     const { data: { user } } = await supabase.auth.getUser();
@@ -194,6 +229,31 @@ export default function NewListingPage() {
       router.push('/listings');
     }
     setLoading(false);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      toast.error('You must be logged in');
+      setLoading(false);
+      return;
+    }
+
+    // Check for duplicate address
+    const duplicate = await checkForDuplicate();
+    if (duplicate) {
+      setDuplicateListing(duplicate);
+      setShowDuplicateDialog(true);
+      setLoading(false);
+      return;
+    }
+
+    // No duplicate found, proceed with creation
+    await createListing();
   };
 
   return (
@@ -572,6 +632,48 @@ export default function NewListingPage() {
           </Button>
         </div>
       </form>
+
+      {/* Duplicate Listing Dialog */}
+      <AlertDialog open={showDuplicateDialog} onOpenChange={setShowDuplicateDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="w-5 h-5 text-amber-500" />
+              Duplicate Listing Found
+            </AlertDialogTitle>
+            <AlertDialogDescription asChild>
+              <div className="space-y-3">
+                <p>A listing with this address already exists in your account:</p>
+                {duplicateListing && (
+                  <div className="p-3 rounded-lg bg-muted/50 border border-border">
+                    <p className="font-medium">{duplicateListing.address}</p>
+                    <p className="text-sm text-muted-foreground">{duplicateListing.city}</p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Expiry Date: {new Date(duplicateListing.expiry_date).toLocaleDateString()}
+                    </p>
+                  </div>
+                )}
+                <p>Do you want to create another listing for this address anyway?</p>
+              </div>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setDuplicateListing(null)}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                setShowDuplicateDialog(false);
+                setDuplicateListing(null);
+                createListing();
+              }}
+              className="bg-amber-600 hover:bg-amber-700"
+            >
+              Create Anyway
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
