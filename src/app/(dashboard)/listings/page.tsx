@@ -307,6 +307,15 @@ export default function ListingsPage() {
     }
   };
 
+  const getBoardColor = (board: Board) => {
+    switch (board) {
+      case 'greater_vancouver': return 'bg-cyan-500/15 text-cyan-400 border-cyan-500/30';
+      case 'fraser_valley': return 'bg-amber-500/15 text-amber-400 border-amber-500/30';
+      case 'chilliwack': return 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30';
+      default: return 'bg-muted text-muted-foreground';
+    }
+  };
+
   const clearDateFilters = () => {
     setStartDate('');
     setEndDate('');
@@ -594,7 +603,7 @@ export default function ListingsPage() {
                     </TableCell>
                     <TableCell>{listing.city}</TableCell>
                     <TableCell>
-                      <Badge variant="outline" className="text-xs">
+                      <Badge variant="outline" className={`text-xs ${getBoardColor(listing.board)}`}>
                         {getBoardLabel(listing.board)}
                       </Badge>
                     </TableCell>
