@@ -325,9 +325,11 @@ export default function ListingsPage() {
           </p>
         </div>
         <Link href="/listings/new">
-          <Button className="bg-gradient-to-r from-primary to-accent hover:opacity-90">
-            <Plus className="w-4 h-4 mr-2" />
-            Add Listing
+          <Button className="btn-glow">
+            <span className="relative z-10 flex items-center">
+              <Plus className="w-4 h-4 mr-2" />
+              Add Listing
+            </span>
           </Button>
         </Link>
       </div>

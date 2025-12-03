@@ -165,19 +165,21 @@ export default function SettingsPage() {
           <Button
             onClick={handleSaveProfile}
             disabled={saving}
-            className="bg-gradient-to-r from-primary to-accent hover:opacity-90"
+            className="btn-glow"
           >
-            {saving ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Saving...
-              </>
-            ) : (
-              <>
-                <Save className="w-4 h-4 mr-2" />
-                Save Changes
-              </>
-            )}
+            <span className="relative z-10 flex items-center">
+              {saving ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                <>
+                  <Save className="w-4 h-4 mr-2" />
+                  Save Changes
+                </>
+              )}
+            </span>
           </Button>
         </CardContent>
       </Card>

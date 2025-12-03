@@ -911,19 +911,21 @@ export default function ListingDetailPage({ params }: { params: Promise<{ id: st
               <Button
                 onClick={handleAddLog}
                 disabled={addingLog || !newLogDescription.trim()}
-                className="w-full bg-gradient-to-r from-primary to-accent hover:opacity-90"
+                className="w-full btn-glow"
               >
-                {addingLog ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Adding...
-                  </>
-                ) : (
-                  <>
-                    <Plus className="w-4 h-4 mr-2" />
-                    Add Log Entry
-                  </>
-                )}
+                <span className="relative z-10 flex items-center justify-center">
+                  {addingLog ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Adding...
+                    </>
+                  ) : (
+                    <>
+                      <Plus className="w-4 h-4 mr-2" />
+                      Add Log Entry
+                    </>
+                  )}
+                </span>
               </Button>
             </div>
           </CardContent>

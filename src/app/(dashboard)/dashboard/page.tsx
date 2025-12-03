@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { DashboardCharts } from '@/components/dashboard/DashboardCharts';
 import {
   FileX,
@@ -105,12 +106,13 @@ export default async function DashboardPage() {
             Track your expired and terminated MLS listings
           </p>
         </div>
-        <Link
-          href="/listings/new"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-primary to-accent text-white font-medium hover:opacity-90 transition-opacity cursor-pointer"
-        >
-          <MapPin className="w-4 h-4" />
-          Add Listing
+        <Link href="/listings/new">
+          <Button className="btn-glow">
+            <span className="relative z-10 flex items-center">
+              <MapPin className="w-4 h-4 mr-2" />
+              Add Listing
+            </span>
+          </Button>
         </Link>
       </div>
 

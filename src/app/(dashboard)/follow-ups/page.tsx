@@ -214,9 +214,11 @@ export default function FollowUpsPage() {
         </div>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-gradient-to-r from-primary to-accent hover:opacity-90">
-              <Plus className="w-4 h-4 mr-2" />
-              Schedule Follow-up
+            <Button className="btn-glow">
+              <span className="relative z-10 flex items-center">
+                <Plus className="w-4 h-4 mr-2" />
+                Schedule Follow-up
+              </span>
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-md">
@@ -284,19 +286,21 @@ export default function FollowUpsPage() {
               <Button
                 onClick={handleCreateFollowUp}
                 disabled={creating || !selectedListing}
-                className="w-full bg-gradient-to-r from-primary to-accent hover:opacity-90"
+                className="w-full btn-glow"
               >
-                {creating ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Scheduling...
-                  </>
-                ) : (
-                  <>
-                    <Clock className="w-4 h-4 mr-2" />
-                    Schedule Follow-up
-                  </>
-                )}
+                <span className="relative z-10 flex items-center justify-center">
+                  {creating ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Scheduling...
+                    </>
+                  ) : (
+                    <>
+                      <Clock className="w-4 h-4 mr-2" />
+                      Schedule Follow-up
+                    </>
+                  )}
+                </span>
               </Button>
             </div>
           </DialogContent>

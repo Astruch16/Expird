@@ -632,19 +632,21 @@ export default function NewListingPage() {
           <Button
             type="submit"
             disabled={loading}
-            className="bg-gradient-to-r from-primary to-accent hover:opacity-90 cursor-pointer"
+            className="btn-glow"
           >
-            {loading ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Creating...
-              </>
-            ) : (
-              <>
-                <MapPin className="w-4 h-4 mr-2" />
-                Create Listing
-              </>
-            )}
+            <span className="relative z-10 flex items-center">
+              {loading ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Creating...
+                </>
+              ) : (
+                <>
+                  <MapPin className="w-4 h-4 mr-2" />
+                  Create Listing
+                </>
+              )}
+            </span>
           </Button>
         </div>
       </form>

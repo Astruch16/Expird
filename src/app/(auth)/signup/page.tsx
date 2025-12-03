@@ -67,9 +67,9 @@ export default function SignUpPage() {
           <CardContent>
             <Button
               onClick={() => router.push('/login')}
-              className="w-full bg-gradient-to-r from-primary to-accent"
+              className="w-full btn-glow"
             >
-              Back to Login
+              <span className="relative z-10">Back to Login</span>
             </Button>
           </CardContent>
         </Card>
@@ -162,17 +162,19 @@ export default function SignUpPage() {
 
             <Button
               type="submit"
-              className="w-full bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity"
+              className="w-full btn-glow"
               disabled={loading}
             >
-              {loading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Creating account...
-                </>
-              ) : (
-                'Create Account'
-              )}
+              <span className="relative z-10 flex items-center justify-center">
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Creating account...
+                  </>
+                ) : (
+                  'Create Account'
+                )}
+              </span>
             </Button>
           </form>
 

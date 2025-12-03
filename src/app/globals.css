@@ -354,3 +354,79 @@ input[type="date"]::-webkit-datetime-edit-year-field:focus {
     inset 0 1px 0 oklch(1 0 0 / 0.1);
   transform: translateY(-3px) scale(1.01);
 }
+
+/* Primary action button with glow animation */
+.btn-glow {
+  position: relative;
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease !important;
+  box-shadow: 0 2px 8px oklch(0.7 0.18 250 / 0.2) !important;
+  cursor: pointer !important;
+  overflow: hidden !important;
+  isolation: isolate;
+}
+
+/* Spinning gradient overlay for border effect */
+.btn-glow::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 270deg,
+    rgba(255, 255, 255, 0.2) 300deg,
+    rgba(255, 255, 255, 0.5) 330deg,
+    rgba(255, 255, 255, 1) 360deg
+  );
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Inner fill to mask center - matches background color */
+.btn-glow::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  background: oklch(0.13 0.02 260);
+  border-radius: calc(0.5rem - 2px);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Ensure button content is above pseudo-elements */
+.btn-glow > * {
+  position: relative;
+  z-index: 3;
+}
+
+.btn-glow:hover::before {
+  opacity: 1;
+  animation: spin-glow 3s linear infinite;
+}
+
+@keyframes spin-glow {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.btn-glow:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px oklch(0.7 0.18 250 / 0.4) !important;
+  border-color: transparent !important;
+}
+
+.btn-glow:active {
+  transform: translateY(0) !important;
+}
