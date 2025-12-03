@@ -39,6 +39,10 @@ import {
   UserX,
   UserCheck,
   CalendarCheck,
+  Flame,
+  Thermometer,
+  Snowflake,
+  Target,
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -53,7 +57,9 @@ import { format, formatDistanceToNow, differenceInDays } from 'date-fns';
 import { toast } from 'sonner';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import type { Listing } from '@/types';
+import type { Listing, PipelineStage } from '@/types';
+import { PIPELINE_STAGES } from '@/types';
+import { getScoreLabel, getScoreBreakdown, calculateLeadScore } from '@/lib/scoring';
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!;
 
@@ -564,6 +570,71 @@ export default function ListingDetailPage({ params }: { params: Promise<{ id: st
           </CardContent>
         </Card>
       </div>
+
+      {/* Lead Score Breakdown */}
+      <Card className="border-border/50 glass-card">
+        <CardHeader>
+          <CardTitle className="text-lg flex items-center gap-2">
+            <Target className="w-5 h-5 text-primary" />
+            Lead Score
+          </CardTitle>
+          <CardDescription>Score breakdown based on lead quality factors</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 lg:grid-cols-6 gap-6">
+            {/* Overall Score */}
+            <div className="lg:col-span-2 flex flex-col items-center justify-center p-6 rounded-lg bg-secondary/50">
+              <div className="flex items-center gap-2 mb-2">
+                {listing.score >= 80 ? (
+                  <Flame className="w-8 h-8 text-red-500" />
+                ) : listing.score >= 60 ? (
+                  <Thermometer className="w-8 h-8 text-orange-500" />
+                ) : listing.score >= 40 ? (
+                  <Thermometer className="w-8 h-8 text-blue-500" />
+                ) : (
+                  <Snowflake className="w-8 h-8 text-slate-500" />
+                )}
+              </div>
+              <div className={`text-5xl font-bold ${getScoreLabel(listing.score).color}`}>
+                {listing.score}
+              </div>
+              <div className={`text-lg font-medium mt-1 ${getScoreLabel(listing.score).color}`}>
+                {getScoreLabel(listing.score).label} Lead
+              </div>
+              <p className="text-xs text-muted-foreground mt-2 text-center">
+                Based on 5 quality factors
+              </p>
+            </div>
+
+            {/* Score Breakdown */}
+            <div className="lg:col-span-4 space-y-3">
+              {getScoreBreakdown(listing).map((factor) => (
+                <div key={factor.factor} className="space-y-1">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">{factor.factor}</span>
+                    <span className="font-medium">
+                      {factor.score}/100 × {factor.weight}% = <span className="text-primary">{factor.contribution}</span>
+                    </span>
+                  </div>
+                  <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-gradient-to-r from-primary to-accent rounded-full transition-all duration-500"
+                      style={{ width: `${factor.score}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+              <Separator className="my-4 bg-border" />
+              <div className="flex items-center justify-between text-sm font-medium">
+                <span>Total Score</span>
+                <span className={`text-lg ${getScoreLabel(listing.score).color}`}>
+                  {listing.score}/100
+                </span>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Owner Info, Map & Quick Actions Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

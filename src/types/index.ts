@@ -2,6 +2,7 @@ export type ListingStatus = 'expired' | 'terminated' | 'active';
 export type ListingType = 'expired' | 'terminated';
 export type Board = 'greater_vancouver' | 'fraser_valley' | 'chilliwack';
 export type PropertyType = 'house' | 'townhouse' | 'row_home' | 'condo' | 'mobile';
+export type PipelineStage = 'new' | 'contacted' | 'responded' | 'meeting' | 'listed' | 'closed' | 'lost';
 
 export interface Listing {
   id: string;
@@ -28,6 +29,8 @@ export interface Listing {
   created_at: string;
   updated_at: string;
   user_id: string;
+  score: number;
+  stage: PipelineStage;
 }
 
 export interface FollowUp {
@@ -73,3 +76,23 @@ export interface DashboardStats {
   totalActive: number;
   pendingFollowUps: number;
 }
+
+export interface PipelineStats {
+  new: number;
+  contacted: number;
+  responded: number;
+  meeting: number;
+  listed: number;
+  closed: number;
+  lost: number;
+}
+
+export const PIPELINE_STAGES: { value: PipelineStage; label: string; color: string }[] = [
+  { value: 'new', label: 'New', color: 'bg-slate-500' },
+  { value: 'contacted', label: 'Contacted', color: 'bg-blue-500' },
+  { value: 'responded', label: 'Responded', color: 'bg-cyan-500' },
+  { value: 'meeting', label: 'Meeting Scheduled', color: 'bg-yellow-500' },
+  { value: 'listed', label: 'Listed', color: 'bg-green-500' },
+  { value: 'closed', label: 'Closed', color: 'bg-emerald-600' },
+  { value: 'lost', label: 'Lost', color: 'bg-red-500' },
+];

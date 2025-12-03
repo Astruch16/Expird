@@ -18,6 +18,7 @@ import {
   ChevronLeft,
   ChevronRight,
   BarChart3,
+  Kanban,
 } from 'lucide-react';
 import { useState } from 'react';
 import { Logo } from '@/components/ui/logo';
@@ -25,6 +26,7 @@ import { Logo } from '@/components/ui/logo';
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/listings', icon: List, label: 'Listings' },
+  { href: '/pipeline', icon: Kanban, label: 'Pipeline' },
   { href: '/map', icon: Map, label: 'Map View' },
   { href: '/stats', icon: BarChart3, label: 'Analytics' },
   { href: '/sent', icon: Send, label: 'Sent Listings' },

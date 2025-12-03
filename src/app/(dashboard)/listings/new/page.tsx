@@ -30,6 +30,8 @@ import Link from 'next/link';
 import { toast } from 'sonner';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { calculateLeadScore } from '@/lib/scoring';
+import type { PropertyType } from '@/types';
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!;
 
@@ -197,6 +199,18 @@ export default function NewListingPage() {
       }
     }
 
+    // Calculate lead score
+    const parsedPrice = formData.price ? parseFloat(formData.price.replace(/,/g, '')) : null;
+    const score = calculateLeadScore({
+      expiry_date: formData.expiry_date,
+      price: parsedPrice,
+      property_type: (formData.property_type || null) as PropertyType | null,
+      city: formData.city,
+      owner_name: formData.owner_names.filter(name => name.trim()).join(', ') || null,
+      owner_phone: formData.owner_phone || null,
+      owner_email: formData.owner_email || null,
+    });
+
     const { error } = await supabase.from('listings').insert({
       user_id: user.id,
       address: formData.address,
@@ -206,7 +220,7 @@ export default function NewListingPage() {
       listing_type: formData.listing_type,
       status: formData.listing_type,
       expiry_date: formData.expiry_date,
-      price: formData.price ? parseFloat(formData.price.replace(/,/g, '')) : null,
+      price: parsedPrice,
       bedrooms: formData.bedrooms ? parseInt(formData.bedrooms) : null,
       bathrooms: formData.bathrooms ? parseFloat(formData.bathrooms) : null,
       square_feet: formData.square_feet ? parseInt(formData.square_feet) : null,
@@ -218,6 +232,8 @@ export default function NewListingPage() {
       notes: formData.notes || null,
       latitude: finalLat,
       longitude: finalLng,
+      score: score,
+      stage: 'new',
     });
 
     if (error) {

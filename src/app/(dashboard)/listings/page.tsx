@@ -49,12 +49,16 @@ import {
   ArrowDown,
   MailX,
   CheckCircle,
+  Flame,
+  Thermometer,
+  Snowflake,
 } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DateRangePicker } from '@/components/ui/date-picker';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 import type { Listing, ListingStatus, Board, ListingType } from '@/types';
+import { getScoreLabel } from '@/lib/scoring';
 
 export default function ListingsPage() {
   const searchParams = useSearchParams();
@@ -507,6 +511,7 @@ export default function ListingsPage() {
                       onCheckedChange={handleSelectAll}
                     />
                   </TableHead>
+                  <TableHead className="text-muted-foreground w-[70px]">Score</TableHead>
                   <TableHead className="text-muted-foreground">Address</TableHead>
                   <TableHead
                     className="text-muted-foreground cursor-pointer hover:text-foreground"
@@ -547,6 +552,22 @@ export default function ListingsPage() {
                         checked={selectedIds.has(listing.id)}
                         onCheckedChange={() => handleSelectOne(listing.id)}
                       />
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-1.5">
+                        {listing.score >= 80 ? (
+                          <Flame className="w-4 h-4 text-red-500" />
+                        ) : listing.score >= 60 ? (
+                          <Thermometer className="w-4 h-4 text-orange-500" />
+                        ) : listing.score >= 40 ? (
+                          <Thermometer className="w-4 h-4 text-blue-500" />
+                        ) : (
+                          <Snowflake className="w-4 h-4 text-slate-500" />
+                        )}
+                        <span className={`font-medium ${getScoreLabel(listing.score).color}`}>
+                          {listing.score}
+                        </span>
+                      </div>
                     </TableCell>
                     <TableCell className="font-medium">
                       <Link href={`/listings/${listing.id}`} className="hover:text-primary transition-colors cursor-pointer">
