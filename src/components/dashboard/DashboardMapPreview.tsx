@@ -1,13 +1,21 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Map, ExternalLink } from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Map, ExternalLink, Layers } from 'lucide-react';
 import Link from 'next/link';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import type { Listing } from '@/types';
+import { getCitiesForBoard, getNeighborhoodsForCity } from '@/lib/locations';
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!;
 
@@ -15,12 +23,68 @@ interface DashboardMapPreviewProps {
   listings: Listing[];
 }
 
+// Board center coordinates
+const BOARD_CENTERS = {
+  all: { center: [-122.8, 49.15] as [number, number], zoom: 9 },
+  greater_vancouver: { center: [-123.1, 49.25] as [number, number], zoom: 10 },
+  fraser_valley: { center: [-122.3, 49.05] as [number, number], zoom: 10 },
+  chilliwack: { center: [-121.95, 49.15] as [number, number], zoom: 11 },
+};
+
+// Map board values to location data keys
+const getBoardKey = (board: string) => {
+  const mapping: Record<string, string> = {
+    'greater_vancouver': 'Greater Vancouver',
+    'fraser_valley': 'Fraser Valley',
+    'chilliwack': 'Chilliwack',
+  };
+  return mapping[board] || '';
+};
+
 export function DashboardMapPreview({ listings }: DashboardMapPreviewProps) {
   const router = useRouter();
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const popup = useRef<mapboxgl.Popup | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
+
+  // Filter states
+  const [selectedBoard, setSelectedBoard] = useState<string>('all');
+  const [selectedCity, setSelectedCity] = useState<string>('all');
+  const [selectedNeighborhood, setSelectedNeighborhood] = useState<string>('all');
+
+  // Get available cities based on selected board
+  const availableCities = selectedBoard !== 'all'
+    ? getCitiesForBoard(getBoardKey(selectedBoard))
+    : [];
+
+  // Get available neighborhoods based on selected board and city
+  const availableNeighborhoods = selectedBoard !== 'all' && selectedCity !== 'all'
+    ? getNeighborhoodsForCity(getBoardKey(selectedBoard), selectedCity)
+    : [];
+
+  // Handle board change - reset city and neighborhood
+  const handleBoardChange = (value: string) => {
+    setSelectedBoard(value);
+    setSelectedCity('all');
+    setSelectedNeighborhood('all');
+  };
+
+  // Handle city change - reset neighborhood
+  const handleCityChange = (value: string) => {
+    setSelectedCity(value);
+    setSelectedNeighborhood('all');
+  };
+
+  // Filter listings based on selections
+  const filteredListings = useMemo(() => {
+    return listings.filter((listing) => {
+      if (selectedBoard !== 'all' && listing.board !== selectedBoard) return false;
+      if (selectedCity !== 'all' && listing.city !== selectedCity) return false;
+      if (selectedNeighborhood !== 'all' && listing.neighborhood !== selectedNeighborhood) return false;
+      return true;
+    });
+  }, [listings, selectedBoard, selectedCity, selectedNeighborhood]);
 
   // Initialize map
   useEffect(() => {
@@ -287,7 +351,7 @@ export function DashboardMapPreview({ listings }: DashboardMapPreviewProps) {
     };
   }, []);
 
-  // Update map data when listings change
+  // Update map data when filtered listings change
   useEffect(() => {
     if (!map.current || !mapLoaded) return;
 
@@ -296,7 +360,7 @@ export function DashboardMapPreview({ listings }: DashboardMapPreviewProps) {
 
     const geojson: GeoJSON.FeatureCollection = {
       type: 'FeatureCollection',
-      features: listings.map((listing) => ({
+      features: filteredListings.map((listing) => ({
         type: 'Feature',
         geometry: {
           type: 'Point',
@@ -315,9 +379,9 @@ export function DashboardMapPreview({ listings }: DashboardMapPreviewProps) {
     source.setData(geojson);
 
     // Fit bounds if we have listings
-    if (listings.length > 0) {
+    if (filteredListings.length > 0) {
       const bounds = new mapboxgl.LngLatBounds();
-      listings.forEach((listing) => {
+      filteredListings.forEach((listing) => {
         bounds.extend([listing.longitude, listing.latitude]);
       });
       map.current.fitBounds(bounds, {
@@ -326,15 +390,26 @@ export function DashboardMapPreview({ listings }: DashboardMapPreviewProps) {
         duration: 1000,
       });
     }
-  }, [listings, mapLoaded]);
+  }, [filteredListings, mapLoaded]);
 
-  const expiredCount = listings.filter(
+  // Update map view when board changes
+  useEffect(() => {
+    if (!map.current) return;
+    const boardConfig = BOARD_CENTERS[selectedBoard as keyof typeof BOARD_CENTERS] || BOARD_CENTERS.all;
+    map.current.flyTo({
+      center: boardConfig.center,
+      zoom: boardConfig.zoom,
+      duration: 1500,
+    });
+  }, [selectedBoard]);
+
+  const expiredCount = filteredListings.filter(
     (l) => l.listing_type === 'expired' && l.status !== 'active'
   ).length;
-  const terminatedCount = listings.filter(
+  const terminatedCount = filteredListings.filter(
     (l) => l.listing_type === 'terminated' && l.status !== 'active'
   ).length;
-  const activeCount = listings.filter((l) => l.status === 'active').length;
+  const activeCount = filteredListings.filter((l) => l.status === 'active').length;
 
   return (
     <Card className="border-border/50 glass-card">
@@ -352,6 +427,57 @@ export function DashboardMapPreview({ listings }: DashboardMapPreviewProps) {
         </Link>
       </CardHeader>
       <CardContent className="p-0">
+        {/* Filter Row */}
+        <div className="px-4 pb-3 flex flex-wrap gap-2 items-center">
+          <Layers className="w-3.5 h-3.5 text-muted-foreground" />
+          <Select value={selectedBoard} onValueChange={handleBoardChange}>
+            <SelectTrigger className="w-[140px] h-8 text-xs bg-input border-border">
+              <SelectValue placeholder="Board" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Boards</SelectItem>
+              <SelectItem value="greater_vancouver">Greater Vancouver</SelectItem>
+              <SelectItem value="fraser_valley">Fraser Valley</SelectItem>
+              <SelectItem value="chilliwack">Chilliwack</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select
+            value={selectedCity}
+            onValueChange={handleCityChange}
+            disabled={selectedBoard === 'all'}
+          >
+            <SelectTrigger className="w-[140px] h-8 text-xs bg-input border-border">
+              <SelectValue placeholder="City" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Cities</SelectItem>
+              {availableCities.map((city) => (
+                <SelectItem key={city} value={city}>
+                  {city}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select
+            value={selectedNeighborhood}
+            onValueChange={setSelectedNeighborhood}
+            disabled={selectedCity === 'all'}
+          >
+            <SelectTrigger className="w-[140px] h-8 text-xs bg-input border-border">
+              <SelectValue placeholder="Region" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Regions</SelectItem>
+              {availableNeighborhoods.map((neighborhood) => (
+                <SelectItem key={neighborhood} value={neighborhood}>
+                  {neighborhood}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
         <div className="relative h-[280px] rounded-b-lg overflow-hidden">
           <div ref={mapContainer} className="absolute inset-0 w-full h-full" />
 
@@ -373,7 +499,7 @@ export function DashboardMapPreview({ listings }: DashboardMapPreviewProps) {
 
           {/* Total count */}
           <div className="absolute top-3 right-3 bg-card/90 backdrop-blur-sm rounded-lg border border-border px-3 py-1.5">
-            <p className="text-sm font-medium">{listings.length} listings</p>
+            <p className="text-sm font-medium">{filteredListings.length} listings</p>
           </div>
         </div>
       </CardContent>

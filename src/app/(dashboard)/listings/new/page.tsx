@@ -32,12 +32,23 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { calculateLeadScore } from '@/lib/scoring';
 import { DatePicker } from '@/components/ui/date-picker';
+import { getCitiesForBoard, getNeighborhoodsForCity } from '@/lib/locations';
 import type { PropertyType } from '@/types';
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!;
 
 // Vancouver area center coordinates
 const VANCOUVER_CENTER: [number, number] = [-123.1207, 49.2827];
+
+// Map board values to location data keys
+const getBoardKey = (board: string) => {
+  const mapping: Record<string, string> = {
+    'greater_vancouver': 'Greater Vancouver',
+    'fraser_valley': 'Fraser Valley',
+    'chilliwack': 'Chilliwack',
+  };
+  return mapping[board] || '';
+};
 
 export default function NewListingPage() {
   const router = useRouter();
@@ -70,6 +81,24 @@ export default function NewListingPage() {
     latitude: VANCOUVER_CENTER[1],
     longitude: VANCOUVER_CENTER[0],
   });
+
+  // Get available cities based on selected board
+  const availableCities = getCitiesForBoard(getBoardKey(formData.board));
+
+  // Get available neighborhoods based on selected board and city
+  const availableNeighborhoods = formData.city
+    ? getNeighborhoodsForCity(getBoardKey(formData.board), formData.city)
+    : [];
+
+  // Handle board change - reset city and neighborhood
+  const handleBoardChange = (value: string) => {
+    setFormData({ ...formData, board: value, city: '', neighborhood: '' });
+  };
+
+  // Handle city change - reset neighborhood
+  const handleCityChange = (value: string) => {
+    setFormData({ ...formData, city: value, neighborhood: '' });
+  };
 
   useEffect(() => {
     if (!mapContainer.current) return;
@@ -332,33 +361,10 @@ export default function NewListingPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="city">City *</Label>
-                    <Input
-                      id="city"
-                      value={formData.city}
-                      onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                      placeholder="Vancouver"
-                      className="bg-input border-border"
-                      required
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="neighborhood">Neighborhood</Label>
-                    <Input
-                      id="neighborhood"
-                      value={formData.neighborhood}
-                      onChange={(e) => setFormData({ ...formData, neighborhood: e.target.value })}
-                      placeholder="Kitsilano"
-                      className="bg-input border-border"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
                     <Label htmlFor="board">Board *</Label>
                     <Select
                       value={formData.board}
-                      onValueChange={(value) => setFormData({ ...formData, board: value })}
+                      onValueChange={handleBoardChange}
                     >
                       <SelectTrigger className="bg-input border-border">
                         <SelectValue />
@@ -367,6 +373,45 @@ export default function NewListingPage() {
                         <SelectItem value="greater_vancouver">Greater Vancouver</SelectItem>
                         <SelectItem value="fraser_valley">Fraser Valley</SelectItem>
                         <SelectItem value="chilliwack">Chilliwack</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="city">City *</Label>
+                    <Select
+                      value={formData.city}
+                      onValueChange={handleCityChange}
+                    >
+                      <SelectTrigger className="bg-input border-border">
+                        <SelectValue placeholder="Select city" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {availableCities.map((city) => (
+                          <SelectItem key={city} value={city}>
+                            {city}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="neighborhood">Region</Label>
+                    <Select
+                      value={formData.neighborhood}
+                      onValueChange={(value) => setFormData({ ...formData, neighborhood: value })}
+                      disabled={!formData.city}
+                    >
+                      <SelectTrigger className="bg-input border-border">
+                        <SelectValue placeholder="Select region" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {availableNeighborhoods.map((neighborhood) => (
+                          <SelectItem key={neighborhood} value={neighborhood}>
+                            {neighborhood}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>

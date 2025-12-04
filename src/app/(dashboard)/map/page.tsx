@@ -32,6 +32,7 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Link from 'next/link';
 import type { Listing } from '@/types';
+import { getBoards, getCitiesForBoard, getNeighborhoodsForCity } from '@/lib/locations';
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!;
 
@@ -52,11 +53,46 @@ export default function MapPage() {
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedBoard, setSelectedBoard] = useState<string>('all');
+  const [selectedCity, setSelectedCity] = useState<string>('all');
+  const [selectedNeighborhood, setSelectedNeighborhood] = useState<string>('all');
   const [selectedType, setSelectedType] = useState<string>('all');
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
   const [selectedListing, setSelectedListing] = useState<Listing | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
+
+  // Get available cities based on selected board
+  const availableCities = selectedBoard !== 'all'
+    ? getCitiesForBoard(selectedBoard.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()).replace('Greater Vancouver', 'Greater Vancouver').replace('Fraser Valley', 'Fraser Valley').replace('Chilliwack', 'Chilliwack'))
+    : [];
+
+  // Map board values to location data keys
+  const getBoardKey = (board: string) => {
+    const mapping: Record<string, string> = {
+      'greater_vancouver': 'Greater Vancouver',
+      'fraser_valley': 'Fraser Valley',
+      'chilliwack': 'Chilliwack',
+    };
+    return mapping[board] || '';
+  };
+
+  // Get available neighborhoods based on selected board and city
+  const availableNeighborhoods = selectedBoard !== 'all' && selectedCity !== 'all'
+    ? getNeighborhoodsForCity(getBoardKey(selectedBoard), selectedCity)
+    : [];
+
+  // Handle board change - reset city and neighborhood
+  const handleBoardChange = (value: string) => {
+    setSelectedBoard(value);
+    setSelectedCity('all');
+    setSelectedNeighborhood('all');
+  };
+
+  // Handle city change - reset neighborhood
+  const handleCityChange = (value: string) => {
+    setSelectedCity(value);
+    setSelectedNeighborhood('all');
+  };
 
   const supabase = createClient();
 
@@ -71,6 +107,12 @@ export default function MapPage() {
 
     if (selectedBoard !== 'all') {
       query = query.eq('board', selectedBoard);
+    }
+    if (selectedCity !== 'all') {
+      query = query.eq('city', selectedCity);
+    }
+    if (selectedNeighborhood !== 'all') {
+      query = query.eq('neighborhood', selectedNeighborhood);
     }
     if (selectedType !== 'all') {
       if (selectedType === 'active') {
@@ -94,7 +136,7 @@ export default function MapPage() {
       setListings(data || []);
     }
     setLoading(false);
-  }, [selectedBoard, selectedType, startDate, endDate]);
+  }, [selectedBoard, selectedCity, selectedNeighborhood, selectedType, startDate, endDate]);
 
   useEffect(() => {
     fetchListings();
@@ -524,7 +566,7 @@ export default function MapPage() {
               <span className="text-sm font-medium">Filters:</span>
             </div>
 
-            <Select value={selectedBoard} onValueChange={setSelectedBoard}>
+            <Select value={selectedBoard} onValueChange={handleBoardChange}>
               <SelectTrigger className="w-[180px] bg-input border-border">
                 <SelectValue placeholder="Select Board" />
               </SelectTrigger>
@@ -533,6 +575,42 @@ export default function MapPage() {
                 <SelectItem value="greater_vancouver">Greater Vancouver</SelectItem>
                 <SelectItem value="fraser_valley">Fraser Valley</SelectItem>
                 <SelectItem value="chilliwack">Chilliwack</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Select
+              value={selectedCity}
+              onValueChange={handleCityChange}
+              disabled={selectedBoard === 'all'}
+            >
+              <SelectTrigger className="w-[180px] bg-input border-border">
+                <SelectValue placeholder="Select City" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Cities</SelectItem>
+                {getCitiesForBoard(getBoardKey(selectedBoard)).map((city) => (
+                  <SelectItem key={city} value={city}>
+                    {city}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Select
+              value={selectedNeighborhood}
+              onValueChange={setSelectedNeighborhood}
+              disabled={selectedCity === 'all'}
+            >
+              <SelectTrigger className="w-[180px] bg-input border-border">
+                <SelectValue placeholder="Select Region" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Regions</SelectItem>
+                {availableNeighborhoods.map((neighborhood) => (
+                  <SelectItem key={neighborhood} value={neighborhood}>
+                    {neighborhood}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
 
