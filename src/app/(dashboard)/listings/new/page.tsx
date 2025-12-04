@@ -31,6 +31,7 @@ import { toast } from 'sonner';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { calculateLeadScore } from '@/lib/scoring';
+import { DatePicker } from '@/components/ui/date-picker';
 import type { PropertyType } from '@/types';
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!;
@@ -388,13 +389,11 @@ export default function NewListingPage() {
 
                   <div className="space-y-2">
                     <Label htmlFor="expiry_date">Expiry/Termination Date *</Label>
-                    <Input
-                      id="expiry_date"
-                      type="date"
+                    <DatePicker
                       value={formData.expiry_date}
-                      onChange={(e) => setFormData({ ...formData, expiry_date: e.target.value })}
-                      className="bg-input border-border"
-                      required
+                      onChange={(value) => setFormData({ ...formData, expiry_date: value })}
+                      placeholder="Select date"
+                      className="w-full"
                     />
                   </div>
 
