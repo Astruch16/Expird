@@ -13,6 +13,7 @@ CREATE TABLE profiles (
   email TEXT NOT NULL,
   full_name TEXT,
   avatar_url TEXT,
+  has_completed_onboarding BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -139,8 +140,8 @@ CREATE POLICY "Users can delete own activity logs" ON activity_logs
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
-  INSERT INTO public.profiles (id, email, full_name)
-  VALUES (NEW.id, NEW.email, NEW.raw_user_meta_data->>'full_name');
+  INSERT INTO public.profiles (id, email, full_name, has_completed_onboarding)
+  VALUES (NEW.id, NEW.email, NEW.raw_user_meta_data->>'full_name', FALSE);
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;

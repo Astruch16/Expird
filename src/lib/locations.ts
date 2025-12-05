@@ -45,9 +45,9 @@ export const locationData: LocationData = {
   },
   'Chilliwack': {
     'Agassiz': ['Agassiz'],
-    'Chilliwack': ['Atchelitz', 'Bridal Falls', 'Chilliwack Downtown', 'Chilliwack E Young-Yale', 'Chilliwack N Yale-Well', 'Chilliwack River Valley', 'East Chilliwack', 'Fairfield Island', 'Greendale', 'Marble Hill', 'Mount Cheam', 'Promontory', 'Rosedale', 'Sardis', 'South Chilliwack', 'Vedder S Watson-Promontory', 'Yarrow'],
+    'Chilliwack': ['Atchelitz', 'Chilliwack Downtown', 'Chilliwack E Young-Yale', 'Chilliwack N Yale-Well', 'Chilliwack River Valley', 'Fairfield Island', 'Greendale', 'Marble Hill', 'Mount Cheam', 'Promontory', 'Sardis', 'South Chilliwack', 'Vedder S Watson-Promontory', 'Yarrow'],
     'Cultus Lake & Area': ['Columbia Valley', 'Cultus Lake'],
-    'East Chilliwack': ['East Chilliwack'],
+    'East Chilliwack': ['Bridal Falls', 'Popkum', 'Rosedale'],
     'Fraser Canyon': ['Boston Bar', 'Fraser Canyon', 'Lytton'],
     'Harrison Lake': ['Big Silver', 'Harrison Hot Springs', 'Harrison Lake', 'Harrison Mills'],
     'Hope & Area': ['Flood', 'Hope', 'Hope & Area', 'Hope Kawkawa Lake', 'Hope Silver Creek', 'Hope Town', 'Kawkawa Lake', 'Laidlaw', 'Silver Creek', 'Sunshine Valley'],

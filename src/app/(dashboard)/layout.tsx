@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { Toaster } from '@/components/ui/sonner';
+import { TourProvider } from '@/components/onboarding/TourProvider';
 
 export default async function DashboardLayout({
   children,
@@ -22,6 +23,11 @@ export default async function DashboardLayout({
     .eq('id', user.id)
     .single();
 
+  // Redirect new users to welcome page
+  if (profile && !profile.has_completed_onboarding) {
+    redirect('/welcome');
+  }
+
   return (
     <div className="dark min-h-screen bg-background">
       <Sidebar
@@ -36,6 +42,7 @@ export default async function DashboardLayout({
         </div>
       </main>
       <Toaster />
+      <TourProvider />
     </div>
   );
 }

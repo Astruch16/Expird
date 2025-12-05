@@ -19,6 +19,7 @@ import {
   ChevronRight,
   BarChart3,
   Kanban,
+  Plus,
 } from 'lucide-react';
 import { useState } from 'react';
 import { LogoAnimated } from '@/components/ui/logo';
@@ -95,6 +96,21 @@ export function Sidebar({ user }: SidebarProps) {
               <ChevronLeft className="h-4 w-4" />
             )}
           </Button>
+        </div>
+
+        {/* Add Listing Button */}
+        <div className={cn('px-3 py-3', collapsed && 'px-2')}>
+          <Link href="/listings/new" id="add-listing-btn">
+            <Button
+              className={cn(
+                'w-full btn-glow gap-2',
+                collapsed && 'px-0 justify-center'
+              )}
+            >
+              <Plus className="h-4 w-4" />
+              {!collapsed && <span className="relative z-10">Add Listing</span>}
+            </Button>
+          </Link>
         </div>
 
         {/* Navigation */}

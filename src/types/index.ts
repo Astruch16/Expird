@@ -48,6 +48,7 @@ export interface UserProfile {
   email: string;
   full_name: string | null;
   avatar_url: string | null;
+  has_completed_onboarding: boolean;
   created_at: string;
   updated_at: string;
 }
