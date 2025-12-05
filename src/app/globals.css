@@ -53,23 +53,23 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(0.13 0.02 260);
-  --foreground: oklch(0.95 0.01 260);
-  --card: oklch(0.16 0.02 260);
-  --card-foreground: oklch(0.95 0.01 260);
-  --popover: oklch(0.14 0.02 260);
-  --popover-foreground: oklch(0.95 0.01 260);
+  --background: oklch(0.14 0 0);
+  --foreground: oklch(0.95 0 0);
+  --card: oklch(0.18 0 0);
+  --card-foreground: oklch(0.95 0 0);
+  --popover: oklch(0.16 0 0);
+  --popover-foreground: oklch(0.95 0 0);
   --primary: oklch(0.7 0.18 250);
   --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.22 0.03 260);
-  --secondary-foreground: oklch(0.95 0.01 260);
-  --muted: oklch(0.2 0.02 260);
-  --muted-foreground: oklch(0.65 0.02 260);
+  --secondary: oklch(0.24 0 0);
+  --secondary-foreground: oklch(0.95 0 0);
+  --muted: oklch(0.22 0 0);
+  --muted-foreground: oklch(0.6 0 0);
   --accent: oklch(0.55 0.2 290);
   --accent-foreground: oklch(0.98 0 0);
   --destructive: oklch(0.6 0.22 25);
-  --border: oklch(0.28 0.03 260);
-  --input: oklch(0.22 0.03 260);
+  --border: oklch(0.30 0 0);
+  --input: oklch(0.24 0 0);
   --ring: oklch(0.7 0.18 250);
 
   /* Techy theme colors */
@@ -91,47 +91,47 @@
   --chart-5: oklch(0.65 0.2 25);
 
   /* Sidebar */
-  --sidebar: oklch(0.11 0.02 260);
-  --sidebar-foreground: oklch(0.95 0.01 260);
+  --sidebar: oklch(0.12 0 0);
+  --sidebar-foreground: oklch(0.95 0 0);
   --sidebar-primary: oklch(0.7 0.18 250);
   --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.18 0.03 260);
-  --sidebar-accent-foreground: oklch(0.95 0.01 260);
-  --sidebar-border: oklch(0.25 0.03 260);
+  --sidebar-accent: oklch(0.20 0 0);
+  --sidebar-accent-foreground: oklch(0.95 0 0);
+  --sidebar-border: oklch(0.28 0 0);
   --sidebar-ring: oklch(0.7 0.18 250);
 }
 
 .dark {
-  --background: oklch(0.13 0.02 260);
-  --foreground: oklch(0.95 0.01 260);
-  --card: oklch(0.16 0.02 260);
-  --card-foreground: oklch(0.95 0.01 260);
-  --popover: oklch(0.14 0.02 260);
-  --popover-foreground: oklch(0.95 0.01 260);
+  --background: oklch(0.14 0 0);
+  --foreground: oklch(0.95 0 0);
+  --card: oklch(0.18 0 0);
+  --card-foreground: oklch(0.95 0 0);
+  --popover: oklch(0.16 0 0);
+  --popover-foreground: oklch(0.95 0 0);
   --primary: oklch(0.7 0.18 250);
   --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.22 0.03 260);
-  --secondary-foreground: oklch(0.95 0.01 260);
-  --muted: oklch(0.2 0.02 260);
-  --muted-foreground: oklch(0.65 0.02 260);
+  --secondary: oklch(0.24 0 0);
+  --secondary-foreground: oklch(0.95 0 0);
+  --muted: oklch(0.22 0 0);
+  --muted-foreground: oklch(0.6 0 0);
   --accent: oklch(0.55 0.2 290);
   --accent-foreground: oklch(0.98 0 0);
   --destructive: oklch(0.6 0.22 25);
-  --border: oklch(0.28 0.03 260);
-  --input: oklch(0.22 0.03 260);
+  --border: oklch(0.30 0 0);
+  --input: oklch(0.24 0 0);
   --ring: oklch(0.7 0.18 250);
   --chart-1: oklch(0.7 0.18 250);
   --chart-2: oklch(0.55 0.2 290);
   --chart-3: oklch(0.75 0.2 145);
   --chart-4: oklch(0.7 0.2 350);
   --chart-5: oklch(0.65 0.2 25);
-  --sidebar: oklch(0.11 0.02 260);
-  --sidebar-foreground: oklch(0.95 0.01 260);
+  --sidebar: oklch(0.12 0 0);
+  --sidebar-foreground: oklch(0.95 0 0);
   --sidebar-primary: oklch(0.7 0.18 250);
   --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.18 0.03 260);
-  --sidebar-accent-foreground: oklch(0.95 0.01 260);
-  --sidebar-border: oklch(0.25 0.03 260);
+  --sidebar-accent: oklch(0.20 0 0);
+  --sidebar-accent-foreground: oklch(0.95 0 0);
+  --sidebar-border: oklch(0.28 0 0);
   --sidebar-ring: oklch(0.7 0.18 250);
 }
 
@@ -151,29 +151,29 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: oklch(0.15 0.02 260);
+  background: oklch(0.16 0 0);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: oklch(0.3 0.03 260);
+  background: oklch(0.32 0 0);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: oklch(0.4 0.03 260);
+  background: oklch(0.42 0 0);
 }
 
 /* Glow effects */
 .glow-blue {
-  box-shadow: 0 0 20px oklch(0.7 0.18 250 / 0.3);
+  box-shadow: 0 0 15px oklch(0.5 0 0 / 0.4);
 }
 
 .glow-purple {
-  box-shadow: 0 0 20px oklch(0.55 0.2 290 / 0.3);
+  box-shadow: 0 0 15px oklch(0.5 0 0 / 0.4);
 }
 
 .glow-green {
-  box-shadow: 0 0 20px oklch(0.75 0.2 145 / 0.3);
+  box-shadow: 0 0 15px oklch(0.5 0 0 / 0.4);
 }
 
 /* Gradient backgrounds */
@@ -182,28 +182,28 @@
 }
 
 .gradient-bg {
-  background: linear-gradient(135deg, oklch(0.13 0.02 260), oklch(0.16 0.03 280));
+  background: linear-gradient(135deg, oklch(0.14 0 0), oklch(0.18 0 0));
 }
 
 /* Grid pattern overlay */
 .grid-pattern {
   background-image:
-    linear-gradient(oklch(0.3 0.03 260 / 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, oklch(0.3 0.03 260 / 0.1) 1px, transparent 1px);
+    linear-gradient(oklch(0.32 0 0 / 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.32 0 0 / 0.1) 1px, transparent 1px);
   background-size: 50px 50px;
 }
 
 /* Mapbox overrides */
 .mapboxgl-popup-content {
-  background: oklch(0.16 0.02 260) !important;
-  color: oklch(0.95 0.01 260) !important;
-  border: 1px solid oklch(0.28 0.03 260) !important;
+  background: oklch(0.18 0 0) !important;
+  color: oklch(0.95 0 0) !important;
+  border: 1px solid oklch(0.30 0 0) !important;
   border-radius: 0.5rem !important;
   padding: 12px !important;
 }
 
 .mapboxgl-popup-tip {
-  border-top-color: oklch(0.16 0.02 260) !important;
+  border-top-color: oklch(0.18 0 0) !important;
 }
 
 /* Custom listing popup - override Mapbox defaults */
@@ -220,16 +220,16 @@
 }
 
 .mapboxgl-ctrl-group {
-  background: oklch(0.16 0.02 260) !important;
-  border: 1px solid oklch(0.28 0.03 260) !important;
+  background: oklch(0.18 0 0) !important;
+  border: 1px solid oklch(0.30 0 0) !important;
 }
 
 .mapboxgl-ctrl-group button {
-  background-color: oklch(0.16 0.02 260) !important;
+  background-color: oklch(0.18 0 0) !important;
 }
 
 .mapboxgl-ctrl-group button:hover {
-  background-color: oklch(0.22 0.03 260) !important;
+  background-color: oklch(0.24 0 0) !important;
 }
 
 /* Calendar/Date Picker Styles */
@@ -238,8 +238,8 @@
 }
 
 [data-slot="popover-content"] {
-  background: oklch(0.16 0.02 260) !important;
-  border-color: oklch(0.28 0.03 260) !important;
+  background: oklch(0.18 0 0) !important;
+  border-color: oklch(0.30 0 0) !important;
 }
 
 .rdp-root {
@@ -250,10 +250,10 @@
 /* Animation utilities */
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 10px oklch(0.7 0.18 250 / 0.3);
+    box-shadow: 0 0 8px oklch(0.5 0 0 / 0.3);
   }
   50% {
-    box-shadow: 0 0 25px oklch(0.7 0.18 250 / 0.5);
+    box-shadow: 0 0 16px oklch(0.5 0 0 / 0.5);
   }
 }
 
@@ -309,59 +309,58 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 /* Style the date input text */
 input[type="date"]::-webkit-datetime-edit {
-  color: oklch(0.95 0.01 260);
+  color: oklch(0.95 0 0);
 }
 
 input[type="date"]::-webkit-datetime-edit-fields-wrapper {
-  color: oklch(0.95 0.01 260);
+  color: oklch(0.95 0 0);
 }
 
 input[type="date"]::-webkit-datetime-edit-text {
-  color: oklch(0.65 0.02 260);
+  color: oklch(0.6 0 0);
 }
 
 input[type="date"]::-webkit-datetime-edit-month-field,
 input[type="date"]::-webkit-datetime-edit-day-field,
 input[type="date"]::-webkit-datetime-edit-year-field {
-  color: oklch(0.95 0.01 260);
+  color: oklch(0.95 0 0);
 }
 
 input[type="date"]::-webkit-datetime-edit-month-field:focus,
 input[type="date"]::-webkit-datetime-edit-day-field:focus,
 input[type="date"]::-webkit-datetime-edit-year-field:focus {
   background: oklch(0.7 0.18 250 / 0.2);
-  color: oklch(0.95 0.01 260);
+  color: oklch(0.95 0 0);
   outline: none;
 }
 
 /* Glassmorphism hover animation for cards */
 .glass-card {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  background: oklch(0.16 0.02 260 / 0.6);
+  background: oklch(0.18 0 0 / 0.6);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
 
 .glass-card:hover {
-  background: oklch(0.20 0.04 260 / 0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-color: oklch(0.7 0.18 250 / 0.5) !important;
+  background: oklch(0.21 0 0 / 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: oklch(0.4 0 0) !important;
   box-shadow:
-    0 8px 32px oklch(0.7 0.18 250 / 0.25),
-    0 0 20px oklch(0.7 0.18 250 / 0.15),
-    0 0 0 1px oklch(0.7 0.18 250 / 0.2),
-    inset 0 1px 0 oklch(1 0 0 / 0.1);
-  transform: translateY(-3px) scale(1.01);
+    0 4px 16px oklch(0 0 0 / 0.3),
+    0 0 0 1px oklch(0.35 0 0),
+    inset 0 1px 0 oklch(1 0 0 / 0.05);
+  transform: translateY(-1px);
 }
 
 /* Primary action button with glow animation */
 .btn-glow {
   position: relative;
   background: transparent !important;
-  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease !important;
-  box-shadow: 0 2px 8px oklch(0.7 0.18 250 / 0.2) !important;
+  box-shadow: 0 2px 8px oklch(0 0 0 / 0.3) !important;
   cursor: pointer !important;
   overflow: hidden !important;
   isolation: isolate;
@@ -395,7 +394,7 @@ input[type="date"]::-webkit-datetime-edit-year-field:focus {
   content: '';
   position: absolute;
   inset: 2px;
-  background: oklch(0.13 0.02 260);
+  background: oklch(0.14 0 0);
   border-radius: calc(0.5rem - 2px);
   pointer-events: none;
   z-index: 2;
@@ -422,8 +421,8 @@ input[type="date"]::-webkit-datetime-edit-year-field:focus {
 }
 
 .btn-glow:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 4px 12px oklch(0.7 0.18 250 / 0.4) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px oklch(0 0 0 / 0.4) !important;
   border-color: transparent !important;
 }
 

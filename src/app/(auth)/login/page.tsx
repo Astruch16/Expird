@@ -7,7 +7,7 @@ import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Lock, Mail, Loader2 } from 'lucide-react';
 import { LogoAnimated } from '@/components/ui/logo';
 
@@ -46,20 +46,24 @@ export default function LoginPage() {
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/20 rounded-full blur-3xl" />
 
-      <Card className="w-full max-w-md relative z-10 border-border/50 bg-card/80 backdrop-blur-xl">
-        <CardHeader className="text-center space-y-4">
-          <div className="mx-auto animate-pulse-glow">
+      {/* Logo section - outside the card */}
+      <div className="w-full max-w-md relative z-10 flex flex-col items-center">
+        <div className="mb-6 flex flex-col items-center">
+          <div className="relative">
+            {/* Subtle glow behind logo */}
+            <div className="absolute inset-0 bg-white/5 rounded-full blur-xl scale-150" />
             <LogoAnimated size="xl" />
           </div>
-          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-widest">
+          <h1 className="mt-4 text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-widest">
             EXPIRD
-          </CardTitle>
-          <CardDescription className="text-muted-foreground">
+          </h1>
+          <p className="mt-1 text-muted-foreground text-sm">
             Track and manage expired MLS listings
-          </CardDescription>
-        </CardHeader>
+          </p>
+        </div>
 
-        <CardContent>
+        <Card className="w-full border-border/50 bg-card/80 backdrop-blur-xl">
+          <CardContent className="pt-6">
           <form onSubmit={handleLogin} className="space-y-4">
             {error && (
               <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm">
@@ -128,7 +132,8 @@ export default function LoginPage() {
             </Link>
           </div>
         </CardContent>
-      </Card>
+        </Card>
+      </div>
     </div>
   );
 }

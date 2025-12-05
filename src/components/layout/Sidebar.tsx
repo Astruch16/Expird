@@ -21,7 +21,7 @@ import {
   Kanban,
 } from 'lucide-react';
 import { useState } from 'react';
-import { Logo } from '@/components/ui/logo';
+import { LogoAnimated } from '@/components/ui/logo';
 
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -70,7 +70,7 @@ export function Sidebar({ user }: SidebarProps) {
         <div className="h-16 flex items-center justify-between px-4 border-b border-sidebar-border">
           {!collapsed && (
             <Link href="/dashboard" className="flex items-center gap-2">
-              <Logo size="md" />
+              <LogoAnimated size="md" />
               <span className="font-bold text-lg bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-widest">
                 EXPIRD
               </span>
@@ -81,7 +81,7 @@ export function Sidebar({ user }: SidebarProps) {
             </Link>
           )}
           {collapsed && (
-            <Logo size="md" className="mx-auto" />
+            <LogoAnimated size="md" className="mx-auto" />
           )}
           <Button
             variant="ghost"
