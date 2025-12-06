@@ -1,8 +1,9 @@
+'use client';
+
 import Link from 'next/link';
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { LogoAnimated } from '@/components/ui/logo';
+import { motion } from 'framer-motion';
 import {
   Map,
   List,
@@ -12,13 +13,15 @@ import {
   Clock,
   ArrowRight,
   CheckCircle2,
-  Sparkles,
   MapPin,
-  TrendingUp,
-  Users,
-  Zap,
   Shield,
-  Star,
+  TrendingUp,
+  Target,
+  Lightbulb,
+  XCircle,
+  Phone,
+  Handshake,
+  DollarSign,
 } from 'lucide-react';
 
 const features = [
@@ -60,33 +63,27 @@ const features = [
   },
 ];
 
-const stats = [
-  { value: '500+', label: 'Active Realtors' },
-  { value: '50K+', label: 'Listings Tracked' },
-  { value: '15%', label: 'Avg Conversion Rate' },
-  { value: '3x', label: 'Faster Outreach' },
-];
+// Animation variants
+const fadeInUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0 },
+};
 
-const testimonials = [
-  {
-    quote: "EXPIRD has completely transformed how I handle expired listings. The map feature alone has helped me close 3 extra deals this quarter.",
-    author: "Sarah M.",
-    role: "RE/MAX Agent, Vancouver",
-    avatar: "SM",
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
   },
-  {
-    quote: "The pipeline view makes it so easy to see where every prospect is in my sales process. No more spreadsheets!",
-    author: "Michael T.",
-    role: "Century 21 Realtor, Surrey",
-    avatar: "MT",
-  },
-  {
-    quote: "Best investment I've made for my real estate business. The follow-up reminders have increased my response rate by 40%.",
-    author: "Jennifer L.",
-    role: "Royal LePage, Chilliwack",
-    avatar: "JL",
-  },
-];
+};
+
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: { opacity: 1, scale: 1 },
+};
 
 export default function HomePage() {
   return (
@@ -95,41 +92,84 @@ export default function HomePage() {
       <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8">
         {/* Background effects */}
         <div className="absolute inset-0 grid-pattern opacity-20" />
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-primary/15 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-accent/15 rounded-full blur-3xl" />
+        <motion.div
+          className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-primary/15 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.1, 1],
+            opacity: [0.15, 0.2, 0.15],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.div
+          className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-accent/15 rounded-full blur-3xl"
+          animate={{
+            scale: [1.1, 1, 1.1],
+            opacity: [0.15, 0.2, 0.15],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
 
         <div className="relative max-w-7xl mx-auto">
-          <div className="text-center max-w-4xl mx-auto">
-            {/* Badge */}
-            <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 px-4 py-1.5">
-              <Sparkles className="w-3.5 h-3.5 mr-1.5" />
-              Built exclusively for Canadian Realtors
-            </Badge>
+          <motion.div
+            className="text-center max-w-4xl mx-auto"
+            initial="hidden"
+            animate="visible"
+            variants={staggerContainer}
+          >
+            {/* Elegant tagline - replacing the pill */}
+            <motion.div
+              className="mb-8 flex items-center justify-center gap-3"
+              variants={fadeInUp}
+            >
+              <div className="h-px w-12 bg-gradient-to-r from-transparent to-primary/50" />
+              <span className="text-sm font-medium tracking-widest uppercase text-primary/80">
+                Built exclusively for Canadian Realtors
+              </span>
+              <div className="h-px w-12 bg-gradient-to-l from-transparent to-primary/50" />
+            </motion.div>
 
-            {/* Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+            {/* Headline - "Close Deals" on second line */}
+            <motion.h1
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6"
+              variants={fadeInUp}
+            >
               Turn{' '}
               <span className="bg-gradient-to-r from-rose-500 to-orange-500 bg-clip-text text-transparent">
                 Expired Listings
               </span>{' '}
-              Into{' '}
+              Into
+              <br />
               <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                 Closed Deals
               </span>
-            </h1>
+            </motion.h1>
 
-            <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+            <motion.p
+              className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto"
+              variants={fadeInUp}
+            >
               The all-in-one platform to track, manage, and convert expired & terminated MLS listings.
               Built for realtors across Greater Vancouver, Fraser Valley, and Chilliwack.
-            </p>
+            </motion.p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+            <motion.div
+              className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
+              variants={fadeInUp}
+            >
               <Link href="/signup">
-                <Button size="lg" className="btn-glow h-12 px-8 text-base">
+                <Button size="lg" className="btn-glow h-12 px-8 text-base group">
                   <span className="relative z-10 flex items-center gap-2">
                     Start Free Trial
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Button>
               </Link>
@@ -138,10 +178,13 @@ export default function HomePage() {
                   See All Features
                 </Button>
               </Link>
-            </div>
+            </motion.div>
 
             {/* Trust indicators */}
-            <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground">
+            <motion.div
+              className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground"
+              variants={fadeInUp}
+            >
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-green-500" />
                 <span>14-day free trial</span>
@@ -154,13 +197,22 @@ export default function HomePage() {
                 <CheckCircle2 className="w-4 h-4 text-green-500" />
                 <span>Cancel anytime</span>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Hero Screenshot - Dashboard */}
-          <div className="mt-16 relative">
+          <motion.div
+            className="mt-16 relative"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+          >
             <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10 pointer-events-none" />
-            <div className="relative rounded-xl overflow-hidden border border-border/50 shadow-2xl shadow-primary/10">
+            <motion.div
+              className="relative rounded-xl overflow-hidden border border-border/50 shadow-2xl shadow-primary/10"
+              whileHover={{ scale: 1.01 }}
+              transition={{ duration: 0.3 }}
+            >
               <div className="bg-card/80 backdrop-blur-sm p-1">
                 {/* Browser chrome */}
                 <div className="flex items-center gap-2 px-3 py-2 border-b border-border/50">
@@ -193,20 +245,51 @@ export default function HomePage() {
                       {/* Stats row */}
                       <div className="grid grid-cols-5 gap-3">
                         {[...Array(5)].map((_, i) => (
-                          <div key={i} className="h-20 rounded-lg bg-card/50 border border-border/30 p-3">
+                          <motion.div
+                            key={i}
+                            className="h-20 rounded-lg bg-card/50 border border-border/30 p-3"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.7 + i * 0.1 }}
+                          >
                             <div className="w-8 h-8 rounded-lg bg-primary/20 mb-2" />
                             <div className="h-3 bg-muted/30 rounded w-1/2" />
-                          </div>
+                          </motion.div>
                         ))}
                       </div>
                       {/* Map mockup */}
-                      <div className="h-48 rounded-lg bg-[#1a1a2e] border border-border/30 relative overflow-hidden">
+                      <motion.div
+                        className="h-48 rounded-lg bg-[#1a1a2e] border border-border/30 relative overflow-hidden"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 1.2 }}
+                      >
                         <div className="absolute inset-0 opacity-30">
-                          <div className="absolute top-1/4 left-1/4 w-3 h-3 rounded-full bg-rose-500 animate-pulse" />
-                          <div className="absolute top-1/3 left-1/2 w-3 h-3 rounded-full bg-violet-500 animate-pulse" style={{ animationDelay: '0.5s' }} />
-                          <div className="absolute top-1/2 left-1/3 w-3 h-3 rounded-full bg-rose-500 animate-pulse" style={{ animationDelay: '1s' }} />
-                          <div className="absolute top-2/3 left-2/3 w-3 h-3 rounded-full bg-green-500 animate-pulse" style={{ animationDelay: '1.5s' }} />
-                          <div className="absolute top-3/4 left-1/4 w-3 h-3 rounded-full bg-violet-500 animate-pulse" style={{ animationDelay: '2s' }} />
+                          <motion.div
+                            className="absolute top-1/4 left-1/4 w-3 h-3 rounded-full bg-rose-500"
+                            animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
+                            transition={{ duration: 2, repeat: Infinity }}
+                          />
+                          <motion.div
+                            className="absolute top-1/3 left-1/2 w-3 h-3 rounded-full bg-violet-500"
+                            animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
+                            transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+                          />
+                          <motion.div
+                            className="absolute top-1/2 left-1/3 w-3 h-3 rounded-full bg-rose-500"
+                            animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
+                            transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+                          />
+                          <motion.div
+                            className="absolute top-2/3 left-2/3 w-3 h-3 rounded-full bg-green-500"
+                            animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
+                            transition={{ duration: 2, repeat: Infinity, delay: 1.5 }}
+                          />
+                          <motion.div
+                            className="absolute top-3/4 left-1/4 w-3 h-3 rounded-full bg-violet-500"
+                            animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
+                            transition={{ duration: 2, repeat: Infinity, delay: 2 }}
+                          />
                         </div>
                         <div className="absolute bottom-3 left-3 flex items-center gap-2 text-xs">
                           <div className="flex items-center gap-1.5 bg-card/80 rounded px-2 py-1">
@@ -218,39 +301,350 @@ export default function HomePage() {
                             <span className="text-muted-foreground">Terminated</span>
                           </div>
                         </div>
-                      </div>
+                      </motion.div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 border-y border-border/50 bg-muted/30">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-2">
-                  {stat.value}
+      {/* Why Expired Listings Section */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        {/* Animated background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-muted/30 to-transparent" />
+        <motion.div
+          className="absolute top-1/2 left-0 w-[800px] h-[800px] -translate-y-1/2 -translate-x-1/2 bg-primary/5 rounded-full blur-3xl"
+          animate={{ scale: [1, 1.2, 1], opacity: [0.05, 0.1, 0.05] }}
+          transition={{ duration: 10, repeat: Infinity }}
+        />
+        <motion.div
+          className="absolute top-1/2 right-0 w-[800px] h-[800px] -translate-y-1/2 translate-x-1/2 bg-accent/5 rounded-full blur-3xl"
+          animate={{ scale: [1.2, 1, 1.2], opacity: [0.05, 0.1, 0.05] }}
+          transition={{ duration: 10, repeat: Infinity }}
+        />
+
+        <div className="relative max-w-7xl mx-auto">
+          {/* Section Header */}
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="mb-4 flex items-center justify-center gap-3">
+              <div className="h-px w-8 bg-gradient-to-r from-transparent to-amber-500/50" />
+              <Lightbulb className="w-5 h-5 text-amber-500" />
+              <span className="text-sm font-medium tracking-widest uppercase text-amber-500/80">
+                The Opportunity
+              </span>
+              <div className="h-px w-8 bg-gradient-to-l from-transparent to-amber-500/50" />
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+              Why{' '}
+              <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
+                Expired Listings
+              </span>{' '}
+              Are Your Greatest Opportunity
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Most realtors overlook this goldmine. Here&apos;s why the smartest agents are building their business
+              on expired listings.
+            </p>
+          </motion.div>
+
+          {/* The Problem - Animated Flow */}
+          <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
+            {/* Problem visualization */}
+            <motion.div
+              className="relative"
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="relative bg-card/30 backdrop-blur-sm rounded-2xl border border-border/50 p-8 overflow-hidden">
+                {/* Animated warning glow */}
+                <motion.div
+                  className="absolute -top-20 -right-20 w-40 h-40 bg-rose-500/20 rounded-full blur-3xl"
+                  animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                />
+
+                <h3 className="text-xl font-bold mb-6 flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-rose-500/10">
+                    <XCircle className="w-5 h-5 text-rose-500" />
+                  </div>
+                  The Problem Most Agents Face
+                </h3>
+
+                {/* Animated stats */}
+                <div className="space-y-6">
+                  <motion.div
+                    className="flex items-center gap-4"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <div className="relative">
+                      <motion.div
+                        className="w-16 h-16 rounded-full bg-gradient-to-br from-rose-500/20 to-orange-500/20 flex items-center justify-center"
+                        animate={{ scale: [1, 1.1, 1] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      >
+                        <span className="text-2xl font-bold text-rose-500">87%</span>
+                      </motion.div>
+                    </div>
+                    <div>
+                      <p className="font-medium">of expired listings go untouched</p>
+                      <p className="text-sm text-muted-foreground">No one follows up with these homeowners</p>
+                    </div>
+                  </motion.div>
+
+                  <motion.div
+                    className="flex items-center gap-4"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.4 }}
+                  >
+                    <div className="relative">
+                      <motion.div
+                        className="w-16 h-16 rounded-full bg-gradient-to-br from-amber-500/20 to-yellow-500/20 flex items-center justify-center"
+                        animate={{ scale: [1, 1.1, 1] }}
+                        transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+                      >
+                        <Clock className="w-7 h-7 text-amber-500" />
+                      </motion.div>
+                    </div>
+                    <div>
+                      <p className="font-medium">Timing is everything</p>
+                      <p className="text-sm text-muted-foreground">The first 48 hours are critical for contact</p>
+                    </div>
+                  </motion.div>
+
+                  <motion.div
+                    className="flex items-center gap-4"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.6 }}
+                  >
+                    <div className="relative">
+                      <motion.div
+                        className="w-16 h-16 rounded-full bg-gradient-to-br from-violet-500/20 to-purple-500/20 flex items-center justify-center"
+                        animate={{ scale: [1, 1.1, 1] }}
+                        transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+                      >
+                        <Target className="w-7 h-7 text-violet-500" />
+                      </motion.div>
+                    </div>
+                    <div>
+                      <p className="font-medium">Motivated sellers</p>
+                      <p className="text-sm text-muted-foreground">They already want to sell - they just need the right agent</p>
+                    </div>
+                  </motion.div>
                 </div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
               </div>
-            ))}
+            </motion.div>
+
+            {/* The Solution */}
+            <motion.div
+              className="relative"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <div className="relative bg-card/30 backdrop-blur-sm rounded-2xl border border-border/50 p-8 overflow-hidden">
+                {/* Success glow */}
+                <motion.div
+                  className="absolute -top-20 -left-20 w-40 h-40 bg-emerald-500/20 rounded-full blur-3xl"
+                  animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                />
+
+                <h3 className="text-xl font-bold mb-6 flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-emerald-500/10">
+                    <TrendingUp className="w-5 h-5 text-emerald-500" />
+                  </div>
+                  How EXPIRD Changes the Game
+                </h3>
+
+                <div className="space-y-6">
+                  <motion.div
+                    className="flex items-center gap-4"
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.3 }}
+                  >
+                    <motion.div
+                      className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shrink-0"
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                    >
+                      <List className="w-5 h-5 text-white" />
+                    </motion.div>
+                    <div>
+                      <p className="font-medium">Track Every Listing</p>
+                      <p className="text-sm text-muted-foreground">Never miss an expired listing in your area again</p>
+                    </div>
+                  </motion.div>
+
+                  <motion.div
+                    className="flex items-center gap-4"
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.5 }}
+                  >
+                    <motion.div
+                      className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shrink-0"
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                    >
+                      <Phone className="w-5 h-5 text-white" />
+                    </motion.div>
+                    <div>
+                      <p className="font-medium">Be First to Contact</p>
+                      <p className="text-sm text-muted-foreground">Get notified instantly and reach out before competitors</p>
+                    </div>
+                  </motion.div>
+
+                  <motion.div
+                    className="flex items-center gap-4"
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.7 }}
+                  >
+                    <motion.div
+                      className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shrink-0"
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                    >
+                      <Handshake className="w-5 h-5 text-white" />
+                    </motion.div>
+                    <div>
+                      <p className="font-medium">Convert to Clients</p>
+                      <p className="text-sm text-muted-foreground">Turn frustrated sellers into your next closed deal</p>
+                    </div>
+                  </motion.div>
+                </div>
+              </div>
+            </motion.div>
           </div>
+
+          {/* Animated Journey */}
+          <motion.div
+            className="relative"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="text-center mb-12">
+              <h3 className="text-2xl font-bold mb-2">The Journey From Expired to Sold</h3>
+              <p className="text-muted-foreground">See how EXPIRD helps you convert every step of the way</p>
+            </div>
+
+            <div className="relative">
+              {/* Connection line */}
+              <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-rose-500 via-amber-500 via-blue-500 to-emerald-500 transform -translate-y-1/2 hidden lg:block" />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {[
+                  {
+                    step: '01',
+                    icon: XCircle,
+                    title: 'Listing Expires',
+                    description: 'A homeowner\'s listing expires or terminates - they\'re frustrated and need help.',
+                    gradient: 'from-rose-500 to-orange-500',
+                    bgGradient: 'from-rose-500/10 to-orange-500/10',
+                  },
+                  {
+                    step: '02',
+                    icon: List,
+                    title: 'EXPIRD Tracks It',
+                    description: 'Our system captures the listing instantly and adds it to your dashboard.',
+                    gradient: 'from-amber-500 to-yellow-500',
+                    bgGradient: 'from-amber-500/10 to-yellow-500/10',
+                  },
+                  {
+                    step: '03',
+                    icon: Phone,
+                    title: 'You Make Contact',
+                    description: 'Reach out with confidence - you have all the info you need at your fingertips.',
+                    gradient: 'from-blue-500 to-cyan-500',
+                    bgGradient: 'from-blue-500/10 to-cyan-500/10',
+                  },
+                  {
+                    step: '04',
+                    icon: DollarSign,
+                    title: 'Close the Deal',
+                    description: 'Convert the motivated seller into a new listing and earn your commission.',
+                    gradient: 'from-emerald-500 to-teal-500',
+                    bgGradient: 'from-emerald-500/10 to-teal-500/10',
+                  },
+                ].map((item, index) => (
+                  <motion.div
+                    key={item.step}
+                    className="relative"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.15 }}
+                  >
+                    <motion.div
+                      className={`relative p-6 rounded-xl border border-border/50 bg-gradient-to-br ${item.bgGradient} backdrop-blur-sm h-full`}
+                      whileHover={{ y: -8, transition: { duration: 0.2 } }}
+                    >
+                      {/* Step number */}
+                      <motion.div
+                        className={`absolute -top-4 left-6 w-8 h-8 rounded-full bg-gradient-to-br ${item.gradient} flex items-center justify-center text-white text-sm font-bold shadow-lg`}
+                        whileHover={{ scale: 1.2 }}
+                      >
+                        {item.step}
+                      </motion.div>
+
+                      {/* Icon */}
+                      <motion.div
+                        className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${item.gradient} mb-4 mt-2`}
+                        whileHover={{ scale: 1.1, rotate: 5 }}
+                      >
+                        <item.icon className="w-6 h-6 text-white" />
+                      </motion.div>
+
+                      <h4 className="font-semibold text-lg mb-2">{item.title}</h4>
+                      <p className="text-sm text-muted-foreground">{item.description}</p>
+                    </motion.div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Features Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">
-              Features
-            </Badge>
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="mb-4 flex items-center justify-center gap-3">
+              <div className="h-px w-8 bg-gradient-to-r from-transparent to-primary/50" />
+              <span className="text-sm font-medium tracking-widest uppercase text-primary/80">
+                Features
+              </span>
+              <div className="h-px w-8 bg-gradient-to-l from-transparent to-primary/50" />
+            </div>
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
               Everything You Need to{' '}
               <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
@@ -260,23 +654,35 @@ export default function HomePage() {
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Powerful tools designed specifically for realtors who want to dominate the expired listings market.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feature) => (
-              <div
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+          >
+            {features.map((feature, index) => (
+              <motion.div
                 key={feature.title}
-                className="group relative p-6 rounded-xl border border-border/50 bg-card/30 backdrop-blur-sm transition-all duration-300 hover:border-border hover:bg-card/50 hover:-translate-y-1"
+                variants={fadeInUp}
+                whileHover={{ y: -8, transition: { duration: 0.2 } }}
+                className="group relative p-6 rounded-xl border border-border/50 bg-card/30 backdrop-blur-sm transition-all duration-300 hover:border-border hover:bg-card/50"
               >
-                <div className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${feature.gradient} mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                <motion.div
+                  className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${feature.gradient} mb-4`}
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  transition={{ duration: 0.2 }}
+                >
                   <feature.icon className="w-6 h-6 text-white" />
-                </div>
+                </motion.div>
                 <h3 className="font-semibold text-lg mb-2">{feature.title}</h3>
                 <p className="text-sm text-muted-foreground">{feature.description}</p>
                 <div className={`absolute inset-0 rounded-xl bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -284,11 +690,18 @@ export default function HomePage() {
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/20">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <Badge className="mb-4 bg-emerald-500/10 text-emerald-500 border-emerald-500/20">
-                <MapPin className="w-3.5 h-3.5 mr-1.5" />
-                Interactive Map
-              </Badge>
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="mb-4 flex items-center gap-3">
+                <MapPin className="w-5 h-5 text-emerald-500" />
+                <span className="text-sm font-medium tracking-widest uppercase text-emerald-500/80">
+                  Interactive Map
+                </span>
+              </div>
               <h2 className="text-3xl sm:text-4xl font-bold mb-4">
                 See All Your Listings on a{' '}
                 <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">
@@ -299,28 +712,46 @@ export default function HomePage() {
                 Instantly visualize expired and terminated listings across Greater Vancouver, Fraser Valley,
                 and Chilliwack. Filter by board, city, and neighborhood to find your next opportunity.
               </p>
-              <ul className="space-y-3 mb-8">
+              <motion.ul
+                className="space-y-3 mb-8"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={staggerContainer}
+              >
                 {[
                   'Real-time clustering for dense areas',
                   'Color-coded markers by listing type',
                   'Click to see listing details instantly',
                   'Filter by region, city, or neighborhood',
-                ].map((item) => (
-                  <li key={item} className="flex items-center gap-3 text-sm">
+                ].map((item, index) => (
+                  <motion.li
+                    key={item}
+                    className="flex items-center gap-3 text-sm"
+                    variants={fadeInUp}
+                  >
                     <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
                     <span>{item}</span>
-                  </li>
+                  </motion.li>
                 ))}
-              </ul>
+              </motion.ul>
               <Link href="/features">
-                <Button variant="outline" className="gap-2">
+                <Button variant="outline" className="gap-2 group">
                   Learn More
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
-            </div>
+            </motion.div>
+
             {/* Map Screenshot Mockup */}
-            <div className="relative rounded-xl overflow-hidden border border-border/50 shadow-xl">
+            <motion.div
+              className="relative rounded-xl overflow-hidden border border-border/50 shadow-xl"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              whileHover={{ scale: 1.02 }}
+            >
               <div className="aspect-[4/3] bg-[#1a1a2e] relative">
                 {/* Simulated map with markers */}
                 <div className="absolute inset-0">
@@ -334,18 +765,46 @@ export default function HomePage() {
                     ))}
                   </div>
                   {/* Clusters */}
-                  <div className="absolute top-[20%] left-[30%] w-12 h-12 rounded-full bg-primary/30 flex items-center justify-center text-sm font-bold animate-pulse">
+                  <motion.div
+                    className="absolute top-[20%] left-[30%] w-12 h-12 rounded-full bg-primary/30 flex items-center justify-center text-sm font-bold"
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
                     <div className="w-8 h-8 rounded-full bg-primary/60 flex items-center justify-center">12</div>
-                  </div>
-                  <div className="absolute top-[40%] left-[60%] w-10 h-10 rounded-full bg-primary/30 flex items-center justify-center text-sm font-bold animate-pulse" style={{ animationDelay: '0.5s' }}>
+                  </motion.div>
+                  <motion.div
+                    className="absolute top-[40%] left-[60%] w-10 h-10 rounded-full bg-primary/30 flex items-center justify-center text-sm font-bold"
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+                  >
                     <div className="w-6 h-6 rounded-full bg-primary/60 flex items-center justify-center text-xs">8</div>
-                  </div>
+                  </motion.div>
                   {/* Individual markers */}
-                  <div className="absolute top-[60%] left-[25%] w-4 h-4 rounded-full bg-rose-500 shadow-lg shadow-rose-500/50" />
-                  <div className="absolute top-[35%] left-[45%] w-4 h-4 rounded-full bg-violet-500 shadow-lg shadow-violet-500/50" />
-                  <div className="absolute top-[70%] left-[55%] w-4 h-4 rounded-full bg-rose-500 shadow-lg shadow-rose-500/50" />
-                  <div className="absolute top-[50%] left-[75%] w-4 h-4 rounded-full bg-green-500 shadow-lg shadow-green-500/50" />
-                  <div className="absolute top-[25%] left-[70%] w-4 h-4 rounded-full bg-violet-500 shadow-lg shadow-violet-500/50" />
+                  <motion.div
+                    className="absolute top-[60%] left-[25%] w-4 h-4 rounded-full bg-rose-500 shadow-lg shadow-rose-500/50"
+                    animate={{ y: [0, -5, 0] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
+                  <motion.div
+                    className="absolute top-[35%] left-[45%] w-4 h-4 rounded-full bg-violet-500 shadow-lg shadow-violet-500/50"
+                    animate={{ y: [0, -5, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: 0.3 }}
+                  />
+                  <motion.div
+                    className="absolute top-[70%] left-[55%] w-4 h-4 rounded-full bg-rose-500 shadow-lg shadow-rose-500/50"
+                    animate={{ y: [0, -5, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: 0.6 }}
+                  />
+                  <motion.div
+                    className="absolute top-[50%] left-[75%] w-4 h-4 rounded-full bg-green-500 shadow-lg shadow-green-500/50"
+                    animate={{ y: [0, -5, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: 0.9 }}
+                  />
+                  <motion.div
+                    className="absolute top-[25%] left-[70%] w-4 h-4 rounded-full bg-violet-500 shadow-lg shadow-violet-500/50"
+                    animate={{ y: [0, -5, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: 1.2 }}
+                  />
                   {/* Legend */}
                   <div className="absolute bottom-4 left-4 flex items-center gap-3 bg-card/90 backdrop-blur-sm rounded-lg border border-border px-3 py-2">
                     <div className="flex items-center gap-1.5 text-xs">
@@ -366,92 +825,163 @@ export default function HomePage() {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">
-              <Star className="w-3.5 h-3.5 mr-1.5" />
-              Testimonials
-            </Badge>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              Loved by{' '}
-              <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Realtors Across BC
-              </span>
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((testimonial, index) => (
-              <div
-                key={index}
-                className="p-6 rounded-xl border border-border/50 bg-card/30 backdrop-blur-sm"
-              >
-                <div className="flex gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-yellow-500 text-yellow-500" />
-                  ))}
-                </div>
-                <p className="text-muted-foreground mb-6 italic">&ldquo;{testimonial.quote}&rdquo;</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-sm font-bold">
-                    {testimonial.avatar}
-                  </div>
-                  <div>
-                    <p className="font-medium text-sm">{testimonial.author}</p>
-                    <p className="text-xs text-muted-foreground">{testimonial.role}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="relative p-8 sm:p-12 rounded-2xl border border-border/50 bg-gradient-to-br from-primary/5 via-card to-accent/5 overflow-hidden">
-            {/* Background glow */}
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/20 rounded-full blur-3xl" />
+      <section className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        {/* Background pattern */}
+        <div className="absolute inset-0 grid-pattern opacity-10" />
 
-            <div className="relative">
-              <div className="flex justify-center mb-6">
-                <LogoAnimated size="xl" />
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-                Ready to Close More Deals?
-              </h2>
-              <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-                Join hundreds of Canadian realtors who are already using EXPIRD to convert expired listings into closed deals.
-              </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Link href="/signup">
-                  <Button size="lg" className="btn-glow h-12 px-8 text-base">
-                    <span className="relative z-10 flex items-center gap-2">
-                      Start Your Free Trial
-                      <ArrowRight className="w-4 h-4" />
-                    </span>
-                  </Button>
-                </Link>
-                <Link href="/pricing">
-                  <Button variant="outline" size="lg" className="h-12 px-8 text-base">
-                    View Pricing
-                  </Button>
-                </Link>
-              </div>
-              <p className="text-sm text-muted-foreground mt-6">
-                14-day free trial &bull; No credit card required &bull; Cancel anytime
-              </p>
+        <div className="max-w-6xl mx-auto relative">
+          <motion.div
+            className="relative rounded-3xl overflow-hidden"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            {/* Animated gradient border */}
+            <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] animate-gradient-x p-[1px] rounded-3xl">
+              <div className="absolute inset-[1px] bg-background rounded-3xl" />
             </div>
-          </div>
+
+            {/* Main content container */}
+            <div className="relative p-8 sm:p-12 lg:p-16">
+              {/* Multiple animated background glows */}
+              <motion.div
+                className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/15 rounded-full blur-3xl"
+                animate={{
+                  scale: [1, 1.3, 1],
+                  opacity: [0.15, 0.25, 0.15],
+                  x: [0, 30, 0],
+                }}
+                transition={{ duration: 8, repeat: Infinity }}
+              />
+              <motion.div
+                className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-accent/15 rounded-full blur-3xl"
+                animate={{
+                  scale: [1.3, 1, 1.3],
+                  opacity: [0.15, 0.25, 0.15],
+                  x: [0, -30, 0],
+                }}
+                transition={{ duration: 8, repeat: Infinity }}
+              />
+              <motion.div
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-emerald-500/10 rounded-full blur-3xl"
+                animate={{
+                  scale: [1, 1.2, 1],
+                  opacity: [0.1, 0.2, 0.1],
+                }}
+                transition={{ duration: 6, repeat: Infinity, delay: 2 }}
+              />
+
+              {/* Content */}
+              <div className="relative text-center">
+                {/* Logo with glow effect */}
+                <motion.div
+                  className="flex justify-center mb-8"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <motion.div
+                    className="relative"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <div className="absolute inset-0 bg-primary/30 rounded-full blur-xl scale-150" />
+                    <LogoAnimated size="xl" />
+                  </motion.div>
+                </motion.div>
+
+                {/* Headline with gradient */}
+                <motion.h2
+                  className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 }}
+                >
+                  Ready to{' '}
+                  <span className="bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] animate-gradient-x bg-clip-text text-transparent">
+                    Close More Deals
+                  </span>
+                  ?
+                </motion.h2>
+
+                <motion.p
+                  className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 }}
+                >
+                  Join Canadian realtors who are transforming expired listings into their most profitable deals.
+                  Start your free trial today.
+                </motion.p>
+
+                {/* CTA Buttons */}
+                <motion.div
+                  className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 }}
+                >
+                  <Link href="/signup">
+                    <Button size="lg" className="btn-glow h-14 px-10 text-base group relative overflow-hidden">
+                      <span className="relative z-10 flex items-center gap-2 font-semibold">
+                        Start Your Free Trial
+                        <motion.span
+                          animate={{ x: [0, 5, 0] }}
+                          transition={{ duration: 1.5, repeat: Infinity }}
+                        >
+                          <ArrowRight className="w-5 h-5" />
+                        </motion.span>
+                      </span>
+                    </Button>
+                  </Link>
+                  <Link href="/pricing">
+                    <Button variant="outline" size="lg" className="h-14 px-10 text-base font-semibold border-2 hover:bg-muted/50">
+                      View Pricing
+                    </Button>
+                  </Link>
+                </motion.div>
+
+                {/* Trust badges */}
+                <motion.div
+                  className="flex flex-wrap items-center justify-center gap-6 text-sm"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.4 }}
+                >
+                  {[
+                    { icon: CheckCircle2, text: '14-day free trial', color: 'text-emerald-500' },
+                    { icon: Shield, text: 'No credit card required', color: 'text-blue-500' },
+                    { icon: Clock, text: 'Cancel anytime', color: 'text-amber-500' },
+                  ].map((item, index) => (
+                    <motion.div
+                      key={item.text}
+                      className="flex items-center gap-2 px-4 py-2 rounded-full bg-muted/30 border border-border/50"
+                      whileHover={{ scale: 1.05, backgroundColor: 'rgba(var(--muted), 0.5)' }}
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.5 + index * 0.1 }}
+                    >
+                      <item.icon className={`w-4 h-4 ${item.color}`} />
+                      <span className="text-muted-foreground">{item.text}</span>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
     </div>

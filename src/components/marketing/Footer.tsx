@@ -9,7 +9,7 @@ const footerLinks = {
   ],
   company: [
     { label: 'About', href: '/about' },
-    { label: 'Contact', href: 'mailto:support@expird.ca' },
+    { label: 'Contact', href: '/contact' },
   ],
   legal: [
     { label: 'Privacy Policy', href: '/privacy' },
