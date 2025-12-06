@@ -1,7 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { DashboardCharts } from '@/components/dashboard/DashboardCharts';
 import {
   FileX,
@@ -97,23 +96,13 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-            Dashboard
-          </h1>
-          <p className="text-muted-foreground mt-1">
-            Track your expired and terminated MLS listings
-          </p>
-        </div>
-        <Link href="/listings/new">
-          <Button className="btn-glow">
-            <span className="relative z-10 flex items-center">
-              <MapPin className="w-4 h-4 mr-2" />
-              Add Listing
-            </span>
-          </Button>
-        </Link>
+      <div>
+        <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+          Dashboard
+        </h1>
+        <p className="text-muted-foreground mt-1">
+          Track your expired and terminated MLS listings
+        </p>
       </div>
 
       {/* Stats Grid */}
