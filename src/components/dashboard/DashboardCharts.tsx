@@ -26,28 +26,28 @@ export function DashboardCharts({ listings }: DashboardChartsProps) {
           </CardHeader>
           <CardContent className="space-y-3">
             <Link
-              href="/listings/new"
+              href="/app/listings/new"
               className="flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors group cursor-pointer"
             >
               <span className="text-sm font-medium">Add New Listing</span>
               <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
             </Link>
             <Link
-              href="/map"
+              href="/app/map"
               className="flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors group cursor-pointer"
             >
               <span className="text-sm font-medium">View Map</span>
               <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
             </Link>
             <Link
-              href="/sent"
+              href="/app/sent"
               className="flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors group cursor-pointer"
             >
               <span className="text-sm font-medium">View Sent Listings</span>
               <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
             </Link>
             <Link
-              href="/follow-ups"
+              href="/app/follow-ups"
               className="flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors group cursor-pointer"
             >
               <span className="text-sm font-medium">Manage Follow-ups</span>

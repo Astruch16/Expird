@@ -30,12 +30,12 @@ interface TourStep {
 const tourSteps: TourStep[] = [
   {
     id: 'dashboard',
-    target: '[href="/dashboard"]',
+    target: '[href="/app/dashboard"]',
     title: 'Dashboard Overview',
     description: 'Your command center! See all your key metrics, recent activity, and a map preview of your listings at a glance.',
     icon: Sparkles,
     position: 'right',
-    highlight: '/dashboard',
+    highlight: '/app/dashboard',
   },
   {
     id: 'add-listing',
@@ -44,61 +44,61 @@ const tourSteps: TourStep[] = [
     description: 'Manually add expired or terminated listings here. You can also bulk import them later. This is your starting point!',
     icon: Plus,
     position: 'right',
-    highlight: '/listings/new',
+    highlight: '/app/listings/new',
   },
   {
     id: 'listings',
-    target: '[href="/listings"]',
+    target: '[href="/app/listings"]',
     title: 'Manage Listings',
     description: 'View, search, and filter all your expired and terminated listings. Track status and manage your pipeline.',
     icon: List,
     position: 'right',
-    highlight: '/listings',
+    highlight: '/app/listings',
   },
   {
     id: 'pipeline',
-    target: '[href="/pipeline"]',
+    target: '[href="/app/pipeline"]',
     title: 'Pipeline Board',
     description: 'Drag and drop listings through your sales pipeline - from New Lead to Closed Deal. Track your conversion journey!',
     icon: Kanban,
     position: 'right',
-    highlight: '/pipeline',
+    highlight: '/app/pipeline',
   },
   {
     id: 'map',
-    target: '[href="/map"]',
+    target: '[href="/app/map"]',
     title: 'Interactive Map',
     description: 'Visualize all your listings on a beautiful dark map. Click markers to see details and find hotspots!',
     icon: Map,
     position: 'right',
-    highlight: '/map',
+    highlight: '/app/map',
   },
   {
     id: 'analytics',
-    target: '[href="/stats"]',
+    target: '[href="/app/stats"]',
     title: 'Analytics & Stats',
     description: 'Track your performance with beautiful charts. See trends, conversion rates, and identify your best opportunities.',
     icon: BarChart3,
     position: 'right',
-    highlight: '/stats',
+    highlight: '/app/stats',
   },
   {
     id: 'sent',
-    target: '[href="/sent"]',
+    target: '[href="/app/sent"]',
     title: 'Sent Listings',
     description: 'Keep track of all the homeowners you\'ve reached out to. Never lose track of your outreach efforts!',
     icon: Send,
     position: 'right',
-    highlight: '/sent',
+    highlight: '/app/sent',
   },
   {
     id: 'followups',
-    target: '[href="/follow-ups"]',
+    target: '[href="/app/follow-ups"]',
     title: 'Follow-ups',
     description: 'Schedule and manage follow-up reminders. The key to converting leads is consistent follow-up!',
     icon: Clock,
     position: 'right',
-    highlight: '/follow-ups',
+    highlight: '/app/follow-ups',
   },
 ];
 
@@ -118,7 +118,7 @@ export function GuidedTour({ onComplete }: GuidedTourProps) {
     if (searchParams.get('tour') === 'true') {
       setIsActive(true);
       // Remove the query param without refresh
-      window.history.replaceState({}, '', '/dashboard');
+      window.history.replaceState({}, '', '/app/dashboard');
     }
   }, [searchParams]);
 

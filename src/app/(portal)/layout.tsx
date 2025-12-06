@@ -4,7 +4,7 @@ import { Sidebar } from '@/components/layout/Sidebar';
 import { Toaster } from '@/components/ui/sonner';
 import { TourProvider } from '@/components/onboarding/TourProvider';
 
-export default async function DashboardLayout({
+export default async function PortalLayout({
   children,
 }: {
   children: React.ReactNode;

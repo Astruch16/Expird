@@ -25,13 +25,13 @@ import { useState } from 'react';
 import { LogoAnimated } from '@/components/ui/logo';
 
 const navItems = [
-  { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-  { href: '/listings', icon: List, label: 'Listings' },
-  { href: '/pipeline', icon: Kanban, label: 'Pipeline' },
-  { href: '/map', icon: Map, label: 'Map View' },
-  { href: '/stats', icon: BarChart3, label: 'Analytics' },
-  { href: '/sent', icon: Send, label: 'Sent Listings' },
-  { href: '/follow-ups', icon: Clock, label: 'Follow-ups' },
+  { href: '/app/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+  { href: '/app/listings', icon: List, label: 'Listings' },
+  { href: '/app/pipeline', icon: Kanban, label: 'Pipeline' },
+  { href: '/app/map', icon: Map, label: 'Map View' },
+  { href: '/app/stats', icon: BarChart3, label: 'Analytics' },
+  { href: '/app/sent', icon: Send, label: 'Sent Listings' },
+  { href: '/app/follow-ups', icon: Clock, label: 'Follow-ups' },
 ];
 
 interface SidebarProps {
@@ -70,7 +70,7 @@ export function Sidebar({ user }: SidebarProps) {
         {/* Logo */}
         <div className="h-16 flex items-center justify-between px-4 border-b border-sidebar-border">
           {!collapsed && (
-            <Link href="/dashboard" className="flex items-center gap-2">
+            <Link href="/app/dashboard" className="flex items-center gap-2">
               <LogoAnimated size="md" />
               <span className="font-bold text-lg bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-widest">
                 EXPIRD
@@ -100,7 +100,7 @@ export function Sidebar({ user }: SidebarProps) {
 
         {/* Add Listing Button */}
         <div className={cn('px-3 py-3', collapsed && 'px-2')}>
-          <Link href="/listings/new" id="add-listing-btn">
+          <Link href="/app/listings/new" id="add-listing-btn">
             <Button
               className={cn(
                 'w-full btn-glow gap-2',
@@ -140,10 +140,10 @@ export function Sidebar({ user }: SidebarProps) {
         {/* User section */}
         <div className="p-2 space-y-1">
           <Link
-            href="/settings"
+            href="/app/settings"
             className={cn(
               'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer',
-              pathname === '/settings'
+              pathname === '/app/settings'
                 ? 'bg-sidebar-accent text-sidebar-accent-foreground'
                 : 'text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground'
             )}

@@ -303,7 +303,7 @@ export default function ListingDetailPage({ params }: { params: Promise<{ id: st
       <div className="text-center py-12">
         <MapPin className="w-12 h-12 mx-auto text-muted-foreground/50" />
         <p className="text-muted-foreground mt-2">Listing not found</p>
-        <Link href="/listings">
+        <Link href="/app/listings">
           <Button variant="link" className="text-primary mt-1">
             Back to listings
           </Button>
@@ -332,7 +332,7 @@ export default function ListingDetailPage({ params }: { params: Promise<{ id: st
       {/* Header */}
       <div className="flex items-start justify-between">
         <div className="flex items-start gap-4">
-          <Link href="/listings">
+          <Link href="/app/listings">
             <Button variant="ghost" size="icon" className="h-8 w-8 mt-1">
               <ArrowLeft className="w-4 h-4" />
             </Button>

@@ -306,7 +306,7 @@ export default function NewListingPage() {
     <div className="space-y-6 max-w-6xl mx-auto">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Link href="/listings">
+        <Link href="/app/listings">
           <Button variant="ghost" size="icon" className="h-8 w-8">
             <ArrowLeft className="w-4 h-4" />
           </Button>
@@ -668,7 +668,7 @@ export default function NewListingPage() {
 
         {/* Submit Button */}
         <div className="flex justify-end gap-4 mt-6">
-          <Link href="/listings">
+          <Link href="/app/listings">
             <Button type="button" variant="outline">
               Cancel
             </Button>

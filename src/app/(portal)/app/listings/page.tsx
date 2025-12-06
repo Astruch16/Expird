@@ -333,7 +333,7 @@ export default function ListingsPage() {
             Manage all your expired and terminated listings
           </p>
         </div>
-        <Link href="/listings/new">
+        <Link href="/app/listings/new">
           <Button className="btn-glow">
             <span className="relative z-10 flex items-center">
               <Plus className="w-4 h-4 mr-2" />
@@ -506,7 +506,7 @@ export default function ListingsPage() {
             <div className="text-center py-12">
               <MapPin className="w-12 h-12 mx-auto text-muted-foreground/50" />
               <p className="text-muted-foreground mt-2">No listings found</p>
-              <Link href="/listings/new">
+              <Link href="/app/listings/new">
                 <Button variant="link" className="text-primary mt-1">
                   Add your first listing
                 </Button>

@@ -146,7 +146,7 @@ export default function SentListingsPage() {
             <div className="text-center py-12">
               <Send className="w-12 h-12 mx-auto text-muted-foreground/50" />
               <p className="text-muted-foreground mt-2">No sent listings yet</p>
-              <Link href="/listings">
+              <Link href="/app/listings">
                 <Button variant="link" className="text-primary mt-1">
                   Go to listings and mark some as sent
                 </Button>

@@ -320,7 +320,7 @@ export function DashboardMapPreview({ listings }: DashboardMapPreviewProps) {
         const props = features[0].properties;
         if (props?.id) {
           popup.current?.remove();
-          router.push(`/listings/${props.id}`);
+          router.push(`/app/listings/${props.id}`);
         }
       });
 
@@ -419,7 +419,7 @@ export function DashboardMapPreview({ listings }: DashboardMapPreviewProps) {
           Listings Map
         </CardTitle>
         <Link
-          href="/map"
+          href="/app/map"
           className="text-sm text-primary hover:underline flex items-center gap-1 cursor-pointer"
         >
           Open full map

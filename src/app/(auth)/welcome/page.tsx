@@ -79,7 +79,7 @@ export default function WelcomePage() {
         .single();
 
       if (profile?.has_completed_onboarding) {
-        router.push('/dashboard');
+        router.push('/app/dashboard');
         return;
       }
 
@@ -112,7 +112,7 @@ export default function WelcomePage() {
         .update({ has_completed_onboarding: true })
         .eq('id', user.id);
     }
-    router.push('/dashboard');
+    router.push('/app/dashboard');
   };
 
   const handleStartTour = async () => {
@@ -125,7 +125,7 @@ export default function WelcomePage() {
     }
     setStartTour(true);
     setTimeout(() => {
-      router.push('/dashboard?tour=true');
+      router.push('/app/dashboard?tour=true');
     }, 500);
   };
 

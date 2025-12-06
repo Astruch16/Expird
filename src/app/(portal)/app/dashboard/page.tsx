@@ -53,7 +53,7 @@ export default async function DashboardPage() {
       color: 'text-rose-500',
       bgColor: 'bg-rose-500/10',
       borderColor: 'border-rose-500/20',
-      href: '/listings?type=expired',
+      href: '/app/listings?type=expired',
     },
     {
       title: 'Terminated Listings',
@@ -62,7 +62,7 @@ export default async function DashboardPage() {
       color: 'text-violet-500',
       bgColor: 'bg-violet-500/10',
       borderColor: 'border-violet-500/20',
-      href: '/listings?type=terminated',
+      href: '/app/listings?type=terminated',
     },
     {
       title: 'Sent Out',
@@ -71,7 +71,7 @@ export default async function DashboardPage() {
       color: 'text-primary',
       bgColor: 'bg-primary/10',
       borderColor: 'border-primary/20',
-      href: '/sent',
+      href: '/app/sent',
     },
     {
       title: 'Back to Active',
@@ -89,7 +89,7 @@ export default async function DashboardPage() {
       color: 'text-accent',
       bgColor: 'bg-accent/10',
       borderColor: 'border-accent/20',
-      href: '/follow-ups',
+      href: '/app/follow-ups',
     },
   ];
 
@@ -155,7 +155,7 @@ export default async function DashboardPage() {
               <MapPin className="w-5 h-5 text-primary" />
               Recent Listings
             </CardTitle>
-            <Link href="/listings" className="text-sm text-primary hover:underline cursor-pointer">
+            <Link href="/app/listings" className="text-sm text-primary hover:underline cursor-pointer">
               View all
             </Link>
           </CardHeader>
@@ -165,7 +165,7 @@ export default async function DashboardPage() {
                 {recentListings.map((listing) => (
                   <Link
                     key={listing.id}
-                    href={`/listings/${listing.id}`}
+                    href={`/app/listings/${listing.id}`}
                     className="flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors group cursor-pointer"
                   >
                     <div className="flex items-center gap-3">
@@ -204,7 +204,7 @@ export default async function DashboardPage() {
                 <MapPin className="w-12 h-12 mx-auto text-muted-foreground/50" />
                 <p className="text-muted-foreground mt-2">No listings yet</p>
                 <Link
-                  href="/listings/new"
+                  href="/app/listings/new"
                   className="text-sm text-primary hover:underline mt-1 inline-block cursor-pointer"
                 >
                   Add your first listing
@@ -227,7 +227,7 @@ export default async function DashboardPage() {
               <CalendarClock className="w-5 h-5 text-accent" />
               Upcoming Follow-ups
             </CardTitle>
-            <Link href="/follow-ups" className="text-sm text-primary hover:underline cursor-pointer">
+            <Link href="/app/follow-ups" className="text-sm text-primary hover:underline cursor-pointer">
               View all
             </Link>
           </CardHeader>
@@ -335,7 +335,7 @@ export default async function DashboardPage() {
                   return (
                     <Link
                       key={listing.id}
-                      href={`/listings/${listing.id}`}
+                      href={`/app/listings/${listing.id}`}
                       className="flex items-center gap-3 p-2 rounded-lg hover:bg-secondary/50 transition-colors group cursor-pointer"
                     >
                       <div className={`p-2 rounded-lg ${colorClass.split(' ')[1]}`}>
@@ -357,7 +357,7 @@ export default async function DashboardPage() {
                 <Activity className="w-12 h-12 mx-auto text-muted-foreground/50" />
                 <p className="text-muted-foreground mt-2">No recent activity</p>
                 <Link
-                  href="/listings/new"
+                  href="/app/listings/new"
                   className="text-sm text-primary hover:underline mt-1 inline-block cursor-pointer"
                 >
                   Add your first listing
