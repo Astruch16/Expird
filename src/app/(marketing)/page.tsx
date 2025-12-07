@@ -142,8 +142,81 @@ export default function HomePage() {
               variants={fadeInUp}
             >
               Turn{' '}
-              <span className="bg-gradient-to-r from-rose-500 to-orange-500 bg-clip-text text-transparent">
-                Expired Listings
+              <span className="relative inline-block">
+                <span className="bg-gradient-to-r from-rose-500 to-orange-500 bg-clip-text text-transparent">
+                  Expired Listings
+                </span>
+                {/* Flame sparkles */}
+                <motion.span
+                  className="absolute -top-1 left-[10%] w-1.5 h-1.5 bg-orange-400 rounded-full"
+                  animate={{
+                    y: [0, -12, -20],
+                    x: [0, -3, -5],
+                    opacity: [0, 1, 0],
+                    scale: [0.5, 1, 0.3],
+                  }}
+                  transition={{ duration: 1.2, repeat: Infinity, delay: 0 }}
+                />
+                <motion.span
+                  className="absolute -top-1 left-[30%] w-1 h-1 bg-yellow-400 rounded-full"
+                  animate={{
+                    y: [0, -15, -25],
+                    x: [0, 2, 4],
+                    opacity: [0, 1, 0],
+                    scale: [0.5, 1, 0.3],
+                  }}
+                  transition={{ duration: 1.4, repeat: Infinity, delay: 0.3 }}
+                />
+                <motion.span
+                  className="absolute -top-2 left-[50%] w-1.5 h-1.5 bg-rose-400 rounded-full"
+                  animate={{
+                    y: [0, -18, -28],
+                    x: [0, -1, -2],
+                    opacity: [0, 1, 0],
+                    scale: [0.5, 1.2, 0.3],
+                  }}
+                  transition={{ duration: 1.3, repeat: Infinity, delay: 0.6 }}
+                />
+                <motion.span
+                  className="absolute -top-1 left-[70%] w-1 h-1 bg-orange-300 rounded-full"
+                  animate={{
+                    y: [0, -14, -22],
+                    x: [0, 3, 6],
+                    opacity: [0, 1, 0],
+                    scale: [0.5, 1, 0.3],
+                  }}
+                  transition={{ duration: 1.5, repeat: Infinity, delay: 0.2 }}
+                />
+                <motion.span
+                  className="absolute -top-2 left-[85%] w-1.5 h-1.5 bg-yellow-300 rounded-full"
+                  animate={{
+                    y: [0, -16, -26],
+                    x: [0, -2, -3],
+                    opacity: [0, 1, 0],
+                    scale: [0.5, 1.1, 0.3],
+                  }}
+                  transition={{ duration: 1.1, repeat: Infinity, delay: 0.5 }}
+                />
+                <motion.span
+                  className="absolute -top-1 left-[20%] w-0.5 h-0.5 bg-white rounded-full"
+                  animate={{
+                    y: [0, -10, -18],
+                    x: [0, 1, 2],
+                    opacity: [0, 0.8, 0],
+                    scale: [0.5, 1, 0.3],
+                  }}
+                  transition={{ duration: 1, repeat: Infinity, delay: 0.8 }}
+                />
+                <motion.span
+                  className="absolute -top-1 left-[60%] w-0.5 h-0.5 bg-white rounded-full"
+                  animate={{
+                    y: [0, -12, -20],
+                    x: [0, -1, -1],
+                    opacity: [0, 0.8, 0],
+                    scale: [0.5, 1, 0.3],
+                  }}
+                  transition={{ duration: 1.2, repeat: Infinity, delay: 0.4 }}
+                />
               </span>{' '}
               Into
               <br />
@@ -180,23 +253,14 @@ export default function HomePage() {
               </Link>
             </motion.div>
 
-            {/* Trust indicators */}
+            {/* Decorative divider */}
             <motion.div
-              className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground"
+              className="flex items-center justify-center gap-4"
               variants={fadeInUp}
             >
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-green-500" />
-                <span>14-day free trial</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-green-500" />
-                <span>No credit card required</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-green-500" />
-                <span>Cancel anytime</span>
-              </div>
+              <div className="h-px w-16 bg-gradient-to-r from-transparent via-primary/30 to-primary/50" />
+              <div className="w-1.5 h-1.5 rounded-full bg-primary/50" />
+              <div className="h-px w-16 bg-gradient-to-l from-transparent via-primary/30 to-primary/50" />
             </motion.div>
           </motion.div>
 
