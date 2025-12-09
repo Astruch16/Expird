@@ -395,7 +395,7 @@ export default function HomePage() {
               </span>{' '}
               Into
               <br />
-              <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
                 Closed Deals
               </span>
             </motion.h1>
