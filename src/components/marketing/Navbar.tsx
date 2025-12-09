@@ -63,7 +63,7 @@ export function Navbar() {
           }}
           transition={{ duration: 0.4 }}
         >
-          <div className="h-full bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+          <div className="h-full bg-gradient-to-r from-transparent via-cyber-blue/50 to-transparent" />
         </motion.div>
 
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -78,7 +78,7 @@ export function Navbar() {
               >
                 {/* Glow effect behind logo */}
                 <motion.div
-                  className="absolute inset-0 bg-primary/20 rounded-full blur-xl scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  className="absolute inset-0 bg-cyber-blue/20 rounded-full blur-xl scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                 />
                 <LogoAnimated size="md" />
               </motion.div>
@@ -118,7 +118,7 @@ export function Navbar() {
                             className={cn(
                               'absolute inset-0 rounded-full',
                               isActive
-                                ? 'bg-gradient-to-r from-primary/20 to-accent/20 border border-primary/30'
+                                ? 'bg-gradient-to-r from-cyber-blue/20 to-cyber-purple/20 border border-cyber-blue/30'
                                 : 'bg-muted/60'
                             )}
                             initial={{ opacity: 0 }}
@@ -132,7 +132,7 @@ export function Navbar() {
                       {/* Active indicator dot */}
                       {isActive && (
                         <motion.div
-                          className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary"
+                          className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-cyber-blue"
                           layoutId="active-dot"
                           transition={{ type: 'spring', bounce: 0.2, duration: 0.5 }}
                         />
@@ -142,7 +142,7 @@ export function Navbar() {
                         className={cn(
                           'relative z-10 transition-all duration-200',
                           isActive
-                            ? 'text-primary font-semibold'
+                            ? 'text-cyber-blue font-semibold'
                             : 'text-muted-foreground hover:text-foreground'
                         )}
                       >
@@ -191,7 +191,7 @@ export function Navbar() {
                 >
                   {/* Animated gradient border */}
                   <motion.div
-                    className="absolute -inset-[1px] rounded-lg bg-gradient-to-r from-primary via-accent to-primary opacity-70"
+                    className="absolute -inset-[1px] rounded-lg bg-gradient-to-r from-cyber-blue via-cyber-purple to-cyber-blue opacity-70"
                     animate={{
                       backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
                     }}
@@ -225,7 +225,7 @@ export function Navbar() {
             >
               {/* Animated background on open */}
               <motion.div
-                className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10"
+                className="absolute inset-0 bg-gradient-to-br from-cyber-blue/10 to-cyber-purple/10"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: isMobileMenuOpen ? 1 : 0 }}
                 transition={{ duration: 0.3 }}
@@ -291,7 +291,7 @@ export function Navbar() {
                             className={cn(
                               'group flex items-center justify-between px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-300',
                               isActive
-                                ? 'text-primary bg-gradient-to-r from-primary/15 to-accent/10 border border-primary/20'
+                                ? 'text-cyber-blue bg-gradient-to-r from-cyber-blue/15 to-cyber-purple/10 border border-cyber-blue/20'
                                 : 'text-muted-foreground hover:text-foreground hover:bg-muted/30'
                             )}
                             onClick={() => setIsMobileMenuOpen(false)}
@@ -301,7 +301,7 @@ export function Navbar() {
                                 <motion.div
                                   initial={{ scale: 0 }}
                                   animate={{ scale: 1 }}
-                                  className="w-2 h-2 rounded-full bg-primary"
+                                  className="w-2 h-2 rounded-full bg-cyber-blue"
                                 />
                               )}
                               <span>{link.label}</span>
@@ -309,7 +309,7 @@ export function Navbar() {
                             <ChevronRight className={cn(
                               'w-4 h-4 transition-all duration-300',
                               isActive
-                                ? 'text-primary opacity-100'
+                                ? 'text-cyber-blue opacity-100'
                                 : 'opacity-0 group-hover:opacity-50 group-hover:translate-x-1'
                             )} />
                           </Link>
@@ -345,7 +345,7 @@ export function Navbar() {
                       <motion.div className="relative">
                         {/* Animated gradient border */}
                         <motion.div
-                          className="absolute -inset-[1px] rounded-xl bg-gradient-to-r from-primary via-accent to-primary"
+                          className="absolute -inset-[1px] rounded-xl bg-gradient-to-r from-cyber-blue via-cyber-purple to-cyber-blue"
                           animate={{
                             backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
                           }}

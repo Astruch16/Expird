@@ -268,7 +268,7 @@ export default function HomePage() {
         {/* Background effects */}
         <div className="absolute inset-0 grid-pattern opacity-20" />
         <motion.div
-          className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-primary/15 rounded-full blur-3xl"
+          className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-cyber-blue/15 rounded-full blur-3xl"
           animate={{
             scale: [1, 1.1, 1],
             opacity: [0.15, 0.2, 0.15],
@@ -280,7 +280,7 @@ export default function HomePage() {
           }}
         />
         <motion.div
-          className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-accent/15 rounded-full blur-3xl"
+          className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-cyber-purple/15 rounded-full blur-3xl"
           animate={{
             scale: [1.1, 1, 1.1],
             opacity: [0.15, 0.2, 0.15],
@@ -304,11 +304,11 @@ export default function HomePage() {
               className="mb-8 flex items-center justify-center gap-3"
               variants={fadeInUp}
             >
-              <div className="h-px w-12 bg-gradient-to-r from-transparent to-primary/50" />
-              <span className="text-sm font-medium tracking-widest uppercase text-primary/80">
+              <div className="h-px w-12 bg-gradient-to-r from-transparent to-cyber-blue/50" />
+              <span className="text-sm font-medium tracking-widest uppercase text-cyber-blue/80">
                 Built exclusively for Canadian Realtors
               </span>
-              <div className="h-px w-12 bg-gradient-to-l from-transparent to-primary/50" />
+              <div className="h-px w-12 bg-gradient-to-l from-transparent to-cyber-blue/50" />
             </motion.div>
 
             {/* Headline - "Close Deals" on second line */}
@@ -433,9 +433,9 @@ export default function HomePage() {
               className="flex items-center justify-center gap-4"
               variants={fadeInUp}
             >
-              <div className="h-px w-16 bg-gradient-to-r from-transparent via-primary/30 to-primary/50" />
-              <div className="w-1.5 h-1.5 rounded-full bg-primary/50" />
-              <div className="h-px w-16 bg-gradient-to-l from-transparent via-primary/30 to-primary/50" />
+              <div className="h-px w-16 bg-gradient-to-r from-transparent via-cyber-blue/30 to-cyber-blue/50" />
+              <div className="w-1.5 h-1.5 rounded-full bg-cyber-blue/50" />
+              <div className="h-px w-16 bg-gradient-to-l from-transparent via-cyber-blue/30 to-cyber-blue/50" />
             </motion.div>
           </motion.div>
 
@@ -449,12 +449,12 @@ export default function HomePage() {
         {/* Animated background */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-muted/30 to-transparent" />
         <motion.div
-          className="absolute top-1/2 left-0 w-[800px] h-[800px] -translate-y-1/2 -translate-x-1/2 bg-primary/5 rounded-full blur-3xl"
+          className="absolute top-1/2 left-0 w-[800px] h-[800px] -translate-y-1/2 -translate-x-1/2 bg-cyber-blue/5 rounded-full blur-3xl"
           animate={{ scale: [1, 1.2, 1], opacity: [0.05, 0.1, 0.05] }}
           transition={{ duration: 10, repeat: Infinity }}
         />
         <motion.div
-          className="absolute top-1/2 right-0 w-[800px] h-[800px] -translate-y-1/2 translate-x-1/2 bg-accent/5 rounded-full blur-3xl"
+          className="absolute top-1/2 right-0 w-[800px] h-[800px] -translate-y-1/2 translate-x-1/2 bg-cyber-purple/5 rounded-full blur-3xl"
           animate={{ scale: [1.2, 1, 1.2], opacity: [0.05, 0.1, 0.05] }}
           transition={{ duration: 10, repeat: Infinity }}
         />
@@ -772,15 +772,15 @@ export default function HomePage() {
             transition={{ duration: 0.6 }}
           >
             <div className="mb-4 flex items-center justify-center gap-3">
-              <div className="h-px w-8 bg-gradient-to-r from-transparent to-primary/50" />
-              <span className="text-sm font-medium tracking-widest uppercase text-primary/80">
+              <div className="h-px w-8 bg-gradient-to-r from-transparent to-cyber-blue/50" />
+              <span className="text-sm font-medium tracking-widest uppercase text-cyber-blue/80">
                 Features
               </span>
-              <div className="h-px w-8 bg-gradient-to-l from-transparent to-primary/50" />
+              <div className="h-px w-8 bg-gradient-to-l from-transparent to-cyber-blue/50" />
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
               Everything You Need to{' '}
-              <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
                 Close More Deals
               </span>
             </h2>
@@ -899,18 +899,18 @@ export default function HomePage() {
                   </div>
                   {/* Clusters */}
                   <motion.div
-                    className="absolute top-[20%] left-[30%] w-12 h-12 rounded-full bg-primary/30 flex items-center justify-center text-sm font-bold"
+                    className="absolute top-[20%] left-[30%] w-12 h-12 rounded-full bg-cyber-blue/30 flex items-center justify-center text-sm font-bold"
                     animate={{ scale: [1, 1.1, 1] }}
                     transition={{ duration: 2, repeat: Infinity }}
                   >
-                    <div className="w-8 h-8 rounded-full bg-primary/60 flex items-center justify-center">12</div>
+                    <div className="w-8 h-8 rounded-full bg-cyber-blue/60 flex items-center justify-center">12</div>
                   </motion.div>
                   <motion.div
-                    className="absolute top-[40%] left-[60%] w-10 h-10 rounded-full bg-primary/30 flex items-center justify-center text-sm font-bold"
+                    className="absolute top-[40%] left-[60%] w-10 h-10 rounded-full bg-cyber-blue/30 flex items-center justify-center text-sm font-bold"
                     animate={{ scale: [1, 1.1, 1] }}
                     transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
                   >
-                    <div className="w-6 h-6 rounded-full bg-primary/60 flex items-center justify-center text-xs">8</div>
+                    <div className="w-6 h-6 rounded-full bg-cyber-blue/60 flex items-center justify-center text-xs">8</div>
                   </motion.div>
                   {/* Individual markers */}
                   <motion.div
@@ -977,7 +977,7 @@ export default function HomePage() {
             transition={{ duration: 0.6 }}
           >
             {/* Animated gradient border */}
-            <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] animate-gradient-x p-[1px] rounded-3xl">
+            <div className="absolute inset-0 bg-gradient-to-r from-cyber-blue via-cyber-purple to-cyber-blue bg-[length:200%_100%] animate-gradient-x p-[1px] rounded-3xl">
               <div className="absolute inset-[1px] bg-background rounded-3xl" />
             </div>
 
@@ -985,7 +985,7 @@ export default function HomePage() {
             <div className="relative p-8 sm:p-12 lg:p-16">
               {/* Multiple animated background glows */}
               <motion.div
-                className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/15 rounded-full blur-3xl"
+                className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-cyber-blue/15 rounded-full blur-3xl"
                 animate={{
                   scale: [1, 1.3, 1],
                   opacity: [0.15, 0.25, 0.15],
@@ -994,7 +994,7 @@ export default function HomePage() {
                 transition={{ duration: 8, repeat: Infinity }}
               />
               <motion.div
-                className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-accent/15 rounded-full blur-3xl"
+                className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-cyber-purple/15 rounded-full blur-3xl"
                 animate={{
                   scale: [1.3, 1, 1.3],
                   opacity: [0.15, 0.25, 0.15],
@@ -1026,7 +1026,7 @@ export default function HomePage() {
                     whileHover={{ scale: 1.1 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <div className="absolute inset-0 bg-primary/30 rounded-full blur-xl scale-150" />
+                    <div className="absolute inset-0 bg-cyber-blue/30 rounded-full blur-xl scale-150" />
                     <LogoAnimated size="xl" />
                   </motion.div>
                 </motion.div>
@@ -1040,7 +1040,7 @@ export default function HomePage() {
                   transition={{ delay: 0.1 }}
                 >
                   Ready to{' '}
-                  <span className="bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] animate-gradient-x bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-cyber-blue via-cyber-purple to-cyber-blue bg-[length:200%_100%] animate-gradient-x bg-clip-text text-transparent">
                     Close More Deals
                   </span>
                   ?

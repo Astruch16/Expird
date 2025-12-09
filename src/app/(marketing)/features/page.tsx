@@ -187,7 +187,7 @@ function ListingsMockup() {
             <div className="h-3 bg-emerald-500/30 rounded w-2/3" />
             <div className={`h-5 rounded-full w-16 ${i % 2 === 0 ? 'bg-rose-500/20' : 'bg-violet-500/20'}`} />
             <div className="flex gap-1">
-              <div className="h-6 w-6 bg-primary/20 rounded" />
+              <div className="h-6 w-6 bg-cyber-blue/20 rounded" />
               <div className="h-6 w-6 bg-muted/30 rounded" />
             </div>
           </motion.div>
@@ -211,18 +211,18 @@ function MapMockup() {
       </div>
       {/* Clusters and markers */}
       <motion.div
-        className="absolute top-[25%] left-[35%] w-10 h-10 rounded-full bg-primary/40 flex items-center justify-center"
+        className="absolute top-[25%] left-[35%] w-10 h-10 rounded-full bg-cyber-blue/40 flex items-center justify-center"
         animate={{ scale: [1, 1.1, 1] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <div className="w-6 h-6 rounded-full bg-primary/70 flex items-center justify-center text-xs font-bold">9</div>
+        <div className="w-6 h-6 rounded-full bg-cyber-blue/70 flex items-center justify-center text-xs font-bold">9</div>
       </motion.div>
       <motion.div
-        className="absolute top-[50%] left-[65%] w-8 h-8 rounded-full bg-primary/40 flex items-center justify-center"
+        className="absolute top-[50%] left-[65%] w-8 h-8 rounded-full bg-cyber-blue/40 flex items-center justify-center"
         animate={{ scale: [1, 1.1, 1] }}
         transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
       >
-        <div className="w-5 h-5 rounded-full bg-primary/70 flex items-center justify-center text-xs font-bold">5</div>
+        <div className="w-5 h-5 rounded-full bg-cyber-blue/70 flex items-center justify-center text-xs font-bold">5</div>
       </motion.div>
       <motion.div className="absolute top-[40%] left-[25%] w-3 h-3 rounded-full bg-rose-500 shadow-lg shadow-rose-500/50" animate={{ y: [0, -3, 0] }} transition={{ duration: 1.5, repeat: Infinity }} />
       <motion.div className="absolute top-[65%] left-[50%] w-3 h-3 rounded-full bg-violet-500 shadow-lg shadow-violet-500/50" animate={{ y: [0, -3, 0] }} transition={{ duration: 1.5, repeat: Infinity, delay: 0.3 }} />
@@ -321,8 +321,8 @@ function FollowupsMockup() {
               <div className="h-3 bg-muted/50 rounded w-2/3 mb-1" />
               <div className={`h-2 rounded w-1/4 ${i === 0 ? 'bg-rose-500/40' : 'bg-muted/30'}`} />
             </div>
-            <div className="h-6 w-6 bg-primary/20 rounded flex items-center justify-center">
-              <CheckCircle2 className="w-3 h-3 text-primary/60" />
+            <div className="h-6 w-6 bg-cyber-blue/20 rounded flex items-center justify-center">
+              <CheckCircle2 className="w-3 h-3 text-cyber-blue/60" />
             </div>
           </motion.div>
         ))}
@@ -337,7 +337,7 @@ function AnalyticsMockup() {
       {/* Stats */}
       <div className="grid grid-cols-3 gap-2 mb-4">
         {[
-          { label: 'Total', color: 'bg-primary/20' },
+          { label: 'Total', color: 'bg-cyber-blue/20' },
           { label: 'Sent', color: 'bg-orange-500/20' },
           { label: 'Closed', color: 'bg-green-500/20' },
         ].map((stat, i) => (
@@ -387,12 +387,12 @@ export default function FeaturesPage() {
         {/* Background effects */}
         <div className="absolute inset-0 grid-pattern opacity-20" />
         <motion.div
-          className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl"
+          className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-cyber-blue/10 rounded-full blur-3xl"
           animate={{ scale: [1, 1.1, 1], opacity: [0.1, 0.15, 0.1] }}
           transition={{ duration: 8, repeat: Infinity }}
         />
         <motion.div
-          className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-accent/10 rounded-full blur-3xl"
+          className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-cyber-purple/10 rounded-full blur-3xl"
           animate={{ scale: [1.1, 1, 1.1], opacity: [0.1, 0.15, 0.1] }}
           transition={{ duration: 8, repeat: Infinity }}
         />
@@ -407,12 +407,12 @@ export default function FeaturesPage() {
             className="mb-6 flex items-center justify-center gap-3"
             variants={fadeInUp}
           >
-            <div className="h-px w-12 bg-gradient-to-r from-transparent to-primary/50" />
-            <span className="text-sm font-medium tracking-widest uppercase text-primary/80 flex items-center gap-2">
+            <div className="h-px w-12 bg-gradient-to-r from-transparent to-cyber-blue/50" />
+            <span className="text-sm font-medium tracking-widest uppercase text-cyber-blue/80 flex items-center gap-2">
               <Sparkles className="w-4 h-4" />
               All Features
             </span>
-            <div className="h-px w-12 bg-gradient-to-l from-transparent to-primary/50" />
+            <div className="h-px w-12 bg-gradient-to-l from-transparent to-cyber-blue/50" />
           </motion.div>
 
           <motion.h1
@@ -420,7 +420,7 @@ export default function FeaturesPage() {
             variants={fadeInUp}
           >
             Everything You Need to{' '}
-            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
               Dominate Expired Listings
             </span>
           </motion.h1>
@@ -541,10 +541,10 @@ export default function FeaturesPage() {
               >
                 <div className="flex items-center gap-4">
                   <motion.div
-                    className="p-2 rounded-lg bg-primary/10"
+                    className="p-2 rounded-lg bg-cyber-blue/10"
                     whileHover={{ scale: 1.1 }}
                   >
-                    <feature.icon className="w-5 h-5 text-primary" />
+                    <feature.icon className="w-5 h-5 text-cyber-blue" />
                   </motion.div>
                   <div>
                     <h3 className="font-semibold">{feature.title}</h3>

@@ -81,12 +81,12 @@ export default function AboutPage() {
         {/* Background effects */}
         <div className="absolute inset-0 grid-pattern opacity-20" />
         <motion.div
-          className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-primary/15 rounded-full blur-3xl"
+          className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-cyber-blue/15 rounded-full blur-3xl"
           animate={{ scale: [1, 1.1, 1], opacity: [0.15, 0.2, 0.15] }}
           transition={{ duration: 8, repeat: Infinity }}
         />
         <motion.div
-          className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-accent/15 rounded-full blur-3xl"
+          className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-cyber-purple/15 rounded-full blur-3xl"
           animate={{ scale: [1.1, 1, 1.1], opacity: [0.15, 0.2, 0.15] }}
           transition={{ duration: 8, repeat: Infinity }}
         />
@@ -114,11 +114,11 @@ export default function AboutPage() {
             className="mb-6 flex items-center justify-center gap-3"
             variants={fadeInUp}
           >
-            <div className="h-px w-12 bg-gradient-to-r from-transparent to-primary/50" />
-            <span className="text-sm font-medium tracking-widest uppercase text-primary/80">
+            <div className="h-px w-12 bg-gradient-to-r from-transparent to-cyber-blue/50" />
+            <span className="text-sm font-medium tracking-widest uppercase text-cyber-blue/80">
               Our Story
             </span>
-            <div className="h-px w-12 bg-gradient-to-l from-transparent to-primary/50" />
+            <div className="h-px w-12 bg-gradient-to-l from-transparent to-cyber-blue/50" />
           </motion.div>
 
           <motion.h1
@@ -126,11 +126,11 @@ export default function AboutPage() {
             variants={fadeInUp}
           >
             Built by{' '}
-            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
               Agents
             </span>
             , For{' '}
-            <span className="bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-cyber-purple to-cyber-blue bg-clip-text text-transparent">
               Agents
             </span>
           </motion.h1>
@@ -148,7 +148,7 @@ export default function AboutPage() {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-muted/30 border border-border/50"
             variants={fadeInUp}
           >
-            <MapPin className="w-4 h-4 text-primary" />
+            <MapPin className="w-4 h-4 text-cyber-blue" />
             <span className="text-sm text-muted-foreground">Proudly built in the Fraser Valley, BC</span>
           </motion.div>
         </motion.div>
@@ -202,7 +202,7 @@ export default function AboutPage() {
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
                   >
-                    <div className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                    <div className="text-2xl font-bold bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
                       {stat.value}
                     </div>
                     <div className="text-xs text-muted-foreground">{stat.label}</div>
@@ -222,7 +222,7 @@ export default function AboutPage() {
               <div className="space-y-4">
                 <div className="flex items-center gap-3 mb-6">
                   <motion.div
-                    className="p-2 rounded-lg bg-gradient-to-br from-primary to-accent"
+                    className="p-2 rounded-lg bg-gradient-to-br from-cyber-blue to-cyber-purple"
                     animate={{ rotate: [0, 5, -5, 0] }}
                     transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                   >
@@ -263,7 +263,7 @@ export default function AboutPage() {
                       initial={{ x: -10 }}
                       whileHover={{ x: 0 }}
                     >
-                      <ArrowRight className="w-4 h-4 text-primary" />
+                      <ArrowRight className="w-4 h-4 text-cyber-blue" />
                     </motion.div>
                   </motion.div>
                 ))}
@@ -284,12 +284,12 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
           >
             <div className="mb-4 flex items-center justify-center gap-3">
-              <div className="h-px w-8 bg-gradient-to-r from-transparent to-primary/50" />
+              <div className="h-px w-8 bg-gradient-to-r from-transparent to-cyber-blue/50" />
               <Heart className="w-5 h-5 text-rose-500" />
               <span className="text-sm font-medium tracking-widest uppercase text-rose-500/80">
                 Our Values
               </span>
-              <div className="h-px w-8 bg-gradient-to-l from-transparent to-primary/50" />
+              <div className="h-px w-8 bg-gradient-to-l from-transparent to-cyber-blue/50" />
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold">What We Believe In</h2>
           </motion.div>
@@ -353,7 +353,7 @@ export default function AboutPage() {
 
           <div className="relative">
             {/* Timeline line */}
-            <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-primary via-accent to-primary/20" />
+            <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-cyber-blue via-cyber-purple to-cyber-blue/20" />
 
             <div className="space-y-6">
               {milestones.map((milestone, index) => (
@@ -367,7 +367,7 @@ export default function AboutPage() {
                 >
                   {/* Timeline dot */}
                   <motion.div
-                    className="absolute left-5 top-4 w-6 h-6 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center border-2 border-background shadow-lg shadow-primary/25"
+                    className="absolute left-5 top-4 w-6 h-6 rounded-full bg-gradient-to-br from-cyber-blue to-cyber-purple flex items-center justify-center border-2 border-background shadow-lg shadow-cyber-blue/25"
                     whileHover={{ scale: 1.2 }}
                   >
                     <milestone.icon className="w-3 h-3 text-white" />
@@ -398,7 +398,7 @@ export default function AboutPage() {
         >
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
             Ready to{' '}
-            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
               Join the Community
             </span>
             ?

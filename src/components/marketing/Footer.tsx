@@ -26,7 +26,7 @@ export function Footer() {
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
               <LogoAnimated size="sm" />
-              <span className="font-bold text-lg bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-widest">
+              <span className="font-bold text-lg bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent tracking-widest">
                 EXPIRD
               </span>
             </Link>

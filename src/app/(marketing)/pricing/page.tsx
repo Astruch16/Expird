@@ -13,7 +13,17 @@ import {
   Zap,
   Crown,
   HelpCircle,
+  Shield,
+  Clock,
+  Smartphone,
+  Activity,
+  Download,
+  Lock,
+  Server,
+  Eye,
+  Percent,
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const plans = [
   {
@@ -116,16 +126,26 @@ export default function PricingPage() {
       <section className="relative pt-32 pb-16 px-4 sm:px-6 lg:px-8">
         {/* Background effects */}
         <div className="absolute inset-0 grid-pattern opacity-20" />
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-accent/10 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-cyber-blue/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-cyber-purple/10 rounded-full blur-3xl" />
 
         <div className="relative max-w-7xl mx-auto text-center">
-          <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 px-4 py-1.5">
-            Simple, Transparent Pricing
-          </Badge>
+          {/* Elegant tagline - matching other pages */}
+          <motion.div
+            className="mb-6 flex items-center justify-center gap-3"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="h-px w-12 bg-gradient-to-r from-transparent to-cyber-blue/50" />
+            <span className="text-sm font-medium tracking-widest uppercase text-cyber-blue/80">
+              Simple, Transparent Pricing
+            </span>
+            <div className="h-px w-12 bg-gradient-to-l from-transparent to-cyber-blue/50" />
+          </motion.div>
           <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-6">
             Choose the Plan That{' '}
-            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
               Fits Your Business
             </span>
           </h1>
@@ -135,21 +155,29 @@ export default function PricingPage() {
 
           {/* Billing Toggle */}
           <div className="flex items-center justify-center gap-4">
-            <span className={cn('text-sm font-medium', !isAnnual && 'text-primary')}>
+            <span className={cn('text-sm font-medium', !isAnnual && 'text-cyber-blue')}>
               Monthly
             </span>
             <Switch
               checked={isAnnual}
               onCheckedChange={setIsAnnual}
-              className="data-[state=checked]:bg-primary"
+              className="data-[state=checked]:bg-cyber-blue"
             />
-            <span className={cn('text-sm font-medium', isAnnual && 'text-primary')}>
+            <span className={cn('text-sm font-medium', isAnnual && 'text-cyber-blue')}>
               Annual
             </span>
             {isAnnual && (
-              <Badge variant="secondary" className="bg-green-500/10 text-green-500 border-green-500/20">
-                Save 20%
-              </Badge>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="relative"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 rounded-full blur-md" />
+                <Badge variant="secondary" className="relative bg-gradient-to-r from-emerald-500/10 to-teal-500/10 text-emerald-400 border border-emerald-500/30 px-3 py-1">
+                  <Percent className="w-3 h-3 mr-1" />
+                  Save 20%
+                </Badge>
+              </motion.div>
             )}
           </div>
         </div>
@@ -159,32 +187,46 @@ export default function PricingPage() {
       <section className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {plans.map((plan) => (
-              <div
+            {plans.map((plan, index) => (
+              <motion.div
                 key={plan.name}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
                 className={cn(
                   'relative p-8 rounded-2xl border transition-all duration-300',
                   plan.popular
-                    ? 'border-primary bg-gradient-to-b from-primary/10 to-transparent scale-105 shadow-xl shadow-primary/10'
+                    ? 'border-cyber-blue bg-gradient-to-b from-cyber-blue/10 to-transparent scale-105 shadow-xl shadow-cyber-blue/10'
                     : 'border-border/50 bg-card/30 hover:border-border'
                 )}
               >
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                    <Badge className="bg-primary text-primary-foreground px-4 py-1">
-                      Most Popular
-                    </Badge>
+                    <motion.div
+                      className="relative"
+                      animate={{ y: [0, -2, 0] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                    >
+                      {/* Glow effect */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-cyber-blue to-cyber-purple rounded-full blur-md opacity-60" />
+                      <Badge className="relative bg-gradient-to-r from-cyber-blue to-cyber-purple text-white border-0 px-4 py-1.5 shadow-lg">
+                        <Sparkles className="w-3.5 h-3.5 mr-1.5" />
+                        Most Popular
+                      </Badge>
+                    </motion.div>
                   </div>
                 )}
 
                 <div className="flex items-center gap-3 mb-4">
                   <div className={cn(
-                    'p-2 rounded-lg',
-                    plan.popular ? 'bg-primary/20' : 'bg-muted'
+                    'p-2.5 rounded-xl',
+                    plan.popular
+                      ? 'bg-gradient-to-br from-cyber-blue/20 to-cyber-purple/20 border border-cyber-blue/30'
+                      : 'bg-muted'
                   )}>
                     <plan.icon className={cn(
                       'w-5 h-5',
-                      plan.popular ? 'text-primary' : 'text-muted-foreground'
+                      plan.popular ? 'text-cyber-blue' : 'text-muted-foreground'
                     )} />
                   </div>
                   <div>
@@ -195,7 +237,10 @@ export default function PricingPage() {
 
                 <div className="mb-6">
                   <div className="flex items-baseline gap-1">
-                    <span className="text-4xl font-bold">
+                    <span className={cn(
+                      'text-4xl font-bold',
+                      plan.popular && 'bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent'
+                    )}>
                       {formatPrice(isAnnual ? plan.yearlyPrice : plan.monthlyPrice)}
                     </span>
                     <span className="text-muted-foreground">/month</span>
@@ -208,24 +253,49 @@ export default function PricingPage() {
                 </div>
 
                 <Link href="/signup">
-                  <Button
-                    className={cn(
-                      'w-full mb-6',
-                      plan.popular ? 'btn-glow' : ''
-                    )}
-                    variant={plan.popular ? 'default' : 'outline'}
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="relative mb-6"
                   >
-                    <span className={plan.popular ? 'relative z-10 flex items-center gap-2' : 'flex items-center gap-2'}>
-                      {plan.cta}
-                      <ArrowRight className="w-4 h-4" />
-                    </span>
-                  </Button>
+                    {/* Animated gradient border for all buttons */}
+                    <motion.div
+                      className={cn(
+                        'absolute -inset-[1px] rounded-lg bg-gradient-to-r opacity-70',
+                        plan.popular
+                          ? 'from-cyber-blue via-cyber-purple to-cyber-blue'
+                          : 'from-cyber-blue/50 via-cyber-purple/50 to-cyber-blue/50'
+                      )}
+                      animate={{
+                        backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: 'linear',
+                      }}
+                      style={{ backgroundSize: '200% 100%' }}
+                    />
+                    <Button
+                      className={cn(
+                        'relative w-full bg-background hover:bg-background/90 text-foreground border-0',
+                        plan.popular && 'font-semibold'
+                      )}
+                    >
+                      <span className="flex items-center gap-2">
+                        {plan.cta}
+                        <ArrowRight className="w-4 h-4" />
+                      </span>
+                    </Button>
+                  </motion.div>
                 </Link>
 
                 <div className="space-y-3">
                   {plan.features.map((feature) => (
                     <div key={feature} className="flex items-center gap-3 text-sm">
-                      <Check className="w-4 h-4 text-green-500 shrink-0" />
+                      <div className="w-4 h-4 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0">
+                        <Check className="w-2.5 h-2.5 text-emerald-500" />
+                      </div>
                       <span>{feature}</span>
                     </div>
                   ))}
@@ -236,7 +306,7 @@ export default function PricingPage() {
                     </div>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -244,23 +314,50 @@ export default function PricingPage() {
 
       {/* All Plans Include */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 border-t border-border/50">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-2xl font-bold mb-8">All Plans Include</h2>
+        <div className="max-w-5xl mx-auto text-center">
+          <motion.div
+            className="mb-4 flex items-center justify-center gap-3"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <div className="h-px w-8 bg-gradient-to-r from-transparent to-cyber-blue/50" />
+            <span className="text-sm font-medium tracking-widest uppercase text-cyber-blue/80">
+              Included in Every Plan
+            </span>
+            <div className="h-px w-8 bg-gradient-to-l from-transparent to-cyber-blue/50" />
+          </motion.div>
+          <h2 className="text-2xl font-bold mb-10">All Plans Include</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              'SSL Security',
-              'Daily Backups',
-              'Mobile Responsive',
-              '99.9% Uptime',
-              'Data Export',
-              'GDPR Compliant',
-              'Canadian Servers',
-              '24/7 Monitoring',
-            ].map((item) => (
-              <div key={item} className="flex items-center justify-center gap-2 text-sm">
-                <Check className="w-4 h-4 text-green-500" />
-                <span>{item}</span>
-              </div>
+              { label: 'SSL Security', icon: Shield, gradient: 'from-emerald-500 to-teal-500' },
+              { label: 'Daily Backups', icon: Clock, gradient: 'from-blue-500 to-cyan-500' },
+              { label: 'Mobile Responsive', icon: Smartphone, gradient: 'from-violet-500 to-purple-500' },
+              { label: '99.9% Uptime', icon: Activity, gradient: 'from-rose-500 to-pink-500' },
+              { label: 'Data Export', icon: Download, gradient: 'from-amber-500 to-orange-500' },
+              { label: 'GDPR Compliant', icon: Lock, gradient: 'from-cyan-500 to-blue-500' },
+              { label: 'Canadian Servers', icon: Server, gradient: 'from-indigo-500 to-violet-500' },
+              { label: '24/7 Monitoring', icon: Eye, gradient: 'from-teal-500 to-emerald-500' },
+            ].map((item, index) => (
+              <motion.div
+                key={item.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.05 }}
+                className="group flex flex-col items-center gap-3 p-4 rounded-xl border border-border/30 bg-card/20 hover:bg-card/40 hover:border-border/50 transition-all duration-300"
+              >
+                <motion.div
+                  className={`p-2.5 rounded-xl bg-gradient-to-br ${item.gradient} shadow-lg`}
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <item.icon className="w-5 h-5 text-white" />
+                </motion.div>
+                <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+                  {item.label}
+                </span>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -269,13 +366,25 @@ export default function PricingPage() {
       {/* FAQ Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-muted/20">
         <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-12">
-            <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">
-              <HelpCircle className="w-3.5 h-3.5 mr-1.5" />
-              FAQ
-            </Badge>
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            {/* Elegant FAQ tagline */}
+            <div className="mb-4 flex items-center justify-center gap-3">
+              <div className="h-px w-8 bg-gradient-to-r from-transparent to-violet-500/50" />
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-violet-500/10 to-purple-500/10 border border-violet-500/20">
+                <HelpCircle className="w-3.5 h-3.5 text-violet-400" />
+                <span className="text-sm font-medium tracking-widest uppercase text-violet-400">
+                  FAQ
+                </span>
+              </div>
+              <div className="h-px w-8 bg-gradient-to-l from-transparent to-violet-500/50" />
+            </div>
             <h2 className="text-3xl font-bold">Common Questions</h2>
-          </div>
+          </motion.div>
 
           <div className="space-y-4">
             {faqs.map((faq, index) => (
