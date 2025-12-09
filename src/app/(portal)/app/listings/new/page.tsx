@@ -347,7 +347,7 @@ export default function NewListingPage() {
                       <Button
                         type="button"
                         variant="outline"
-                        onClick={geocodeAddress}
+                        onClick={() => geocodeAddress()}
                         disabled={geocoding}
                         className="shrink-0 cursor-pointer"
                       >
