@@ -1,5 +1,6 @@
 import { Navbar } from '@/components/marketing/Navbar';
 import { Footer } from '@/components/marketing/Footer';
+import { ParticlesBackground } from '@/components/marketing/ParticlesBackground';
 
 export default function MarketingLayout({
   children,
@@ -7,9 +8,10 @@ export default function MarketingLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="dark min-h-screen bg-background flex flex-col">
+    <div className="dark min-h-screen bg-background flex flex-col relative">
+      <ParticlesBackground />
       <Navbar />
-      <main className="flex-1">
+      <main className="flex-1 relative z-10">
         {children}
       </main>
       <Footer />

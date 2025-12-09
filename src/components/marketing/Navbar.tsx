@@ -82,21 +82,9 @@ export function Navbar() {
                 />
                 <LogoAnimated size="md" />
               </motion.div>
-              <div className="flex flex-col">
-                <motion.span
-                  className="font-bold text-xl tracking-[0.2em] bg-gradient-to-r from-foreground via-primary to-foreground bg-[length:200%_100%] bg-clip-text text-transparent"
-                  animate={{
-                    backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-                  }}
-                  transition={{
-                    duration: 8,
-                    repeat: Infinity,
-                    ease: 'linear',
-                  }}
-                >
-                  EXPIRD
-                </motion.span>
-              </div>
+              <span className="font-bold text-xl tracking-[0.2em] bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
+                EXPIRD
+              </span>
             </Link>
 
             {/* Desktop Navigation - Floating pill design */}
