@@ -48,8 +48,8 @@ export function Navbar() {
         transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
-          isScrolled
-            ? 'bg-background/60 backdrop-blur-xl'
+          isScrolled || isMobileMenuOpen
+            ? 'bg-background/80 backdrop-blur-xl'
             : 'bg-transparent'
         )}
       >
