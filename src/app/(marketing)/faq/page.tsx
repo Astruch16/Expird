@@ -3,13 +3,14 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowRight,
   HelpCircle,
   ChevronDown,
   MessageCircle,
+  Sparkles,
 } from 'lucide-react';
 
 const faqCategories = [
@@ -26,7 +27,7 @@ const faqCategories = [
       },
       {
         question: 'How do I get started?',
-        answer: 'Simply sign up for a free 14-day trial. No credit card required! Once you\'re in, you can start adding listings manually or import them via CSV. Our guided tour will walk you through all the features.',
+        answer: 'Simply choose a plan and sign up. Once you\'re in, you can start adding listings manually or import them via CSV. Our guided tour will walk you through all the features.',
       },
       {
         question: 'Is there a mobile app?',
@@ -39,7 +40,7 @@ const faqCategories = [
     faqs: [
       {
         question: 'How does the interactive map work?',
-        answer: 'Our dark-themed map displays all your listings with color-coded markers (red for expired, purple for terminated, green for back-to-active). You can filter by board (GV, Fraser Valley, Chilliwack), city, and neighborhood. Clusters help manage dense areas, and clicking any marker shows listing details.',
+        answer: 'Our interactive heat map displays all your listings with color-coded markers (red for expired, purple for terminated, green for back-to-active). You can filter by board (GV, Fraser Valley, Chilliwack), city, and neighborhood. Clusters help manage dense areas, and clicking any marker shows listing details.',
       },
       {
         question: 'Can I import listings in bulk?',
@@ -60,11 +61,7 @@ const faqCategories = [
     faqs: [
       {
         question: 'How much does EXPIRD cost?',
-        answer: 'We offer three plans: Starter ($29.99/month), Professional ($49.99/month), and Team ($99.99/month). Annual billing saves you 20%. All plans include a 14-day free trial with no credit card required.',
-      },
-      {
-        question: 'Can I try before I buy?',
-        answer: 'Absolutely! Every plan comes with a 14-day free trial. No credit card required to start. You\'ll have full access to all features during your trial period.',
+        answer: 'We offer three plans: Starter ($29.99/month), Professional ($49.99/month), and Team ($99.99/month). Annual billing saves you 20%. Cancel anytime.',
       },
       {
         question: 'What payment methods do you accept?',
@@ -132,94 +129,205 @@ export default function FAQPage() {
       <section className="relative pt-32 pb-16 px-4 sm:px-6 lg:px-8">
         {/* Background effects */}
         <div className="absolute inset-0 grid-pattern opacity-20" />
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-accent/10 rounded-full blur-3xl" />
+        <motion.div
+          className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-cyber-blue/10 rounded-full blur-3xl"
+          animate={{ scale: [1, 1.1, 1], opacity: [0.1, 0.2, 0.1] }}
+          transition={{ duration: 8, repeat: Infinity }}
+        />
+        <motion.div
+          className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-cyber-purple/10 rounded-full blur-3xl"
+          animate={{ scale: [1.1, 1, 1.1], opacity: [0.1, 0.2, 0.1] }}
+          transition={{ duration: 8, repeat: Infinity }}
+        />
 
-        <div className="relative max-w-4xl mx-auto text-center">
-          <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 px-4 py-1.5">
-            <HelpCircle className="w-3.5 h-3.5 mr-1.5" />
-            FAQ
-          </Badge>
+        <motion.div
+          className="relative max-w-4xl mx-auto text-center"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <motion.div
+            className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-gradient-to-r from-cyber-blue/10 via-cyber-purple/10 to-cyber-blue/10 border border-white/10 shadow-lg shadow-cyber-blue/5 mb-6"
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.2 }}
+          >
+            <span className="flex items-center justify-center w-6 h-6 rounded-full bg-gradient-to-br from-cyber-blue to-cyber-purple">
+              <HelpCircle className="w-3.5 h-3.5 text-white" />
+            </span>
+            <span className="text-sm font-medium bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
+              Frequently Asked Questions
+            </span>
+          </motion.div>
           <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-6">
-            Frequently Asked{' '}
-            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              Questions
+            Got{' '}
+            <span className="bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
+              Questions?
             </span>
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
             Find answers to common questions about EXPIRD. Can&apos;t find what you&apos;re looking for? Contact our support team.
           </p>
-        </div>
+
+          {/* Divider */}
+          <motion.div
+            className="flex items-center justify-center gap-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          >
+            <div className="h-px w-24 bg-gradient-to-r from-transparent via-cyber-blue/50 to-cyber-blue" />
+            <div className="flex items-center gap-1.5">
+              <div className="w-1.5 h-1.5 rounded-full bg-cyber-blue/60" />
+              <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-cyber-blue to-cyber-purple" />
+              <div className="w-1.5 h-1.5 rounded-full bg-cyber-purple/60" />
+            </div>
+            <div className="h-px w-24 bg-gradient-to-l from-transparent via-cyber-purple/50 to-cyber-purple" />
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* FAQ Sections */}
       <section className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
-          {faqCategories.map((category) => (
-            <div key={category.name} className="mb-12">
-              <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-                <div className="w-1.5 h-6 bg-gradient-to-b from-primary to-accent rounded-full" />
-                {category.name}
+          {faqCategories.map((category, categoryIndex) => (
+            <motion.div
+              key={category.name}
+              className="mb-12"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
+            >
+              <h2 className="text-xl font-bold mb-6 flex items-center gap-3">
+                <div className="w-1.5 h-6 bg-gradient-to-b from-cyber-blue to-cyber-purple rounded-full" />
+                <span>{category.name}</span>
+                <div className="flex-1 h-px bg-gradient-to-r from-border/50 to-transparent ml-2" />
               </h2>
               <div className="space-y-3">
                 {category.faqs.map((faq, index) => {
                   const itemKey = `${category.name}-${index}`;
                   const isOpen = openItems[itemKey];
                   return (
-                    <div
+                    <motion.div
                       key={itemKey}
-                      className="border border-border/50 rounded-xl overflow-hidden bg-card/30 backdrop-blur-sm"
-                    >
-                      <button
-                        className="w-full flex items-center justify-between p-5 text-left hover:bg-muted/50 transition-colors"
-                        onClick={() => toggleItem(itemKey)}
-                      >
-                        <span className="font-medium pr-4">{faq.question}</span>
-                        <ChevronDown
-                          className={cn(
-                            'w-5 h-5 text-muted-foreground shrink-0 transition-transform',
-                            isOpen && 'rotate-180'
-                          )}
-                        />
-                      </button>
-                      {isOpen && (
-                        <div className="px-5 pb-5 pt-0">
-                          <p className="text-muted-foreground">{faq.answer}</p>
-                        </div>
+                      className={cn(
+                        'border rounded-xl overflow-hidden backdrop-blur-sm transition-all duration-300',
+                        isOpen
+                          ? 'border-cyber-blue/30 bg-gradient-to-br from-cyber-blue/5 to-cyber-purple/5 shadow-lg shadow-cyber-blue/5'
+                          : 'border-border/50 bg-card/30 hover:border-border hover:bg-card/50'
                       )}
-                    </div>
+                      initial={false}
+                      layout
+                    >
+                      <motion.button
+                        className="w-full flex items-center justify-between p-5 text-left transition-colors"
+                        onClick={() => toggleItem(itemKey)}
+                        whileHover={{ x: 4 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <span className={cn(
+                          'font-medium pr-4 transition-colors',
+                          isOpen && 'text-cyber-blue'
+                        )}>
+                          {faq.question}
+                        </span>
+                        <motion.div
+                          className={cn(
+                            'flex items-center justify-center w-8 h-8 rounded-full shrink-0 transition-colors',
+                            isOpen
+                              ? 'bg-gradient-to-br from-cyber-blue to-cyber-purple'
+                              : 'bg-muted/50'
+                          )}
+                          animate={{ rotate: isOpen ? 180 : 0 }}
+                          transition={{ duration: 0.3, ease: 'easeInOut' }}
+                        >
+                          <ChevronDown
+                            className={cn(
+                              'w-4 h-4 transition-colors',
+                              isOpen ? 'text-white' : 'text-muted-foreground'
+                            )}
+                          />
+                        </motion.div>
+                      </motion.button>
+                      <AnimatePresence initial={false}>
+                        {isOpen && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3, ease: 'easeInOut' }}
+                            className="overflow-hidden"
+                          >
+                            <motion.div
+                              className="px-5 pb-5 pt-0"
+                              initial={{ y: -10 }}
+                              animate={{ y: 0 }}
+                              exit={{ y: -10 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <div className="h-px w-full bg-gradient-to-r from-cyber-blue/20 via-cyber-purple/20 to-transparent mb-4" />
+                              <p className="text-muted-foreground leading-relaxed">{faq.answer}</p>
+                            </motion.div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
                   );
                 })}
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>
 
       {/* Contact Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-muted/20">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex p-4 rounded-full bg-primary/10 mb-6">
-            <MessageCircle className="w-8 h-8 text-primary" />
+      <section className="py-16 px-4 sm:px-6 lg:px-8">
+        <motion.div
+          className="max-w-3xl mx-auto"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="relative p-8 sm:p-10 rounded-2xl border border-border/50 bg-gradient-to-br from-cyber-blue/5 to-cyber-purple/5 backdrop-blur-sm overflow-hidden">
+            {/* Background effects */}
+            <div className="absolute top-0 right-0 w-48 h-48 bg-cyber-blue/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-cyber-purple/10 rounded-full blur-3xl" />
+
+            <div className="relative text-center">
+              <motion.div
+                className="inline-flex p-4 rounded-xl bg-gradient-to-br from-cyber-blue/20 to-cyber-purple/20 mb-6 ring-1 ring-white/10"
+                whileHover={{ scale: 1.05, rotate: 5 }}
+                transition={{ duration: 0.2 }}
+              >
+                <MessageCircle className="w-8 h-8 text-cyber-blue" />
+              </motion.div>
+              <h2 className="text-2xl font-bold mb-4">Still Have Questions?</h2>
+              <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
+                Our support team is here to help. Reach out and we&apos;ll get back to you as soon as possible.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Link href="/contact">
+                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                    <Button size="lg" className="btn-glow h-12 px-8">
+                      <span className="relative z-10 flex items-center gap-2">
+                        Contact Support
+                        <ArrowRight className="w-4 h-4" />
+                      </span>
+                    </Button>
+                  </motion.div>
+                </Link>
+                <Link href="/pricing">
+                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                    <Button variant="outline" size="lg" className="h-12 px-8">
+                      View Pricing
+                    </Button>
+                  </motion.div>
+                </Link>
+              </div>
+            </div>
           </div>
-          <h2 className="text-2xl font-bold mb-4">Still Have Questions?</h2>
-          <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
-            Our support team is here to help. Reach out and we&apos;ll get back to you as soon as possible.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="mailto:support@expird.ca">
-              <Button size="lg" className="h-12 px-8">
-                Contact Support
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </Link>
-            <Link href="/pricing">
-              <Button variant="outline" size="lg" className="h-12 px-8">
-                View Pricing
-              </Button>
-            </Link>
-          </div>
-        </div>
+        </motion.div>
       </section>
     </div>
   );

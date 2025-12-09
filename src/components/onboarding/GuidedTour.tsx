@@ -276,7 +276,7 @@ export function GuidedTour({ onComplete }: GuidedTourProps) {
       >
         <div className="relative bg-card border border-border rounded-xl shadow-2xl overflow-hidden">
           {/* Gradient accent */}
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-accent" />
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyber-blue to-cyber-purple" />
 
           {/* Close button */}
           <button

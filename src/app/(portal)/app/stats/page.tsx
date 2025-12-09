@@ -111,7 +111,7 @@ export default function StatsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
             Analytics
           </h1>
           <p className="text-muted-foreground mt-1">
@@ -232,7 +232,7 @@ export default function StatsPage() {
                       </div>
                     )}
                     <div
-                      className={`w-full bg-gradient-to-t from-primary to-accent rounded-t transition-all ${day.count > 0 ? 'cursor-pointer hover:opacity-80' : ''}`}
+                      className={`w-full bg-gradient-to-t from-cyber-blue to-cyber-purple rounded-t transition-all ${day.count > 0 ? 'cursor-pointer hover:opacity-80' : ''}`}
                       style={{ height: `${barHeight}px` }}
                     />
                     {dailyData.length <= 14 && (
@@ -387,7 +387,7 @@ export default function StatsPage() {
                       </div>
                       <div className="h-2 bg-secondary rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-gradient-to-r from-primary to-accent rounded-full transition-all"
+                          className="h-full bg-gradient-to-r from-cyber-blue to-cyber-purple rounded-full transition-all"
                           style={{ width: `${(count / topCities[0][1]) * 100}%` }}
                         />
                       </div>

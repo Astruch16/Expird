@@ -72,7 +72,7 @@ export function Sidebar({ user }: SidebarProps) {
           {!collapsed && (
             <Link href="/app/dashboard" className="flex items-center gap-2">
               <LogoAnimated size="md" />
-              <span className="font-bold text-lg bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-widest">
+              <span className="font-bold text-lg bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent tracking-widest">
                 EXPIRD
               </span>
               <span className="relative flex h-2 w-2">

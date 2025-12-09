@@ -35,7 +35,7 @@ const plans = [
       'Bulk import',
       'Priority support',
     ],
-    cta: 'Start Free Trial',
+    cta: 'Get Started',
     popular: false,
   },
   {
@@ -55,7 +55,7 @@ const plans = [
       'Priority email support',
     ],
     notIncluded: [],
-    cta: 'Start Free Trial',
+    cta: 'Get Started',
     popular: true,
   },
   {
@@ -82,12 +82,12 @@ const plans = [
 
 const faqs = [
   {
-    question: 'Can I try EXPIRD before I commit?',
-    answer: 'Absolutely! All plans come with a 14-day free trial. No credit card required to start.',
+    question: 'How do I get started with EXPIRD?',
+    answer: 'Simply choose a plan and sign up. You can start tracking expired listings immediately after your payment is processed.',
   },
   {
-    question: 'What happens after my trial ends?',
-    answer: 'After your trial, you\'ll be prompted to choose a plan. If you don\'t subscribe, your account will be paused but your data will be saved for 30 days.',
+    question: 'What happens if I want to cancel?',
+    answer: 'You can cancel anytime from your account settings. Your access continues until the end of your billing period, and your data is saved for 30 days in case you want to return.',
   },
   {
     question: 'Can I change plans later?',
@@ -130,7 +130,7 @@ export default function PricingPage() {
             </span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-            All plans include a 14-day free trial. No credit card required. Cancel anytime.
+            Straightforward pricing with no hidden fees. Cancel anytime.
           </p>
 
           {/* Billing Toggle */}
@@ -313,7 +313,7 @@ export default function PricingPage() {
           <Link href="/signup">
             <Button size="lg" className="btn-glow h-12 px-8">
               <span className="relative z-10 flex items-center gap-2">
-                Start Your Free Trial
+                Get Started Today
                 <ArrowRight className="w-4 h-4" />
               </span>
             </Button>

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import {
@@ -38,9 +39,9 @@ const mainFeatures = [
   {
     icon: Map,
     title: 'Interactive Map View',
-    description: 'Visualize all your listings on a stunning dark-themed map. See clusters, zoom into neighborhoods, and find opportunities at a glance.',
+    description: 'Visualize expired & terminated listings on an interactive heat map. See clusters, zoom into neighborhoods, and find opportunities at a glance.',
     benefits: [
-      'Beautiful dark theme map',
+      'Interactive expired/terminated heat map',
       'Real-time clustering for dense areas',
       'Color-coded by listing type',
       'Filter by board, city, neighborhood',
@@ -435,7 +436,7 @@ export default function FeaturesPage() {
             <Link href="/signup">
               <Button size="lg" className="btn-glow h-12 px-8 text-base group">
                 <span className="relative z-10 flex items-center gap-2">
-                  Start Free Trial
+                  Get Started
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
               </Button>
@@ -569,13 +570,13 @@ export default function FeaturesPage() {
             Ready to Get Started?
           </h2>
           <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-            Start your 14-day free trial today. No credit card required.
+            Join Canadian realtors who are closing more deals with EXPIRD.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/signup">
               <Button size="lg" className="btn-glow h-12 px-8 text-base group">
                 <span className="relative z-10 flex items-center gap-2">
-                  Start Free Trial
+                  Get Started Now
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
               </Button>

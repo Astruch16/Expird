@@ -1,9 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { LogoAnimated } from '@/components/ui/logo';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
 import {
   Map,
   List,
@@ -24,6 +26,12 @@ import {
   DollarSign,
 } from 'lucide-react';
 
+// Hero slideshow images
+const heroSlides = [
+  { src: '/images/homepagenew.PNG', alt: 'EXPIRD Dashboard - Track and manage expired listings', url: 'app.expird.ca/dashboard' },
+  { src: '/images/analytics.PNG', alt: 'EXPIRD Analytics - Track your performance', url: 'app.expird.ca/stats' },
+];
+
 const features = [
   {
     icon: List,
@@ -33,8 +41,8 @@ const features = [
   },
   {
     icon: Map,
-    title: 'Interactive Dark Map',
-    description: 'Visualize all your listings on a stunning dark-themed map with real-time clustering.',
+    title: 'Interactive Heat Map',
+    description: 'Visualize expired & terminated listings on an interactive heat map with real-time clustering.',
     gradient: 'from-emerald-500 to-teal-500',
   },
   {
@@ -84,6 +92,173 @@ const scaleIn = {
   hidden: { opacity: 0, scale: 0.9 },
   visible: { opacity: 1, scale: 1 },
 };
+
+// Slideshow transition variants - entire browser window slides
+const slideVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? '100%' : '-100%',
+    opacity: 0,
+    scale: 0.95,
+    rotateY: direction > 0 ? 8 : -8,
+  }),
+  center: {
+    zIndex: 1,
+    x: 0,
+    opacity: 1,
+    scale: 1,
+    rotateY: 0,
+  },
+  exit: (direction: number) => ({
+    zIndex: 0,
+    x: direction < 0 ? '100%' : '-100%',
+    opacity: 0,
+    scale: 0.95,
+    rotateY: direction < 0 ? 8 : -8,
+  }),
+};
+
+// Hero Slideshow Component
+function HeroSlideshow() {
+  const [[currentSlide, direction], setCurrentSlide] = useState([0, 0]);
+  const [isHovered, setIsHovered] = useState(false);
+  const isHoveredRef = useRef(false);
+
+  // Auto-advance slides every 13 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (!isHoveredRef.current) {
+        setCurrentSlide(([current]) => [(current + 1) % heroSlides.length, 1]);
+      }
+    }, 13000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const goToSlide = (index: number) => {
+    const newDirection = index > currentSlide ? 1 : -1;
+    setCurrentSlide([index, newDirection]);
+  };
+
+  return (
+    <motion.div
+      className="mt-16 relative"
+      initial={{ opacity: 0, y: 60, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{
+        delay: 0.5,
+        duration: 1,
+        ease: [0.25, 0.46, 0.45, 0.94]
+      }}
+      onMouseEnter={() => { isHoveredRef.current = true; setIsHovered(true); }}
+      onMouseLeave={() => { isHoveredRef.current = false; setIsHovered(false); }}
+    >
+      {/* Glow effect behind the screenshot */}
+      <motion.div
+        className="absolute -inset-4 bg-gradient-to-r from-cyber-blue/20 via-cyber-purple/20 to-cyber-blue/20 rounded-3xl blur-2xl"
+        animate={{
+          opacity: [0.3, 0.5, 0.3],
+          scale: [1, 1.02, 1],
+        }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+
+      {/* Gradient fade overlay at bottom */}
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-20 pointer-events-none rounded-2xl" />
+
+      {/* Slideshow container */}
+      <div className="relative overflow-hidden" style={{ perspective: '1500px' }}>
+        <AnimatePresence initial={false} custom={direction} mode="wait">
+          <motion.div
+            key={currentSlide}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: { type: "spring", stiffness: 200, damping: 25 },
+              opacity: { duration: 0.5 },
+              scale: { duration: 0.5 },
+              rotateY: { duration: 0.6 },
+            }}
+            style={{ transformStyle: 'preserve-3d' }}
+          >
+            {/* Browser chrome frame */}
+            <div className="relative rounded-2xl overflow-hidden border border-border/50 shadow-2xl shadow-cyber-blue/20 bg-card/80 backdrop-blur-sm">
+              {/* Browser toolbar */}
+              <div className="flex items-center gap-2 px-4 py-3 border-b border-border/50 bg-card/50">
+                <div className="flex gap-1.5">
+                  <div className="w-3 h-3 rounded-full bg-red-500/80" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                  <div className="w-3 h-3 rounded-full bg-green-500/80" />
+                </div>
+                <div className="flex-1 text-center">
+                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-lg bg-muted/50 text-xs text-muted-foreground">
+                    <Shield className="w-3 h-3 text-green-500" />
+                    <span>{heroSlides[currentSlide].url}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Screenshot */}
+              <div className="relative">
+                <Image
+                  src={heroSlides[currentSlide].src}
+                  alt={heroSlides[currentSlide].alt}
+                  width={1920}
+                  height={1080}
+                  className="w-full h-auto"
+                  priority={currentSlide === 0}
+                />
+
+                {/* Shine effect on hover */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent pointer-events-none"
+                  initial={{ x: '-100%' }}
+                  animate={isHovered ? { x: '100%' } : { x: '-100%' }}
+                  transition={{ duration: 1, ease: "easeInOut" }}
+                />
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Slide indicators */}
+        <div className="flex items-center justify-center gap-3 mt-6">
+          {heroSlides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className="group relative"
+            >
+              <motion.div
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  index === currentSlide
+                    ? 'w-8 bg-gradient-to-r from-cyber-blue to-cyber-purple'
+                    : 'w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                }`}
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 0.9 }}
+              />
+              {index === currentSlide && (
+                <motion.div
+                  className="absolute inset-0 rounded-full bg-cyber-blue/30 blur-sm"
+                  layoutId="slideIndicatorGlow"
+                />
+              )}
+            </button>
+          ))}
+        </div>
+
+        {/* Reflection effect */}
+        <div className="absolute -bottom-8 left-4 right-4 h-16 bg-gradient-to-b from-cyber-blue/5 to-transparent blur-xl rounded-full" />
+      </div>
+    </motion.div>
+  );
+}
 
 export default function HomePage() {
   return (
@@ -241,7 +416,7 @@ export default function HomePage() {
               <Link href="/signup">
                 <Button size="lg" className="btn-glow h-12 px-8 text-base group">
                   <span className="relative z-10 flex items-center gap-2">
-                    Start Free Trial
+                    Get Started
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Button>
@@ -264,114 +439,8 @@ export default function HomePage() {
             </motion.div>
           </motion.div>
 
-          {/* Hero Screenshot - Dashboard */}
-          <motion.div
-            className="mt-16 relative"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10 pointer-events-none" />
-            <motion.div
-              className="relative rounded-xl overflow-hidden border border-border/50 shadow-2xl shadow-primary/10"
-              whileHover={{ scale: 1.01 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="bg-card/80 backdrop-blur-sm p-1">
-                {/* Browser chrome */}
-                <div className="flex items-center gap-2 px-3 py-2 border-b border-border/50">
-                  <div className="flex gap-1.5">
-                    <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                    <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                    <div className="w-3 h-3 rounded-full bg-green-500/80" />
-                  </div>
-                  <div className="flex-1 text-center">
-                    <div className="inline-flex items-center gap-2 px-4 py-1 rounded-md bg-muted/50 text-xs text-muted-foreground">
-                      <Shield className="w-3 h-3 text-green-500" />
-                      app.expird.ca/dashboard
-                    </div>
-                  </div>
-                </div>
-                {/* Screenshot placeholder - we'll use a gradient mockup */}
-                <div className="aspect-[16/9] bg-gradient-to-br from-background via-card to-background relative overflow-hidden">
-                  {/* Simulated dashboard layout */}
-                  <div className="absolute inset-0 p-4 flex gap-4">
-                    {/* Sidebar mockup */}
-                    <div className="w-16 bg-sidebar/50 rounded-lg border border-border/30 flex flex-col items-center py-4 gap-4">
-                      <div className="w-8 h-8 rounded-lg bg-primary/20" />
-                      <div className="w-8 h-8 rounded-lg bg-muted/30" />
-                      <div className="w-8 h-8 rounded-lg bg-muted/30" />
-                      <div className="w-8 h-8 rounded-lg bg-muted/30" />
-                      <div className="w-8 h-8 rounded-lg bg-muted/30" />
-                    </div>
-                    {/* Main content mockup */}
-                    <div className="flex-1 space-y-4">
-                      {/* Stats row */}
-                      <div className="grid grid-cols-5 gap-3">
-                        {[...Array(5)].map((_, i) => (
-                          <motion.div
-                            key={i}
-                            className="h-20 rounded-lg bg-card/50 border border-border/30 p-3"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.7 + i * 0.1 }}
-                          >
-                            <div className="w-8 h-8 rounded-lg bg-primary/20 mb-2" />
-                            <div className="h-3 bg-muted/30 rounded w-1/2" />
-                          </motion.div>
-                        ))}
-                      </div>
-                      {/* Map mockup */}
-                      <motion.div
-                        className="h-48 rounded-lg bg-[#1a1a2e] border border-border/30 relative overflow-hidden"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 1.2 }}
-                      >
-                        <div className="absolute inset-0 opacity-30">
-                          <motion.div
-                            className="absolute top-1/4 left-1/4 w-3 h-3 rounded-full bg-rose-500"
-                            animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
-                            transition={{ duration: 2, repeat: Infinity }}
-                          />
-                          <motion.div
-                            className="absolute top-1/3 left-1/2 w-3 h-3 rounded-full bg-violet-500"
-                            animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
-                            transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-                          />
-                          <motion.div
-                            className="absolute top-1/2 left-1/3 w-3 h-3 rounded-full bg-rose-500"
-                            animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
-                            transition={{ duration: 2, repeat: Infinity, delay: 1 }}
-                          />
-                          <motion.div
-                            className="absolute top-2/3 left-2/3 w-3 h-3 rounded-full bg-green-500"
-                            animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
-                            transition={{ duration: 2, repeat: Infinity, delay: 1.5 }}
-                          />
-                          <motion.div
-                            className="absolute top-3/4 left-1/4 w-3 h-3 rounded-full bg-violet-500"
-                            animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
-                            transition={{ duration: 2, repeat: Infinity, delay: 2 }}
-                          />
-                        </div>
-                        <div className="absolute bottom-3 left-3 flex items-center gap-2 text-xs">
-                          <div className="flex items-center gap-1.5 bg-card/80 rounded px-2 py-1">
-                            <div className="w-2 h-2 rounded-full bg-rose-500" />
-                            <span className="text-muted-foreground">Expired</span>
-                          </div>
-                          <div className="flex items-center gap-1.5 bg-card/80 rounded px-2 py-1">
-                            <div className="w-2 h-2 rounded-full bg-violet-500" />
-                            <span className="text-muted-foreground">Terminated</span>
-                          </div>
-                        </div>
-                      </motion.div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
+          {/* Hero Screenshot Slideshow */}
+          <HeroSlideshow />
         </div>
       </section>
 
@@ -769,7 +838,7 @@ export default function HomePage() {
               <h2 className="text-3xl sm:text-4xl font-bold mb-4">
                 See All Your Listings on a{' '}
                 <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">
-                  Beautiful Dark Map
+                  Interactive Heat Map
                 </span>
               </h2>
               <p className="text-muted-foreground mb-6">
@@ -985,7 +1054,7 @@ export default function HomePage() {
                   transition={{ delay: 0.2 }}
                 >
                   Join Canadian realtors who are transforming expired listings into their most profitable deals.
-                  Start your free trial today.
+                  Get started today and close more deals.
                 </motion.p>
 
                 {/* CTA Buttons */}
@@ -999,7 +1068,7 @@ export default function HomePage() {
                   <Link href="/signup">
                     <Button size="lg" className="btn-glow h-14 px-10 text-base group relative overflow-hidden">
                       <span className="relative z-10 flex items-center gap-2 font-semibold">
-                        Start Your Free Trial
+                        Get Started Now
                         <motion.span
                           animate={{ x: [0, 5, 0] }}
                           transition={{ duration: 1.5, repeat: Infinity }}
@@ -1025,8 +1094,8 @@ export default function HomePage() {
                   transition={{ delay: 0.4 }}
                 >
                   {[
-                    { icon: CheckCircle2, text: '14-day free trial', color: 'text-emerald-500' },
-                    { icon: Shield, text: 'No credit card required', color: 'text-blue-500' },
+                    { icon: CheckCircle2, text: 'Start converting today', color: 'text-emerald-500' },
+                    { icon: Shield, text: 'Secure payment', color: 'text-blue-500' },
                     { icon: Clock, text: 'Cancel anytime', color: 'text-amber-500' },
                   ].map((item, index) => (
                     <motion.div

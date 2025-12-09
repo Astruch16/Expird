@@ -53,86 +53,88 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(0.14 0 0);
-  --foreground: oklch(0.95 0 0);
-  --card: oklch(0.18 0 0);
-  --card-foreground: oklch(0.95 0 0);
-  --popover: oklch(0.16 0 0);
-  --popover-foreground: oklch(0.95 0 0);
-  --primary: oklch(0.7 0.18 250);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.24 0 0);
-  --secondary-foreground: oklch(0.95 0 0);
-  --muted: oklch(0.22 0 0);
-  --muted-foreground: oklch(0.6 0 0);
-  --accent: oklch(0.55 0.2 290);
-  --accent-foreground: oklch(0.98 0 0);
+  --background: oklch(0.13 0.005 260);
+  --foreground: oklch(0.93 0.01 80);
+  --card: oklch(0.17 0.005 260);
+  --card-foreground: oklch(0.93 0.01 80);
+  --popover: oklch(0.15 0.005 260);
+  --popover-foreground: oklch(0.93 0.01 80);
+  /* Charcoal primary with warm undertone */
+  --primary: oklch(0.75 0.02 80);
+  --primary-foreground: oklch(0.15 0.005 260);
+  --secondary: oklch(0.22 0.005 260);
+  --secondary-foreground: oklch(0.93 0.01 80);
+  --muted: oklch(0.20 0.005 260);
+  --muted-foreground: oklch(0.55 0.01 80);
+  /* Warm accent */
+  --accent: oklch(0.65 0.08 60);
+  --accent-foreground: oklch(0.15 0.005 260);
   --destructive: oklch(0.6 0.22 25);
-  --border: oklch(0.30 0 0);
-  --input: oklch(0.24 0 0);
-  --ring: oklch(0.7 0.18 250);
+  --border: oklch(0.28 0.005 260);
+  --input: oklch(0.22 0.005 260);
+  --ring: oklch(0.75 0.02 80);
 
-  /* Techy theme colors */
-  --cyber-blue: oklch(0.7 0.18 250);
-  --cyber-purple: oklch(0.55 0.2 290);
-  --cyber-green: oklch(0.75 0.2 145);
-  --cyber-pink: oklch(0.7 0.2 350);
+  /* Refined neutral theme colors */
+  --cyber-blue: oklch(0.65 0.12 230);
+  --cyber-purple: oklch(0.55 0.12 280);
+  --cyber-green: oklch(0.70 0.15 145);
+  --cyber-pink: oklch(0.65 0.15 350);
 
   /* Status colors */
-  --expired: oklch(0.65 0.22 0);
-  --terminated: oklch(0.6 0.2 290);
-  --active: oklch(0.7 0.2 145);
+  --expired: oklch(0.60 0.18 25);
+  --terminated: oklch(0.55 0.12 280);
+  --active: oklch(0.65 0.15 145);
 
-  /* Chart colors */
-  --chart-1: oklch(0.7 0.18 250);
-  --chart-2: oklch(0.55 0.2 290);
-  --chart-3: oklch(0.75 0.2 145);
-  --chart-4: oklch(0.7 0.2 350);
-  --chart-5: oklch(0.65 0.2 25);
+  /* Chart colors - sophisticated palette */
+  --chart-1: oklch(0.70 0.08 60);
+  --chart-2: oklch(0.55 0.10 200);
+  --chart-3: oklch(0.65 0.12 145);
+  --chart-4: oklch(0.60 0.10 280);
+  --chart-5: oklch(0.58 0.15 25);
 
   /* Sidebar */
-  --sidebar: oklch(0.12 0 0);
-  --sidebar-foreground: oklch(0.95 0 0);
-  --sidebar-primary: oklch(0.7 0.18 250);
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.20 0 0);
-  --sidebar-accent-foreground: oklch(0.95 0 0);
-  --sidebar-border: oklch(0.28 0 0);
-  --sidebar-ring: oklch(0.7 0.18 250);
+  --sidebar: oklch(0.11 0.005 260);
+  --sidebar-foreground: oklch(0.93 0.01 80);
+  --sidebar-primary: oklch(0.75 0.02 80);
+  --sidebar-primary-foreground: oklch(0.15 0.005 260);
+  --sidebar-accent: oklch(0.18 0.005 260);
+  --sidebar-accent-foreground: oklch(0.93 0.01 80);
+  --sidebar-border: oklch(0.25 0.005 260);
+  --sidebar-ring: oklch(0.75 0.02 80);
 }
 
 .dark {
-  --background: oklch(0.14 0 0);
-  --foreground: oklch(0.95 0 0);
-  --card: oklch(0.18 0 0);
-  --card-foreground: oklch(0.95 0 0);
-  --popover: oklch(0.16 0 0);
-  --popover-foreground: oklch(0.95 0 0);
-  --primary: oklch(0.7 0.18 250);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.24 0 0);
-  --secondary-foreground: oklch(0.95 0 0);
-  --muted: oklch(0.22 0 0);
-  --muted-foreground: oklch(0.6 0 0);
-  --accent: oklch(0.55 0.2 290);
-  --accent-foreground: oklch(0.98 0 0);
+  --background: oklch(0.13 0.005 260);
+  --foreground: oklch(0.93 0.01 80);
+  --card: oklch(0.17 0.005 260);
+  --card-foreground: oklch(0.93 0.01 80);
+  --popover: oklch(0.15 0.005 260);
+  --popover-foreground: oklch(0.93 0.01 80);
+  --primary: oklch(0.75 0.02 80);
+  --primary-foreground: oklch(0.15 0.005 260);
+  --secondary: oklch(0.22 0.005 260);
+  --secondary-foreground: oklch(0.93 0.01 80);
+  --muted: oklch(0.20 0.005 260);
+  --muted-foreground: oklch(0.55 0.01 80);
+  --accent: oklch(0.65 0.08 60);
+  --accent-foreground: oklch(0.15 0.005 260);
   --destructive: oklch(0.6 0.22 25);
-  --border: oklch(0.30 0 0);
-  --input: oklch(0.24 0 0);
-  --ring: oklch(0.7 0.18 250);
-  --chart-1: oklch(0.7 0.18 250);
-  --chart-2: oklch(0.55 0.2 290);
-  --chart-3: oklch(0.75 0.2 145);
-  --chart-4: oklch(0.7 0.2 350);
-  --chart-5: oklch(0.65 0.2 25);
-  --sidebar: oklch(0.12 0 0);
-  --sidebar-foreground: oklch(0.95 0 0);
-  --sidebar-primary: oklch(0.7 0.18 250);
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.20 0 0);
-  --sidebar-accent-foreground: oklch(0.95 0 0);
-  --sidebar-border: oklch(0.28 0 0);
-  --sidebar-ring: oklch(0.7 0.18 250);
+  --border: oklch(0.28 0.005 260);
+  --input: oklch(0.22 0.005 260);
+  --ring: oklch(0.75 0.02 80);
+  --chart-1: oklch(0.70 0.08 60);
+  --chart-2: oklch(0.55 0.10 200);
+  --chart-3: oklch(0.65 0.12 145);
+  --chart-4: oklch(0.60 0.10 280);
+  --chart-5: oklch(0.58 0.15 25);
+  --sidebar: oklch(0.11 0.005 260);
+  --sidebar-foreground: oklch(0.93 0.01 80);
+  --sidebar-primary: oklch(0.75 0.02 80);
+  --sidebar-primary-foreground: oklch(0.15 0.005 260);
+  --sidebar-accent: oklch(0.18 0.005 260);
+  --sidebar-accent-foreground: oklch(0.93 0.01 80);
+  --sidebar-border: oklch(0.25 0.005 260);
+  --sidebar-ring: oklch(0.75 0.02 80);
 }
 
 @layer base {
@@ -142,6 +144,30 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Ensure all clickable elements show pointer cursor */
+a,
+button,
+[role="button"],
+[type="button"],
+[type="submit"],
+[type="reset"],
+.cursor-pointer,
+[onclick],
+label[for],
+select,
+summary,
+[tabindex]:not([tabindex="-1"]) {
+  cursor: pointer;
+}
+
+/* Motion divs that wrap clickable elements */
+a > div,
+button > div,
+a > span,
+button > span {
+  cursor: pointer;
 }
 
 /* Custom scrollbar for techy look */
@@ -375,6 +401,7 @@ input[type="date"]::-webkit-datetime-edit-year-field:focus {
 .btn-glow {
   position: relative;
   background: transparent !important;
+  color: oklch(0.93 0.01 80) !important;
   border: 1px solid rgba(255, 255, 255, 0.3) !important;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease !important;
   box-shadow: 0 2px 8px oklch(0 0 0 / 0.3) !important;
@@ -411,7 +438,7 @@ input[type="date"]::-webkit-datetime-edit-year-field:focus {
   content: '';
   position: absolute;
   inset: 2px;
-  background: oklch(0.14 0 0);
+  background: oklch(0.13 0.005 260);
   border-radius: calc(0.5rem - 2px);
   pointer-events: none;
   z-index: 2;
@@ -421,6 +448,7 @@ input[type="date"]::-webkit-datetime-edit-year-field:focus {
 .btn-glow > * {
   position: relative;
   z-index: 3;
+  color: oklch(0.93 0.01 80) !important;
 }
 
 .btn-glow:hover::before {
