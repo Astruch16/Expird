@@ -165,20 +165,23 @@ export function Navbar() {
                 <motion.div
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="relative group"
+                  className="relative"
                 >
-                  <Button
-                    variant="ghost"
-                    className="text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-transparent relative overflow-hidden"
-                  >
-                    <span className="relative z-10">Sign in</span>
-                    {/* Underline animation on hover */}
-                    <motion.div
-                      className="absolute bottom-2 left-3 right-3 h-[1px] bg-gradient-to-r from-transparent via-foreground to-transparent origin-left"
-                      initial={{ scaleX: 0 }}
-                      whileHover={{ scaleX: 1 }}
-                      transition={{ duration: 0.3 }}
-                    />
+                  {/* Animated gradient border */}
+                  <motion.div
+                    className="absolute -inset-[1px] rounded-lg bg-gradient-to-r from-cyber-blue/50 via-cyber-purple/50 to-cyber-blue/50 opacity-70"
+                    animate={{
+                      backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: 'linear',
+                    }}
+                    style={{ backgroundSize: '200% 100%' }}
+                  />
+                  <Button className="relative bg-background hover:bg-background/90 text-foreground text-sm font-medium border-0">
+                    <span>Sign in</span>
                   </Button>
                 </motion.div>
               </Link>

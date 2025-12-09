@@ -43,8 +43,8 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
       {/* Background effects */}
       <div className="absolute inset-0 grid-pattern opacity-30" />
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/20 rounded-full blur-3xl" />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyber-blue/20 rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyber-purple/20 rounded-full blur-3xl" />
 
       {/* Logo section - outside the card */}
       <div className="w-full max-w-md relative z-10 flex flex-col items-center">
@@ -54,7 +54,7 @@ export default function LoginPage() {
             <div className="absolute inset-0 bg-white/5 rounded-full blur-xl scale-150" />
             <LogoAnimated size="xl" />
           </div>
-          <h1 className="mt-4 text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-widest">
+          <h1 className="mt-4 text-2xl font-bold bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent tracking-widest">
             EXPIRD
           </h1>
           <p className="mt-1 text-muted-foreground text-sm">
@@ -83,7 +83,7 @@ export default function LoginPage() {
                   placeholder="you@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="pl-10 bg-input border-border focus:border-primary"
+                  className="pl-10 bg-input border-border focus:border-cyber-blue"
                   required
                 />
               </div>
@@ -101,7 +101,7 @@ export default function LoginPage() {
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="pl-10 bg-input border-border focus:border-primary"
+                  className="pl-10 bg-input border-border focus:border-cyber-blue"
                   required
                 />
               </div>
@@ -127,7 +127,7 @@ export default function LoginPage() {
 
           <div className="mt-6 text-center text-sm text-muted-foreground">
             Don&apos;t have an account?{' '}
-            <Link href="/signup" className="text-primary hover:underline font-medium cursor-pointer">
+            <Link href="/signup" className="text-cyber-blue hover:underline font-medium cursor-pointer">
               Sign up
             </Link>
           </div>

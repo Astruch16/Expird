@@ -422,7 +422,7 @@ export default function HomePage() {
                 </Button>
               </Link>
               <Link href="/features">
-                <Button variant="outline" size="lg" className="h-12 px-8 text-base">
+                <Button variant="outline" size="lg" className="h-12 px-8 text-base text-foreground hover:text-cyber-blue border-border/50 hover:border-cyber-blue hover:bg-cyber-blue/10 transition-all duration-300 hover:shadow-lg hover:shadow-cyber-blue/20">
                   See All Features
                 </Button>
               </Link>
@@ -684,9 +684,6 @@ export default function HomePage() {
             </div>
 
             <div className="relative">
-              {/* Connection line */}
-              <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-rose-500 via-amber-500 via-blue-500 to-emerald-500 transform -translate-y-1/2 hidden lg:block" />
-
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {[
                   {
@@ -758,6 +755,104 @@ export default function HomePage() {
               </div>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-muted/20 to-transparent" />
+        <div className="max-w-6xl mx-auto relative">
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="mb-4 flex items-center justify-center gap-3">
+              <div className="h-px w-8 bg-gradient-to-r from-transparent to-cyber-blue/50" />
+              <span className="text-sm font-medium tracking-widest uppercase text-cyber-blue/80">
+                How It Works
+              </span>
+              <div className="h-px w-8 bg-gradient-to-l from-transparent to-cyber-blue/50" />
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+              Three Simple Steps to{' '}
+              <span className="bg-gradient-to-r from-cyber-blue to-cyber-purple bg-clip-text text-transparent">
+                More Listings
+              </span>
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              EXPIRD makes it easy to find, track, and convert expired listings into new business.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+            {/* Connection line - desktop only */}
+            <div className="hidden md:block absolute top-24 left-[20%] right-[20%] h-0.5 bg-gradient-to-r from-cyber-blue via-cyber-purple to-cyber-blue opacity-30" />
+
+            {[
+              {
+                step: '1',
+                icon: List,
+                title: 'Discover Listings',
+                description: 'Access expired and terminated listings from GV, Fraser Valley, and Chilliwack MLS boards - updated daily.',
+                gradient: 'from-cyber-blue to-blue-500',
+              },
+              {
+                step: '2',
+                icon: Target,
+                title: 'Track & Organize',
+                description: 'Use our interactive map and pipeline board to organize prospects and never lose track of a lead.',
+                gradient: 'from-cyber-purple to-violet-500',
+              },
+              {
+                step: '3',
+                icon: Handshake,
+                title: 'Close Deals',
+                description: 'Convert motivated sellers with timely follow-ups and outreach tracking built right in.',
+                gradient: 'from-emerald-500 to-teal-500',
+              },
+            ].map((item, index) => (
+              <motion.div
+                key={item.step}
+                className="relative"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.15, duration: 0.5 }}
+              >
+                <div className="flex flex-col items-center text-center">
+                  {/* Step number with icon */}
+                  <motion.div
+                    className="relative mb-6"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {/* Outer glow ring */}
+                    <div className={`absolute inset-0 rounded-full bg-gradient-to-br ${item.gradient} opacity-20 blur-xl scale-150`} />
+
+                    {/* Icon container */}
+                    <div className={`relative w-20 h-20 rounded-full bg-gradient-to-br ${item.gradient} p-0.5 shadow-lg`}>
+                      <div className="w-full h-full rounded-full bg-background flex items-center justify-center">
+                        <item.icon className="w-8 h-8 text-foreground" />
+                      </div>
+                    </div>
+
+                    {/* Step badge */}
+                    <div className={`absolute -top-2 -right-2 w-8 h-8 rounded-full bg-gradient-to-br ${item.gradient} flex items-center justify-center shadow-lg`}>
+                      <span className="text-white text-sm font-bold">{item.step}</span>
+                    </div>
+                  </motion.div>
+
+                  <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
+                    {item.description}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -1079,7 +1174,7 @@ export default function HomePage() {
                     </Button>
                   </Link>
                   <Link href="/pricing">
-                    <Button variant="outline" size="lg" className="h-14 px-10 text-base font-semibold border-2 hover:bg-muted/50">
+                    <Button variant="outline" size="lg" className="h-14 px-10 text-base font-semibold text-foreground hover:text-cyber-blue border-border/50 hover:border-cyber-blue hover:bg-cyber-blue/10 transition-all duration-300 hover:shadow-lg hover:shadow-cyber-blue/20">
                       View Pricing
                     </Button>
                   </Link>
