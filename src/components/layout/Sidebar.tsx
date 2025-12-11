@@ -20,6 +20,7 @@ import {
   BarChart3,
   Kanban,
   Plus,
+  Upload,
 } from 'lucide-react';
 import { useState } from 'react';
 import { LogoAnimated } from '@/components/ui/logo';
@@ -99,7 +100,7 @@ export function Sidebar({ user }: SidebarProps) {
         </div>
 
         {/* Add Listing Button */}
-        <div className={cn('px-3 py-3', collapsed && 'px-2')}>
+        <div className={cn('px-3 pt-3 pb-2', collapsed && 'px-2')}>
           <Link href="/app/listings/new" id="add-listing-btn">
             <Button
               className={cn(
@@ -109,6 +110,22 @@ export function Sidebar({ user }: SidebarProps) {
             >
               <Plus className="h-4 w-4" />
               {!collapsed && <span className="relative z-10">Add Listing</span>}
+            </Button>
+          </Link>
+        </div>
+
+        {/* Bulk Import Button */}
+        <div className={cn('px-3 pb-3', collapsed && 'px-2')}>
+          <Link href="/app/listings/import">
+            <Button
+              variant="outline"
+              className={cn(
+                'w-full gap-2',
+                collapsed && 'px-0 justify-center'
+              )}
+            >
+              <Upload className="h-4 w-4" />
+              {!collapsed && <span>Bulk Import</span>}
             </Button>
           </Link>
         </div>

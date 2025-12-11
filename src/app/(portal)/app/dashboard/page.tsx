@@ -143,79 +143,75 @@ export default async function DashboardPage() {
         })}
       </div>
 
-      {/* Quick Actions & Map Preview */}
-      <DashboardCharts listings={allListings || []} />
+      {/* Recent Listings & Map Preview */}
+      <DashboardCharts listings={allListings || []} recentListings={recentListings || []} />
 
-      {/* Recent Listings & Market Movement */}
+      {/* Market Movement & Pipeline Summary */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Recent Listings */}
+        <MarketMovement listings={allListings || []} />
+
+        {/* Pipeline Summary */}
         <Card className="border-border/50 glass-card">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-lg flex items-center gap-2">
-              <MapPin className="w-5 h-5 text-primary" />
-              Recent Listings
+              <TrendingUp className="w-5 h-5 text-primary" />
+              Pipeline Summary
             </CardTitle>
-            <Link href="/app/listings" className="text-sm text-primary hover:underline cursor-pointer">
-              View all
+            <Link href="/app/pipeline" className="text-sm text-primary hover:underline cursor-pointer">
+              View pipeline
             </Link>
           </CardHeader>
           <CardContent>
-            {recentListings && recentListings.length > 0 ? (
-              <div className="space-y-3">
-                {recentListings.map((listing) => (
-                  <Link
-                    key={listing.id}
-                    href={`/app/listings/${listing.id}`}
-                    className="flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors group cursor-pointer"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className={`w-2 h-2 rounded-full ${
-                        listing.status === 'active'
-                          ? 'bg-green-500'
-                          : listing.listing_type === 'expired'
-                            ? 'bg-rose-500'
-                            : 'bg-violet-500'
-                      }`} />
-                      <div>
-                        <p className="text-sm font-medium">{listing.address}</p>
-                        <p className="text-xs text-muted-foreground">{listing.city}</p>
+            {(() => {
+              const pipelineData = [
+                { stage: 'New', count: allListings?.filter(l => l.stage === 'new').length || 0, color: 'bg-slate-500' },
+                { stage: 'Contacted', count: allListings?.filter(l => l.stage === 'contacted').length || 0, color: 'bg-blue-500' },
+                { stage: 'Responded', count: allListings?.filter(l => l.stage === 'responded').length || 0, color: 'bg-cyan-500' },
+                { stage: 'Meeting', count: allListings?.filter(l => l.stage === 'meeting').length || 0, color: 'bg-amber-500' },
+                { stage: 'Listed', count: allListings?.filter(l => l.stage === 'listed').length || 0, color: 'bg-green-500' },
+                { stage: 'Closed', count: allListings?.filter(l => l.stage === 'closed').length || 0, color: 'bg-emerald-600' },
+              ];
+              const total = pipelineData.reduce((sum, p) => sum + p.count, 0);
+
+              return (
+                <div className="space-y-4">
+                  {/* Progress bar */}
+                  <div className="h-3 rounded-full bg-secondary overflow-hidden flex">
+                    {pipelineData.map((item, i) => (
+                      item.count > 0 && (
+                        <div
+                          key={item.stage}
+                          className={`${item.color} h-full transition-all`}
+                          style={{ width: `${(item.count / Math.max(total, 1)) * 100}%` }}
+                        />
+                      )
+                    ))}
+                  </div>
+
+                  {/* Stage breakdown */}
+                  <div className="grid grid-cols-2 gap-3">
+                    {pipelineData.map((item) => (
+                      <div key={item.stage} className="flex items-center justify-between p-2 rounded-lg bg-secondary/50">
+                        <div className="flex items-center gap-2">
+                          <div className={`w-2.5 h-2.5 rounded-full ${item.color}`} />
+                          <span className="text-sm text-muted-foreground">{item.stage}</span>
+                        </div>
+                        <span className="text-sm font-semibold">{item.count}</span>
                       </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Badge
-                        variant="secondary"
-                        className={`text-xs ${
-                          listing.status === 'active'
-                            ? 'bg-green-500/10 text-green-500'
-                            : listing.listing_type === 'expired'
-                              ? 'bg-rose-500/10 text-rose-500'
-                              : 'bg-violet-500/10 text-violet-500'
-                        }`}
-                      >
-                        {listing.status === 'active' ? 'Active' : listing.listing_type}
-                      </Badge>
-                      <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-8">
-                <MapPin className="w-12 h-12 mx-auto text-muted-foreground/50" />
-                <p className="text-muted-foreground mt-2">No listings yet</p>
-                <Link
-                  href="/app/listings/new"
-                  className="text-sm text-primary hover:underline mt-1 inline-block cursor-pointer"
-                >
-                  Add your first listing
-                </Link>
-              </div>
-            )}
+                    ))}
+                  </div>
+
+                  {/* Conversion hint */}
+                  {total > 0 && pipelineData[4].count > 0 && (
+                    <p className="text-xs text-muted-foreground text-center pt-2 border-t border-border">
+                      {Math.round((pipelineData[4].count / total) * 100)}% conversion to listed
+                    </p>
+                  )}
+                </div>
+              );
+            })()}
           </CardContent>
         </Card>
-
-        {/* Market Movement */}
-        <MarketMovement listings={allListings || []} />
       </div>
 
       {/* Upcoming Follow-ups & Recent Activity */}

@@ -358,9 +358,14 @@ export function DashboardMapPreview({ listings }: DashboardMapPreviewProps) {
     const source = map.current.getSource('listings') as mapboxgl.GeoJSONSource;
     if (!source) return;
 
+    // Only include listings with valid coordinates (not 0,0)
+    const validListings = filteredListings.filter(
+      (listing) => listing.latitude !== 0 && listing.longitude !== 0
+    );
+
     const geojson: GeoJSON.FeatureCollection = {
       type: 'FeatureCollection',
-      features: filteredListings.map((listing) => ({
+      features: validListings.map((listing) => ({
         type: 'Feature',
         geometry: {
           type: 'Point',
@@ -378,10 +383,10 @@ export function DashboardMapPreview({ listings }: DashboardMapPreviewProps) {
 
     source.setData(geojson);
 
-    // Fit bounds if we have listings
-    if (filteredListings.length > 0) {
+    // Fit bounds if we have listings with valid coordinates
+    if (validListings.length > 0) {
       const bounds = new mapboxgl.LngLatBounds();
-      filteredListings.forEach((listing) => {
+      validListings.forEach((listing) => {
         bounds.extend([listing.longitude, listing.latitude]);
       });
       map.current.fitBounds(bounds, {
