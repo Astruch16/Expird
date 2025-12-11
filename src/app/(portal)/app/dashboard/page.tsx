@@ -8,9 +8,7 @@ import {
   Send,
   Clock,
   TrendingUp,
-  MapPin,
   ArrowUpRight,
-  Activity,
   Bell,
   CalendarClock,
   ShieldX,
@@ -34,7 +32,6 @@ export default async function DashboardPage() {
     { count: cancelProtectedCount },
     { data: recentListings },
     { data: upcomingFollowUps },
-    { data: recentActivity },
     { data: allListings },
   ] = await Promise.all([
     supabase.from('listings').select('*', { count: 'exact', head: true }).eq('user_id', user?.id).eq('listing_type', 'expired'),
@@ -45,7 +42,6 @@ export default async function DashboardPage() {
     supabase.from('listings').select('*', { count: 'exact', head: true }).eq('user_id', user?.id).eq('listing_type', 'cancel_protected'),
     supabase.from('listings').select('*').eq('user_id', user?.id).order('created_at', { ascending: false }).limit(5),
     supabase.from('follow_ups').select('*, listings(address, city)').eq('user_id', user?.id).eq('sent', false).order('follow_up_date', { ascending: true }).limit(5),
-    supabase.from('listings').select('*').eq('user_id', user?.id).order('updated_at', { ascending: false }).limit(8),
     supabase.from('listings').select('*').eq('user_id', user?.id),
   ]);
 
@@ -227,10 +223,7 @@ export default async function DashboardPage() {
         </Card>
       </div>
 
-      {/* Cancel Protected Countdown */}
-      <CancelProtectedCountdown listings={allListings || []} />
-
-      {/* Upcoming Follow-ups & Recent Activity */}
+      {/* Upcoming Follow-ups & Cancel Protected */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Upcoming Follow-ups */}
         <Card className="border-border/50 glass-card">
@@ -311,73 +304,8 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
 
-        {/* Recent Activity */}
-        <Card className="border-border/50 glass-card">
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <Activity className="w-5 h-5 text-primary" />
-              Recent Activity
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {recentActivity && recentActivity.length > 0 ? (
-              <div className="space-y-3">
-                {recentActivity.map((listing: any) => {
-                  const getActivityIcon = () => {
-                    if (listing.status === 'active') return TrendingUp;
-                    if (listing.sent_at) return Send;
-                    if (listing.listing_type === 'expired') return FileX;
-                    return FileCheck;
-                  };
-                  const getActivityColor = () => {
-                    if (listing.status === 'active') return 'text-green-500 bg-green-500/10';
-                    if (listing.sent_at) return 'text-primary bg-primary/10';
-                    if (listing.listing_type === 'expired') return 'text-rose-500 bg-rose-500/10';
-                    return 'text-violet-500 bg-violet-500/10';
-                  };
-                  const getActivityText = () => {
-                    if (listing.status === 'active') return 'Back to active';
-                    if (listing.sent_at) return 'Sent out';
-                    if (listing.listing_type === 'expired') return 'Expired';
-                    return 'Terminated';
-                  };
-                  const ActivityIcon = getActivityIcon();
-                  const colorClass = getActivityColor();
-
-                  return (
-                    <Link
-                      key={listing.id}
-                      href={`/app/listings/${listing.id}`}
-                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-secondary/50 transition-colors group cursor-pointer"
-                    >
-                      <div className={`p-2 rounded-lg ${colorClass.split(' ')[1]}`}>
-                        <ActivityIcon className={`w-4 h-4 ${colorClass.split(' ')[0]}`} />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate">{listing.address}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {getActivityText()} · {formatDistanceToNow(new Date(listing.updated_at), { addSuffix: true })}
-                        </p>
-                      </div>
-                      <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
-                    </Link>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="text-center py-8">
-                <Activity className="w-12 h-12 mx-auto text-muted-foreground/50" />
-                <p className="text-muted-foreground mt-2">No recent activity</p>
-                <Link
-                  href="/app/listings/new"
-                  className="text-sm text-primary hover:underline mt-1 inline-block cursor-pointer"
-                >
-                  Add your first listing
-                </Link>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+        {/* Cancel Protected Countdown */}
+        <CancelProtectedCountdown listings={allListings || []} />
       </div>
     </div>
   );
