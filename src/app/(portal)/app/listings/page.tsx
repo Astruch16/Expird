@@ -581,7 +581,7 @@ export default function ListingsPage() {
                       </div>
                     </TableCell>
                     <TableCell className="font-medium">
-                      <Link href={`/listings/${listing.id}`} className="hover:text-primary transition-colors cursor-pointer">
+                      <Link href={`/app/listings/${listing.id}`} className="hover:text-primary transition-colors cursor-pointer">
                         <div className="flex items-center gap-2">
                           <div
                             className={`w-2 h-2 rounded-full ${
@@ -657,13 +657,13 @@ export default function ListingsPage() {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="w-48">
                             <DropdownMenuItem asChild>
-                              <Link href={`/listings/${listing.id}`} className="flex items-center gap-2">
+                              <Link href={`/app/listings/${listing.id}`} className="flex items-center gap-2">
                                 <Eye className="w-4 h-4" />
                                 View Details
                               </Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem asChild>
-                              <Link href={`/listings/${listing.id}/edit`} className="flex items-center gap-2">
+                              <Link href={`/app/listings/${listing.id}/edit`} className="flex items-center gap-2">
                                 <Pencil className="w-4 h-4" />
                                 Edit
                               </Link>
