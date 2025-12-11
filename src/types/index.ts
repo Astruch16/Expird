@@ -1,5 +1,5 @@
-export type ListingStatus = 'expired' | 'terminated' | 'active';
-export type ListingType = 'expired' | 'terminated';
+export type ListingStatus = 'expired' | 'terminated' | 'active' | 'cancel_protected';
+export type ListingType = 'expired' | 'terminated' | 'cancel_protected';
 export type Board = 'greater_vancouver' | 'fraser_valley' | 'chilliwack';
 export type PropertyType = 'house' | 'townhouse' | 'row_home' | 'condo' | 'mobile';
 export type PipelineStage = 'new' | 'contacted' | 'responded' | 'meeting' | 'listed' | 'closed' | 'lost';
@@ -13,6 +13,7 @@ export interface Listing {
   listing_type: ListingType;
   status: ListingStatus;
   expiry_date: string;
+  cancel_protected_date: string | null;
   price: number | null;
   bedrooms: number | null;
   bathrooms: number | null;
@@ -76,6 +77,7 @@ export interface DashboardStats {
   totalSent: number;
   totalActive: number;
   pendingFollowUps: number;
+  totalCancelProtected: number;
 }
 
 export interface PipelineStats {

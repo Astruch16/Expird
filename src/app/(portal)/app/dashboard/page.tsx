@@ -13,8 +13,10 @@ import {
   Activity,
   Bell,
   CalendarClock,
+  ShieldX,
 } from 'lucide-react';
 import { MarketMovement } from '@/components/dashboard/MarketMovement';
+import { CancelProtectedCountdown } from '@/components/dashboard/CancelProtectedCountdown';
 import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -29,6 +31,7 @@ export default async function DashboardPage() {
     { count: sentCount },
     { count: activeCount },
     { count: pendingFollowUps },
+    { count: cancelProtectedCount },
     { data: recentListings },
     { data: upcomingFollowUps },
     { data: recentActivity },
@@ -39,6 +42,7 @@ export default async function DashboardPage() {
     supabase.from('listings').select('*', { count: 'exact', head: true }).eq('user_id', user?.id).not('sent_at', 'is', null),
     supabase.from('listings').select('*', { count: 'exact', head: true }).eq('user_id', user?.id).eq('status', 'active'),
     supabase.from('follow_ups').select('*', { count: 'exact', head: true }).eq('user_id', user?.id).eq('sent', false),
+    supabase.from('listings').select('*', { count: 'exact', head: true }).eq('user_id', user?.id).eq('listing_type', 'cancel_protected'),
     supabase.from('listings').select('*').eq('user_id', user?.id).order('created_at', { ascending: false }).limit(5),
     supabase.from('follow_ups').select('*, listings(address, city)').eq('user_id', user?.id).eq('sent', false).order('follow_up_date', { ascending: true }).limit(5),
     supabase.from('listings').select('*').eq('user_id', user?.id).order('updated_at', { ascending: false }).limit(8),
@@ -91,6 +95,15 @@ export default async function DashboardPage() {
       borderColor: 'border-accent/20',
       href: '/app/follow-ups',
     },
+    {
+      title: 'Cancel Protected',
+      value: cancelProtectedCount || 0,
+      icon: ShieldX,
+      color: 'text-orange-500',
+      bgColor: 'bg-orange-500/10',
+      borderColor: 'border-orange-500/20',
+      href: '/app/cancel-protected',
+    },
   ];
 
   return (
@@ -106,7 +119,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
         {stats.map((stat) => {
           const cardContent = (
             <CardContent className="p-4">
@@ -213,6 +226,9 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Cancel Protected Countdown */}
+      <CancelProtectedCountdown listings={allListings || []} />
 
       {/* Upcoming Follow-ups & Recent Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

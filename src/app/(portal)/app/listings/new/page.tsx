@@ -68,6 +68,7 @@ export default function NewListingPage() {
     board: 'greater_vancouver',
     listing_type: 'expired',
     expiry_date: '',
+    cancel_protected_date: '',
     price: '',
     bedrooms: '',
     bathrooms: '',
@@ -250,6 +251,7 @@ export default function NewListingPage() {
       listing_type: formData.listing_type,
       status: formData.listing_type,
       expiry_date: formData.expiry_date,
+      cancel_protected_date: formData.listing_type === 'cancel_protected' ? formData.cancel_protected_date : null,
       price: parsedPrice,
       bedrooms: formData.bedrooms ? parseInt(formData.bedrooms) : null,
       bathrooms: formData.bathrooms ? parseFloat(formData.bathrooms) : null,
@@ -316,7 +318,7 @@ export default function NewListingPage() {
             Add New Listing
           </h1>
           <p className="text-muted-foreground mt-1">
-            Enter the details of the expired or terminated listing
+            Enter the details of the expired, terminated, or cancel protected listing
           </p>
         </div>
       </div>
@@ -420,7 +422,7 @@ export default function NewListingPage() {
                     <Label htmlFor="listing_type">Listing Type *</Label>
                     <Select
                       value={formData.listing_type}
-                      onValueChange={(value) => setFormData({ ...formData, listing_type: value })}
+                      onValueChange={(value) => setFormData({ ...formData, listing_type: value, cancel_protected_date: value === 'cancel_protected' ? new Date().toISOString().split('T')[0] : '' })}
                     >
                       <SelectTrigger className="bg-input border-border">
                         <SelectValue />
@@ -428,19 +430,35 @@ export default function NewListingPage() {
                       <SelectContent>
                         <SelectItem value="expired">Expired</SelectItem>
                         <SelectItem value="terminated">Terminated</SelectItem>
+                        <SelectItem value="cancel_protected">Cancel Protected</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="expiry_date">Expiry/Termination Date *</Label>
-                    <DatePicker
-                      value={formData.expiry_date}
-                      onChange={(value) => setFormData({ ...formData, expiry_date: value })}
-                      placeholder="Select date"
-                      className="w-full"
-                    />
-                  </div>
+                  {formData.listing_type === 'cancel_protected' ? (
+                    <div className="space-y-2">
+                      <Label htmlFor="cancel_protected_date">Date Cancelled *</Label>
+                      <DatePicker
+                        value={formData.cancel_protected_date}
+                        onChange={(value) => setFormData({ ...formData, cancel_protected_date: value, expiry_date: value })}
+                        placeholder="Select date"
+                        className="w-full"
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        60-day countdown starts from this date
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      <Label htmlFor="expiry_date">Expiry/Termination Date *</Label>
+                      <DatePicker
+                        value={formData.expiry_date}
+                        onChange={(value) => setFormData({ ...formData, expiry_date: value })}
+                        placeholder="Select date"
+                        className="w-full"
+                      />
+                    </div>
+                  )}
 
                   <div className="space-y-2">
                     <Label htmlFor="mls_number">MLS Number</Label>

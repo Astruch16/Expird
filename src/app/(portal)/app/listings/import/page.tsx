@@ -40,7 +40,8 @@ interface ParsedListing {
   propertyType: PropertyType | null;
   propTypeRaw: string;
   dwellingType: string;
-  listingStatus: 'expired' | 'terminated';
+  listingStatus: 'expired' | 'terminated' | 'cancel_protected';
+  cancelProtectedDate: string | null;
   // Mapped fields
   city: string | null;
   board: Board | null;
@@ -205,10 +206,14 @@ export default function ImportListingsPage() {
 
           const location = findLocation(subArea);
           const propertyType = mapPropertyType(propType, dwelType);
-          // Map status: X = expired, T = terminated
-          // T or TERMINATED = terminated, everything else (X, EXPIRED, etc.) = expired
-          const listingStatus: 'expired' | 'terminated' =
-            (statusCode === 'T' || statusCode === 'TERMINATED') ? 'terminated' : 'expired';
+          // Map status: X = expired, T = terminated, C/CP = cancel protected
+          // T or TERMINATED = terminated, C/CP/CANCEL = cancel_protected, everything else (X, EXPIRED, etc.) = expired
+          let listingStatus: 'expired' | 'terminated' | 'cancel_protected' = 'expired';
+          if (statusCode === 'T' || statusCode === 'TERMINATED') {
+            listingStatus = 'terminated';
+          } else if (statusCode === 'C' || statusCode === 'CP' || statusCode === 'CANCEL' || statusCode === 'CANCEL PROTECTED') {
+            listingStatus = 'cancel_protected';
+          }
 
           const listing: ParsedListing = {
             mlsNumber,
@@ -223,6 +228,7 @@ export default function ImportListingsPage() {
             propTypeRaw: propType,
             dwellingType: dwelType,
             listingStatus,
+            cancelProtectedDate: listingStatus === 'cancel_protected' ? new Date().toISOString().split('T')[0] : null,
             city: location?.city || null,
             board: location?.board || null,
             valid: !!location && !!address,
@@ -318,6 +324,7 @@ export default function ImportListingsPage() {
           listing_type: listing.listingStatus,
           status: listing.listingStatus,
           expiry_date: new Date().toISOString().split('T')[0], // Today's date
+          cancel_protected_date: listing.cancelProtectedDate,
           price: listing.price,
           bedrooms: listing.bedrooms,
           bathrooms: null, // Not in the export
@@ -559,10 +566,12 @@ export default function ImportListingsPage() {
                             className={`px-2 py-0.5 rounded-md text-xs font-medium ${
                               listing.listingStatus === 'expired'
                                 ? 'bg-red-500/15 text-red-400'
-                                : 'bg-amber-500/15 text-amber-400'
+                                : listing.listingStatus === 'cancel_protected'
+                                  ? 'bg-orange-500/15 text-orange-400'
+                                  : 'bg-amber-500/15 text-amber-400'
                             }`}
                           >
-                            {listing.listingStatus === 'expired' ? 'Expired' : 'Terminated'}
+                            {listing.listingStatus === 'expired' ? 'Expired' : listing.listingStatus === 'cancel_protected' ? 'Cancel Protected' : 'Terminated'}
                           </span>
                           {/* Price Badge */}
                           {listing.price && (

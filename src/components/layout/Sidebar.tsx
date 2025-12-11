@@ -21,6 +21,7 @@ import {
   Kanban,
   Plus,
   Upload,
+  ShieldX,
 } from 'lucide-react';
 import { useState } from 'react';
 import { LogoAnimated } from '@/components/ui/logo';
@@ -28,6 +29,7 @@ import { LogoAnimated } from '@/components/ui/logo';
 const navItems = [
   { href: '/app/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/app/listings', icon: List, label: 'Listings' },
+  { href: '/app/cancel-protected', icon: ShieldX, label: 'Cancel Protected' },
   { href: '/app/pipeline', icon: Kanban, label: 'Pipeline' },
   { href: '/app/map', icon: Map, label: 'Map View' },
   { href: '/app/stats', icon: BarChart3, label: 'Analytics' },
